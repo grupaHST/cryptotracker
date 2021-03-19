@@ -7,9 +7,10 @@
 
 # Opis wymagań
 
-Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz zarchiwizowane dane giełdowe walut i kryptowalut. Możliwa ma być czasowa filtracja danych z ostatnich dzięsięciu lat oraz porównywanie wybranych przez użytkownika walut. Program ma również umożliwiać szybkie przeliczeniej jednej waluty na drugą.
-Aplikacja ma umożliwiać użytkownikowi połączenie się ze znanymi serwisami monitorującymi waluty poprzez wystawione przez nie API. Program powinien dawać możliwość powiadamiania użytkowników o ruchach na giełdach wg ustawionych przez niego wytycznych w programie.
-Aplikacja ma również posiadać funkcjonalność profili (presetów) dla powiadomień. Na wykresach ma być widoczna zmiana tygodniowa, dniowa i godzinowa oraz wolumen obu walut porównywanych. Wykres ma oczywiście mieć możliwość zbliżania i oddalania.
+Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz zarchiwizowane dane giełdowe walut i kryptowalut uzupełnione o podstawowe wskaźniki giełdowe. Możliwe ma być ustawienie ram czasowych wyświetlanych danych. 
+Aplikacja ma umożliwić analizę danych z ostatnich dziesięciu lat oraz porównywanie wybranych przez użytkownika walut. Program ma również umożliwiać szybkie przeliczenie jednej waluty na drugą.
+Aplikacja ma  korzystać z danych udostępnianych przez znane serwisy monitorujące waluty poprzez wystawione przez nie API. Program powinien dawać możliwość powiadamiania użytkowników o ruchach na giełdach wg ustawionych przez niego wytycznych w programie.
+Aplikacja ma również posiadać funkcjonalność profili (presetów) dla powiadomień. Na wykresach ma być widoczna zmiana tygodniowa, dniowa i godzinowa oraz wolumen porównywanych walut. Wykres ma mieć możliwość prostego zbliżania i oddalania.
 
 # Technologie użyte w projekcie
 
