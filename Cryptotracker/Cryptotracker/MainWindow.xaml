@@ -6,7 +6,16 @@
         xmlns:local="clr-namespace:Cryptotracker"
         mc:Ignorable="d"
         Title="Cryptotracker" Height="450" Width="800">
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="welcome" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0:2"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
     <Grid>
-
+        <TextBlock x:Name="welcome" Text="Welcome to the Cryptotracker !!!" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
