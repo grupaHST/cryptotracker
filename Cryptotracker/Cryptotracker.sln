@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31112.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptotracker", "Cryptotracker\Cryptotracker.csproj", "{6F6F753D-F84E-4DB1-B33D-2FEC15E6F854}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptotrackerTests", "CryptotrackerTests\CryptotrackerTests.csproj", "{DFCB3B5D-4A85-4181-AE35-924182CE7B94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F6F753D-F84E-4DB1-B33D-2FEC15E6F854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F6F753D-F84E-4DB1-B33D-2FEC15E6F854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F6F753D-F84E-4DB1-B33D-2FEC15E6F854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F6F753D-F84E-4DB1-B33D-2FEC15E6F854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFCB3B5D-4A85-4181-AE35-924182CE7B94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCB3B5D-4A85-4181-AE35-924182CE7B94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCB3B5D-4A85-4181-AE35-924182CE7B94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCB3B5D-4A85-4181-AE35-924182CE7B94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E9ABBA66-913C-4910-8BA6-18CC62AB2A7D}
+	EndGlobalSection
+EndGlobal
