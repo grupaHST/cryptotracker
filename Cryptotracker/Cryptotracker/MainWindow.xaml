@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Cryptotracker"
         mc:Ignorable="d"
-        Title="Cryptotracker" Height="450" Width="800">
+        DataContext="{StaticResource AppViewModel}" Height="450" Width="800"
+        Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
