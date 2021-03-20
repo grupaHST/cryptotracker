@@ -34,7 +34,7 @@ Bazowymi technologiami będą [.NET 5.0](https://docs.microsoft.com/pl-pl/dotnet
 | Frontend - widoki, design aplikacji | *Szymon Świstek* |
 | Tłumaczenie aplikacji na różne języki | *Szymon Świstek* |
 | Backend - requesty HTTP + deserializacja danych | *Oswald Toma* |
-| Backend - logika, kalkulacje na walutach | *Dawid Heinrich* |
+| Backend - kalkulacje, przeliczenia walut | *Dawid Heinrich* |
 | System powiadomień użytkownika | *Oswald Toma* |
 | Integracja frontendu z backendem | *Szymon Świstek* |
 | Testy jednostkowe aplikacji | Każdy dla swoich funkcjonalności |
