@@ -11,12 +11,16 @@
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="welcome" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0:2"/>
+                    <DoubleAnimation Storyboard.TargetName="welcome" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0:4"/>
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
     </Window.Triggers>
     <Grid>
-        <TextBlock x:Name="welcome" Text="Welcome to the Cryptotracker !!!" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"/>
+        <StackPanel>
+            <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}" SelectedValue="{Binding DefaultLanguageString}"/>
+            <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
+                       Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
+        </StackPanel>
     </Grid>
 </Window>

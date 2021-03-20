@@ -3,8 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Cryptotracker"
              xmlns:viewModels="clr-namespace:Cryptotracker.ViewModels"
+             xmlns:langConverters="clr-namespace:Cryptotracker.Languages.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <viewModels:AppViewModel x:Key="AppViewModel"/>
+        <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
     </Application.Resources>
 </Application>
