@@ -48,21 +48,21 @@ Dokument ten obejmuje czynniki, których wymaga klient od sporządzanej aplikacj
 
 | Nr. | Nazwa                                  | Priorytet | Opis |
 |-----|----------------------------------------|-----------|------|
-| 1   | Wykres kursu                           | Wysoki    | Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz archiwalne<br>(z ostatnich dziesięciu lat) dane giełdowe walut i kryptowalut uzupełnione<br>o podstawowe wskaźniki giełdowe. |
-| 2   | Wykres kursu -<br>zmiany kursu         | Wysoki    | Na wyświetlanych wykresach ma być widoczna zmiana roczna, miesięczna,<br>tygodniowa i dniowa oraz wolumen porównywanych walut. |
-| 3   | Wykres kursu -<br>ramy czasowe         | Wysoki    | Użytkownik ma mieć możliwość ustawienia dokładnych ram czasowych<br>wyświetlanych danych. |
-| 4   | Wykres kursu -<br>manipulacja wykresem | Średni    | Wykres ma posiadać funkcjonalność prostego zbliżania, oddalania oraz<br> przewijania.|
+| 1   | Wykres kursu                           | Wysoki    | Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz archiwalne (z ostatnich dziesięciu lat) dane giełdowe walut i kryptowalut uzupełnione o podstawowe wskaźniki giełdowe. |
+| 2   | Wykres kursu - zmiany kursu         | Wysoki    | Na wyświetlanych wykresach ma być widoczna zmiana roczna, miesięczna, tygodniowa i dniowa oraz wolumen porównywanych walut. |
+| 3   | Wykres kursu - ramy czasowe         | Wysoki    | Użytkownik ma mieć możliwość ustawienia dokładnych ram czasowych wyświetlanych danych. |
+| 4   | Wykres kursu - manipulacja wykresem | Średni    | Wykres ma posiadać funkcjonalność prostego zbliżania, oddalania oraz przewijania.|
 | 5   | Przeliczanie waluty                    | Wysoki    | Program musi umożliwiać szybkie przeliczenie wybranej waluty na inną. |
-| 6   | Powiadomienia                          | Wysoki    | Aplikacja ma powiadamiać użytkowników o ruchach na giełdach, według<br>ustawionych przez niego wytycznych w programie. |
-| 7   | Powiadomienia -<br>presety             | Średni    | Użytkownik ma mieć możliwość definiowania profili (presetów) dla powiadomień. |
+| 6   | Powiadomienia                          | Wysoki    | Aplikacja ma powiadamiać użytkowników o ruchach na giełdach, według ustawionych przez niego wytycznych w programie. |
+| 7   | Powiadomienia - presety             | Średni    | Użytkownik ma mieć możliwość definiowania profili (presetów) dla powiadomień. |
 | 8   | Język aplikacji                        | Średni    | Aplikacja ma być dwujęzyczna, w języku polskim oraz w angielskim. |
 
 ## Wymagania niefunkcjonalne
 
 | Nr. | Nazwa          | Priorytet | Opis |
 |-----|----------------|-----------|------|
-| 1   | Platforma      | Wysoki    | Aplikacja musi być możliwa do uruchomienia zarówno pod systemem Linux<br>jak i Microsoft Windows. |
-| 2   | Źródło danych  | Wysoki    | Aplikacja ma korzystać z danych udostępnianych przez znane serwisy monitorujące waluty<br>poprzez wystawione przez nie internetowe API ([Narodowy Bank Polski](https://www.nbp.pl/), [Bitbay](https://bitbay.net/pl)). |
+| 1   | Platforma      | Wysoki    | Aplikacja musi być możliwa do uruchomienia zarówno pod systemem Linux jak i Microsoft Windows. |
+| 2   | Źródło danych  | Wysoki    | Aplikacja ma korzystać z danych udostępnianych przez znane serwisy monitorujące waluty poprzez wystawione przez nie internetowe API ([Narodowy Bank Polski](https://www.nbp.pl/), [Bitbay](https://bitbay.net/pl)). |
 
 # Osoby uczestniczące w projekcie
 
