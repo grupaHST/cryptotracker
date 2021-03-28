@@ -14,9 +14,9 @@ Projekt aplikacji biznesowej do śledzenia kursów walut i kryptowalut.
 
 * [Opis wymagań](#opis-wymagań "Opis wymagań")
 
-    * [Wymagania fukcjonalne](#wymagania-fukcjonalne "Wymagania fukcjonalne")
+    * [Wymagania funkcjonalne](#wymagania-funkcjonalne "Wymagania funkcjonalne")
 
-    * [Wymagania niefukcjonalne](#wymagania-niefukcjonalne "Wymagania fukcjonalne")
+    * [Wymagania niefunkcjonalne](#wymagania-niefunkcjonalne "Wymagania funkcjonalne")
 
 * [Osoby uczestniczące w projekcie](#osoby-uczestniczące-w-projekcie "Osoby uczestniczące w projekcie")
 
@@ -44,20 +44,25 @@ Dokument ten obejmuje czynniki, których wymaga klient od sporządzanej aplikacj
 
 # Opis wymagań
 
-## Wymagania fukcjonalne
+## Wymagania funkcjonalne
 
-* Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz zarchiwizowane (z ostatnich dziesięciu lat) dane giełdowe walut i kryptowalut uzupełnione o podstawowe wskaźniki giełdowe. Na wyświetlanych wykresach ma być widoczna zmiana roczna, miesięczna, tygodniowa i dniowa oraz wolumen porównywanych walut. Użytkownik ma mieć możliwość ustawienia dokładnych ram czasowych wyświetlanych danych. Wykres ma posiadać funkcjonalność prostego zbliżania i oddalania. Program musi również umożliwiać szybkie przeliczenie wybranej waluty na inną.
-
-* Aplikacja powinna dawać możliwość powiadamiania użytkowników o ruchach na giełdach według ustawionych przez niego wytycznych w programie.
-Program ma również posiadać funkcjonalność profili (presetów) dla powiadomień.
-
-* Aplikacja ma być dwujęzyczna, w języku polskim oraz w angielskim.
+| Nr. | Nazwa                                  | Priorytet | Opis |
+|-----|----------------------------------------|-----------|------|
+| 1   | Wykres kursu                           | Wysoki    | Aplikacja ma przedstawiać klientowi w formie graficznej aktualne oraz archiwalne (z ostatnich dziesięciu lat) dane giełdowe walut i kryptowalut uzupełnione o podstawowe wskaźniki giełdowe. |
+| 2   | Wykres kursu - zmiany kursu         | Wysoki    | Na wyświetlanych wykresach ma być widoczna zmiana roczna, miesięczna, tygodniowa i dniowa oraz wolumen porównywanych walut. |
+| 3   | Wykres kursu - ramy czasowe         | Wysoki    | Użytkownik ma mieć możliwość ustawienia dokładnych ram czasowych wyświetlanych danych. |
+| 4   | Wykres kursu - manipulacja wykresem | Średni    | Wykres ma posiadać funkcjonalność prostego zbliżania, oddalania oraz przewijania.|
+| 5   | Przeliczanie waluty                    | Wysoki    | Program musi umożliwiać szybkie przeliczenie wybranej waluty na inną. |
+| 6   | Powiadomienia                          | Wysoki    | Aplikacja ma powiadamiać użytkowników o ruchach na giełdach, według ustawionych przez niego wytycznych w programie. |
+| 7   | Powiadomienia - presety             | Średni    | Użytkownik ma mieć możliwość definiowania profili (presetów) dla powiadomień. |
+| 8   | Język aplikacji                        | Średni    | Aplikacja ma być dwujęzyczna, w języku polskim oraz w angielskim. |
 
 ## Wymagania niefunkcjonalne
 
-* Aplikacja musi być możliwa do uruchomienia zarówno pod systemem Linux jak i Microsoft Windows.
-
-* Aplikacja ma korzystać z danych udostępnianych przez znane serwisy monitorujące waluty poprzez wystawione przez nie internetowe API ([Narodowy Bank Polski](https://www.nbp.pl/), [Bitbay](https://bitbay.net/pl)).
+| Nr. | Nazwa          | Priorytet | Opis |
+|-----|----------------|-----------|------|
+| 1   | Platforma      | Wysoki    | Aplikacja musi być możliwa do uruchomienia zarówno pod systemem Linux jak i Microsoft Windows. |
+| 2   | Źródło danych  | Wysoki    | Aplikacja ma korzystać z danych udostępnianych przez znane serwisy monitorujące waluty poprzez wystawione przez nie internetowe API ([Narodowy Bank Polski](https://www.nbp.pl/), [Bitbay](https://bitbay.net/pl)). |
 
 # Osoby uczestniczące w projekcie
 
@@ -69,7 +74,7 @@ Program ma również posiadać funkcjonalność profili (presetów) dla powiadom
 
 Projekt zostanie wykonany w języku [C#](https://docs.microsoft.com/pl-pl/dotnet/csharp/whats-new/csharp-9) w wersji 9.0. 
 Bazowymi technologiami będą [.NET 5.0](https://docs.microsoft.com/pl-pl/dotnet/core/dotnet-five) oraz Windows Presention Foundation [(WPF)](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/?view=netdesktop-5.0). Za graficzne przedstawienie użytkownikowi danych odpowiedzialna będzie biblioteka [LiveCharts](https://lvcharts.net/). Do testów jednostkowych użyty zostanie framework 
-[UnitTesting](https://en.wikipedia.org/wiki/Visual_Studio_Unit_Testing_Framework) udostępniony przez firmę Microsoft. Projekt będzie wykonywany zgodnie z wzorcem projektowym MVVM.
+[UnitTesting](https://en.wikipedia.org/wiki/Visual_Studio_Unit_Testing_Framework) udostępniony przez firmę Microsoft. Projekt będzie wykonywany zgodnie ze wzorcem projektowym MVVM.
 
 # Podział ról i odpowiedzialności w projekcie
 
