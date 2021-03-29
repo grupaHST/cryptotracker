@@ -10,7 +10,7 @@ Projekt aplikacji biznesowej do śledzenia kursów walut i kryptowalut.
 
     * [Zakres](#zakres "Zakres")
 
-    * [Definicje, akronimy i skróty](#definicje,-akronimy-i-skróty "Definicje, akronimy i skróty")
+    * [Definicje, akronimy i skróty](#definicje-akronimy-i-skróty "Definicje, akronimy i skróty")
 
 * [Opis wymagań](#opis-wymagań "Opis wymagań")
 
@@ -38,7 +38,7 @@ Dokument ten obejmuje czynniki, których wymaga klient od sporządzanej aplikacj
 
 ## Definicje, akronimy i skróty
 
-* Architektura – schemat ogólny budowy systemu komputerowego lub jego części, określający jego elementy, układy ich łączące i zasady współpracy między nimi.
+* Architektura - schemat ogólny budowy systemu komputerowego lub jego części, określający jego elementy, układy ich łączące i zasady współpracy między nimi.
 
 * API - zbiór reguł ściśle opisujący, w jaki sposób programy lub podprogramy komunikują się ze sobą.
 
