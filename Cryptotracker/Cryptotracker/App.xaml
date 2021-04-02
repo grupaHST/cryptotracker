@@ -6,7 +6,17 @@
              xmlns:langConverters="clr-namespace:Cryptotracker.Languages.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <viewModels:AppViewModel x:Key="AppViewModel"/>
-        <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <viewModels:AppViewModel x:Key="AppViewModel"/>
+            <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
