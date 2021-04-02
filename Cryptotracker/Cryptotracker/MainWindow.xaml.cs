@@ -1,18 +1,5 @@
 ﻿using MahApps.Metro.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Cryptotracker
 {
@@ -25,5 +12,17 @@ namespace Cryptotracker
         {
             InitializeComponent();
         }
+
+        private void ThemeSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).ChangeTheme(themeSwitch.IsOn);
+        }
+
+        private void ColorSchemaSelector_Selected(object sender, RoutedEventArgs e)
+        {
+            (Application.Current as App).ChangeColorSchema(colorSchemaSelector.SelectedItem.ToString());
+        }
+
+        private void SettingsOpener_Click(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
     }
 }
