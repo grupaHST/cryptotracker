@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:Cryptotracker"
              xmlns:viewModels="clr-namespace:Cryptotracker.ViewModels"
              xmlns:langConverters="clr-namespace:Cryptotracker.Languages.Converters"
+             xmlns:frontendConverters="clr-namespace:Cryptotracker.Frontend.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -17,7 +18,10 @@
             <sys:String x:Key="DefaultColorSchema">Blue</sys:String>
             
             <viewModels:AppViewModel x:Key="AppViewModel"/>
+            
             <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+            <frontendConverters:SolidColorBrushDarkenerConverter x:Key="SolidColorBrushDarkenerConverter"/>
+            <frontendConverters:SolidColorBrushLightenerConverter x:Key="SolidColorBrushLightenerConverter"/>
 
         </ResourceDictionary>
     </Application.Resources>

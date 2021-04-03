@@ -63,7 +63,27 @@
     </mah:MetroWindow.Flyouts>
     <!--#endregion-->
     <Grid>
-        <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
-                   Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
+        <StackPanel>
+            <StackPanel.Resources>
+                <Style TargetType="{x:Type mah:Tile}">
+                    <Setter Property="mah:ControlsHelper.MouseOverBorderBrush" 
+                            Value="{Binding Background, RelativeSource={RelativeSource Self},
+                            Converter={StaticResource SolidColorBrushDarkenerConverter}}"/>
+                </Style>
+            </StackPanel.Resources>
+            <DockPanel>
+                <mah:Tile Title="GitHub" Background="Coral">
+                    <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
+                </mah:Tile>
+                <mah:Tile Title="Bitbay" HorizontalTitleAlignment="Right">
+                    <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
+                </mah:Tile>
+                <mah:Tile Title="Narodowy Bank Polski" Width="Auto" Background="CadetBlue">
+                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
+                </mah:Tile>
+            </DockPanel>
+            <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
+                       Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
+        </StackPanel>
     </Grid>
 </mah:MetroWindow>
