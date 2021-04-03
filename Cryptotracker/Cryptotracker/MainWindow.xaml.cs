@@ -24,5 +24,13 @@ namespace Cryptotracker
         }
 
         private void SettingsOpener_Click(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
+
+        private void HyperlinkClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element && element.Tag is string url)
+            {
+                App.OpenWebPageInDefaultBrowser(url);
+            }
+        }
     }
 }

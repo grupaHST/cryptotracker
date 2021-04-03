@@ -66,22 +66,26 @@
         <StackPanel>
             <StackPanel.Resources>
                 <Style TargetType="{x:Type mah:Tile}">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Width" Value="Auto"/>
+                    <Setter Property="MinWidth" Value="150"/>
                     <Setter Property="mah:ControlsHelper.MouseOverBorderBrush" 
                             Value="{Binding Background, RelativeSource={RelativeSource Self},
                             Converter={StaticResource SolidColorBrushDarkenerConverter}}"/>
                 </Style>
             </StackPanel.Resources>
-            <DockPanel>
-                <mah:Tile Title="GitHub" Background="Coral">
+            <WrapPanel>
+                <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
                     <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
                 </mah:Tile>
-                <mah:Tile Title="Bitbay" HorizontalTitleAlignment="Right">
+                <mah:Tile Title="Bitbay" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
                     <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
                 </mah:Tile>
-                <mah:Tile Title="Narodowy Bank Polski" Width="Auto" Background="CadetBlue">
+                <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
+                          Title="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Nbp}">
                     <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
                 </mah:Tile>
-            </DockPanel>
+            </WrapPanel>
             <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
                        Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
         </StackPanel>

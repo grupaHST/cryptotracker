@@ -21,5 +21,11 @@
             Language.Polski => "Ustawienia",
             _ => nameof(Settings)
         };
+
+        public static string Nbp(Language lang) => lang switch
+        {
+            Language.Polski => "Narodowy Bank Polski",
+            _ => "The National Bank of Poland"
+        };
     }
 }

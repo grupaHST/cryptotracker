@@ -1,4 +1,6 @@
 ﻿using ControlzEx.Theming;
+using System;
+using System.Diagnostics;
 using System.Windows;
 
 namespace Cryptotracker
@@ -10,5 +12,10 @@ namespace Cryptotracker
     {
         public void ChangeColorSchema(string colorSchema) => ThemeManager.Current.ChangeThemeColorScheme(this, colorSchema);
         public void ChangeTheme(bool isDark) => ThemeManager.Current.ChangeThemeBaseColor(this, isDark ? "Dark" : "Light");
+
+        public static void OpenWebPageInDefaultBrowser(string url)
+        {
+            try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
+        }
     }
 }
