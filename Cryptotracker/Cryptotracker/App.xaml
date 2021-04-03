@@ -5,7 +5,6 @@
              xmlns:local="clr-namespace:Cryptotracker"
              xmlns:viewModels="clr-namespace:Cryptotracker.ViewModels"
              xmlns:langConverters="clr-namespace:Cryptotracker.Languages.Converters"
-             xmlns:frontendConverters="clr-namespace:Cryptotracker.Frontend.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -14,14 +13,13 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml"/>
+                <ResourceDictionary Source="Frontend/AppControlsStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <sys:String x:Key="DefaultColorSchema">Blue</sys:String>
             
             <viewModels:AppViewModel x:Key="AppViewModel"/>
-            
+
             <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
-            <frontendConverters:SolidColorBrushDarkenerConverter x:Key="SolidColorBrushDarkenerConverter"/>
-            <frontendConverters:SolidColorBrushLightenerConverter x:Key="SolidColorBrushLightenerConverter"/>
 
             <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>
             <sys:String x:Key="UrlBitbay">https://bitbay.net/pl</sys:String>

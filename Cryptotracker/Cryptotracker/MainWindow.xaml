@@ -6,7 +6,7 @@
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:Cryptotracker"
-                 mc:Ignorable="d" DataContext="{StaticResource AppViewModel}"
+                 mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
                  Height="450" Width="800" MinHeight="450" MinWidth="800"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
@@ -64,21 +64,11 @@
     <!--#endregion-->
     <Grid>
         <StackPanel>
-            <StackPanel.Resources>
-                <Style TargetType="{x:Type mah:Tile}">
-                    <Setter Property="Cursor" Value="Hand"/>
-                    <Setter Property="Width" Value="Auto"/>
-                    <Setter Property="MinWidth" Value="150"/>
-                    <Setter Property="mah:ControlsHelper.MouseOverBorderBrush" 
-                            Value="{Binding Background, RelativeSource={RelativeSource Self},
-                            Converter={StaticResource SolidColorBrushDarkenerConverter}}"/>
-                </Style>
-            </StackPanel.Resources>
             <WrapPanel>
                 <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
                     <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
                 </mah:Tile>
-                <mah:Tile Title="Bitbay" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
+                <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
                     <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
                 </mah:Tile>
                 <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
