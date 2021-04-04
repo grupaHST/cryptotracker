@@ -1,12 +1,30 @@
 ﻿<Application x:Class="Cryptotracker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:Cryptotracker"
              xmlns:viewModels="clr-namespace:Cryptotracker.ViewModels"
              xmlns:langConverters="clr-namespace:Cryptotracker.Languages.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <viewModels:AppViewModel x:Key="AppViewModel"/>
-        <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+        <ResourceDictionary>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml"/>
+                <ResourceDictionary Source="Frontend/AppControlsStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <sys:String x:Key="DefaultColorSchema">Blue</sys:String>
+            
+            <viewModels:AppViewModel x:Key="AppViewModel"/>
+
+            <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+
+            <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>
+            <sys:String x:Key="UrlBitbay">https://bitbay.net/pl</sys:String>
+            <sys:String x:Key="UrlNbp">https://www.nbp.pl</sys:String>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

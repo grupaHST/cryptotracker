@@ -1,13 +1,23 @@
-﻿<Window x:Class="Cryptotracker.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Cryptotracker"
-        mc:Ignorable="d"
-        DataContext="{StaticResource AppViewModel}" Height="450" Width="800"
-        Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
-    <Window.Triggers>
+﻿<mah:MetroWindow x:Class="Cryptotracker.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                 xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:local="clr-namespace:Cryptotracker"
+                 mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
+                 Height="600" Width="1024" MinHeight="450" MinWidth="800"
+                 Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button x:Name="settingsOpener" Click="SettingsOpener_Click"
+                    ToolTip="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Settings}">
+                <icons:PackIconModern Width="22" Height="22" Kind="Settings"/>
+            </Button>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
+    <mah:MetroWindow.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
             <BeginStoryboard>
                 <Storyboard>
@@ -15,12 +25,59 @@
                 </Storyboard>
             </BeginStoryboard>
         </EventTrigger>
-    </Window.Triggers>
+    </mah:MetroWindow.Triggers>
+    <!--#region Settings-->
+    <mah:MetroWindow.Flyouts>
+        <mah:FlyoutsControl>
+            <mah:Flyout x:Name="settingsFlyout" Position="Left"
+                        Header="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Settings}">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type DockPanel}">
+                            <Setter Property="Margin" Value="5"/>
+                        </Style>
+                    </StackPanel.Resources>
+                    <DockPanel>
+                        <icons:Entypo Width="30" Kind="Language"/>
+                        <mah:SplitButton ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"
+                                         SelectedValue="{Binding DefaultLanguageString}" Orientation="Vertical"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <mah:ToggleSwitch x:Name="themeSwitch" Toggled="ThemeSwitch_Toggled">
+                            <mah:ToggleSwitch.OnContent>
+                                <icons:EvaIcons Kind="Moon"/>
+                            </mah:ToggleSwitch.OnContent>
+                            <mah:ToggleSwitch.OffContent>
+                                <icons:EvaIcons Kind="Sun"/>
+                            </mah:ToggleSwitch.OffContent>
+                        </mah:ToggleSwitch>
+                    </DockPanel>
+                    <DockPanel>
+                        <icons:PackIconMaterial Width="30" Kind="FormatColorFill"/>
+                        <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
+                                         SelectedItem="{StaticResource DefaultColorSchema}" SelectionChanged="ColorSchemaSelector_Selected"/>
+                    </DockPanel>
+                </StackPanel>
+            </mah:Flyout>
+        </mah:FlyoutsControl>
+    </mah:MetroWindow.Flyouts>
+    <!--#endregion-->
     <Grid>
         <StackPanel>
-            <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}" SelectedValue="{Binding DefaultLanguageString}"/>
+            <WrapPanel>
+                <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
+                    <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
+                </mah:Tile>
+                <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
+                    <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
+                </mah:Tile>
+                <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
+                          Title="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Nbp}">
+                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
+                </mah:Tile>
+            </WrapPanel>
             <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
                        Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
         </StackPanel>
     </Grid>
-</Window>
+</mah:MetroWindow>
