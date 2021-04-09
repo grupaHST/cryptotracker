@@ -7,11 +7,11 @@
                  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:Cryptotracker"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
-                 Height="600" Width="1024" MinHeight="450" MinWidth="800"
+                 Height="600" Width="1024" MinHeight="450" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
-            <Button x:Name="settingsOpener" Click="SettingsOpener_Click"
+            <Button x:Name="settingsOpener" Click="OpenSettings"
                     ToolTip="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Settings}">
                 <icons:PackIconModern Width="22" Height="22" Kind="Settings"/>
             </Button>
