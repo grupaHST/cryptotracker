@@ -1,5 +1,6 @@
 ﻿using MahApps.Metro.Controls;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Cryptotracker
 {
@@ -23,8 +24,6 @@ namespace Cryptotracker
             (Application.Current as App).ChangeColorSchema(colorSchemaSelector.SelectedItem.ToString());
         }
 
-        private void SettingsOpener_Click(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
-
         private void HyperlinkClick(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement element && element.Tag is string url)
@@ -32,5 +31,8 @@ namespace Cryptotracker
                 App.OpenWebPageInDefaultBrowser(url);
             }
         }
+
+        private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
+        private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
     }
 }

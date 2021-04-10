@@ -10,7 +10,10 @@ namespace Cryptotracker
     public partial class App : Application
     {
         public void ChangeColorSchema(string colorSchema) => ThemeManager.Current.ChangeThemeColorScheme(this, colorSchema);
-        public void ChangeTheme(bool isDark) => ThemeManager.Current.ChangeThemeBaseColor(this, isDark ? "Dark" : "Light");
+        public void ChangeTheme(bool isDark)
+        {
+            ThemeManager.Current.ChangeThemeBaseColor(this, isDark ? ThemeManager.BaseColorDark : ThemeManager.BaseColorLight);
+        }
 
         public static void OpenWebPageInDefaultBrowser(string url)
         {
