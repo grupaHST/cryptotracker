@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.Backend
 {
-    public enum CryptoExchangePlatforms
+    public enum CryptoExchangePlatform
     {
         BINANCE,
         BITBAY,
