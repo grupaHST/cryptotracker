@@ -8,17 +8,19 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
-            
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/Light.Blue.xaml"/>
                 <ResourceDictionary Source="Frontend/AppControlsStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <sys:String x:Key="DefaultColorSchema">Blue</sys:String>
-            
-            <viewModels:AppViewModel x:Key="AppViewModel"/>
 
+            <sys:String x:Key="DefaultLanguage">English</sys:String>
+            <sys:String x:Key="DefaultColorScheme">Blue</sys:String>
+            <sys:String x:Key="DefaultBaseColorScheme">Light</sys:String>
+
+            <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
 
             <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>

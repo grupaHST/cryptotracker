@@ -12,7 +12,6 @@ namespace Cryptotracker.ViewModels
         public Version AppVersion { get; } = Assembly.GetEntryAssembly().GetName().Version;
 
         public ObservableCollection<string> AvailableLanguages => new(Enum.GetNames(typeof(Language)));
-        public string DefaultLanguageString { get; set; } = Language.Polski.ToString();
         public Language Language { get; set; }
 
         public ThemeManager ThemeManager { get; } = ThemeManager.Current;

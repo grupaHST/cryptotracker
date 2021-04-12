@@ -1,4 +1,5 @@
 ﻿using ControlzEx.Theming;
+using Cryptotracker.LocalData;
 using System.Diagnostics;
 using System.Windows;
 
@@ -18,6 +19,16 @@ namespace Cryptotracker
         public static void OpenWebPageInDefaultBrowser(string url)
         {
             try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            LocalDataManager.Current.Init();
+        }
+
+        protected override void OnExit(ExitEventArgs e)
+        {
+            LocalDataManager.Current.Dispose();
         }
     }
 }
