@@ -3,19 +3,19 @@
 namespace Cryptotracker.LocalData.Tests
 {
     [TestClass]
-    public class LocalAppSettingsTests
+    public class AppSettingsTests
     {
         [TestMethod]
         public void EqualsTest()
         {
-            LocalAppSettings firstStruct = new()
+            AppSettings firstStruct = new()
             {
                 Language = "English",
                 BaseColorScheme = "Base",
                 ColorScheme = "Yellow",
             };
 
-            LocalAppSettings secondStruct = firstStruct;
+            AppSettings secondStruct = firstStruct;
 
             Assert.AreEqual(firstStruct, secondStruct);
             Assert.IsTrue(firstStruct == secondStruct);
