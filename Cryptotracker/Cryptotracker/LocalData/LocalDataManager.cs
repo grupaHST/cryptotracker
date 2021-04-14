@@ -43,7 +43,7 @@ namespace Cryptotracker.LocalData
             }
             catch (Exception e)
             {
-                // TODO: Add application logs
+                (Application.Current as App).LogMessage(e.Message);
                 _document = EmptyDocumentStruct;
             }
         }
@@ -61,9 +61,9 @@ namespace Cryptotracker.LocalData
                 using FileStream stream = new(FilePath, FileMode.Truncate);
                 _document.Save(stream);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                // TODO: Add application logs
+                (Application.Current as App).LogMessage(e.Message);
             }
         }
 
