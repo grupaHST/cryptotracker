@@ -17,10 +17,10 @@
 
     <Style TargetType="{x:Type mah:SplitButton}">
         <Setter Property="Cursor" Value="Hand"/>
-    </Style>    
-    
+    </Style>
+
     <Style TargetType="{x:Type mah:ToggleSwitch}">
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
-    
+
 </ResourceDictionary>

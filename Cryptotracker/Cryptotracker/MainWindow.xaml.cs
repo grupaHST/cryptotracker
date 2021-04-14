@@ -75,5 +75,7 @@ namespace Cryptotracker
 
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
+
+        private async void Download(object sender, RoutedEventArgs e) => await App.DownloadAsync();
     }
 }

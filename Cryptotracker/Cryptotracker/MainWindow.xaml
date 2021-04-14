@@ -9,6 +9,18 @@
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
                  Height="600" Width="1024" MinHeight="450" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
+    <mah:MetroWindow.Resources>
+        <Style TargetType="mah:DateTimePicker">
+            <Style.Setters>
+                <Setter Property="mah:TextBoxHelper.Watermark">
+                    <Setter.Value>
+                        <Binding Path="Language" Converter="{StaticResource LanguageToAppMessageConverter}" ConverterParameter="SelectDate"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="mah:ValidationHelper.ShowValidationErrorOnMouseOver" Value="False"/>
+            </Style.Setters>
+        </Style>
+    </mah:MetroWindow.Resources>
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="settingsOpener" Click="OpenSettings"
@@ -17,15 +29,6 @@
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
-    <mah:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="Window.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="welcome" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0:4"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </mah:MetroWindow.Triggers>
     <!--#region Settings-->
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
@@ -76,8 +79,28 @@
                     <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
                 </mah:Tile>
             </WrapPanel>
-            <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
-                       Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
+            <DockPanel>
+                <StackPanel>
+                    <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Currency}"/>
+                    <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
+                        <mah:SplitButton.Icon>
+                            <icons:PackIconModern Kind="Money"/>
+                        </mah:SplitButton.Icon>
+                    </mah:SplitButton>
+                    <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=StartDate}"/>
+                    <mah:DateTimePicker SelectedDateTime="{Binding StartDate}"/>
+                    <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=EndDate}"/>
+                    <mah:DateTimePicker SelectedDateTime="{Binding EndDate}"/>
+                    <TextBlock/>
+                    <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Cursor="Hand" Click="Download">
+                        <WrapPanel>
+                            <icons:Entypo Kind="Download"/>
+                            <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Download}"/>
+                        </WrapPanel>
+                    </Button>
+                </StackPanel>
+                <DataGrid ItemsSource="{Binding Rates}"/>
+            </DockPanel>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

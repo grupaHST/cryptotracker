@@ -1,9 +1,13 @@
 ﻿using ControlzEx.Theming;
+using Cryptotracker.Backend;
+using Cryptotracker.Backend.NBP;
 using Cryptotracker.Interfaces;
 using Cryptotracker.LocalData;
+using Cryptotracker.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Cryptotracker
@@ -24,6 +28,22 @@ namespace Cryptotracker
         public static void OpenWebPageInDefaultBrowser(string url)
         {
             try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
+        }
+
+        public static async Task DownloadAsync()
+        {
+            if (Current.TryFindResource(nameof(AppViewModel)) is AppViewModel viewModel)
+            {
+                var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
+                (
+                    ExchangePlatform.NBP,
+                    Enum.Parse<CurrencyCode>(viewModel.SelectedCurrencyCode),
+                    viewModel.StartDate,
+                    viewModel.EndDate
+                );
+
+                viewModel.Rates = new(genericCurrencyData.Rates);
+            }
         }
 
         protected override void OnStartup(StartupEventArgs e)
