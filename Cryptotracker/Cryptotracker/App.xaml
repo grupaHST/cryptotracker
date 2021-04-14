@@ -22,7 +22,7 @@
             <sys:String x:Key="DefaultBaseColorScheme">Light</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
-            <langConverters:LanguageToAppMessageConverter x:Key="LanguageToAppMessageConverter"/>
+            <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
             <frontendConverters:LanguageToCultureInfoConverter x:Key="LanguageToCultureInfoConverter"/>
 
             <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>
