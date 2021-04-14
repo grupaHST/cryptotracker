@@ -34,15 +34,22 @@ namespace Cryptotracker
         {
             if (Current.TryFindResource(nameof(AppViewModel)) is AppViewModel viewModel)
             {
-                var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
-                (
-                    ExchangePlatform.NBP,
-                    Enum.Parse<CurrencyCode>(viewModel.SelectedCurrencyCode),
-                    viewModel.StartDate,
-                    viewModel.EndDate
-                );
+                try
+                {
+                    var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
+                    (
+                        ExchangePlatform.NBP,
+                        Enum.Parse<CurrencyCode>(viewModel.SelectedCurrencyCode),
+                        viewModel.StartDate,
+                        viewModel.EndDate
+                    );
 
-                viewModel.Rates = new(genericCurrencyData.Rates);
+                    viewModel.Rates = new(genericCurrencyData.Rates);
+                }
+                catch (Exception e)
+                {
+                    (Current as App).LogMessage(e.Message);
+                }
             }
         }
 
