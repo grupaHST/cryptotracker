@@ -12,11 +12,8 @@
     <mah:MetroWindow.Resources>
         <Style TargetType="mah:DateTimePicker">
             <Style.Setters>
-                <Setter Property="mah:TextBoxHelper.Watermark">
-                    <Setter.Value>
-                        <Binding Path="Language" Converter="{StaticResource LanguageToAppMessageConverter}" ConverterParameter="SelectDate"/>
-                    </Setter.Value>
-                </Setter>
+                <Setter Property="mah:TextBoxHelper.Watermark" Value="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=SelectDate}"/>
+                <Setter Property="Culture" Value="{Binding Language, Converter={StaticResource LanguageToCultureInfoConverter}}"/>
                 <Setter Property="mah:ValidationHelper.ShowValidationErrorOnMouseOver" Value="False"/>
             </Style.Setters>
         </Style>
