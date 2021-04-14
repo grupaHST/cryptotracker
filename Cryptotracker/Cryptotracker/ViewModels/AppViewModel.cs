@@ -25,6 +25,8 @@ namespace Cryptotracker.ViewModels
         public DateTime StartDate { get; set; } = new(2010, 01, 01);
         public DateTime EndDate { get; set; } = DateTime.Today;
 
+        public ObservableCollection<string> Logs { get; set; } = new();
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

@@ -63,45 +63,54 @@
     </mah:MetroWindow.Flyouts>
     <!--#endregion-->
     <Grid>
-        <StackPanel>
-            <WrapPanel>
-                <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
-                    <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
-                </mah:Tile>
-                <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
-                    <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
-                </mah:Tile>
-                <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
-                          Title="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Nbp}">
-                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
-                </mah:Tile>
-            </WrapPanel>
-            <Border BorderThickness="1" Padding="5">
-                <DockPanel>
-                    <StackPanel>
-                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
-                        <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
-                            <mah:SplitButton.Icon>
-                                <icons:PackIconModern Kind="Money"/>
-                            </mah:SplitButton.Icon>
-                        </mah:SplitButton>
-                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
-                        <mah:DateTimePicker SelectedDateTime="{Binding StartDate}"/>
-                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
-                        <mah:DateTimePicker SelectedDateTime="{Binding EndDate}"/>
-                        <TextBlock/>
-                        <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Cursor="Hand" Click="Download">
-                            <WrapPanel>
-                                <icons:Entypo Kind="Download"/>
-                                <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
-                            </WrapPanel>
-                        </Button>
-                    </StackPanel>
-                    <Border Padding="5">
-                        <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True" />
-                    </Border>
-                </DockPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
+                <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
+            </mah:Tile>
+            <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
+                <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
+            </mah:Tile>
+            <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
+                        Title="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Nbp}">
+                <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
+            </mah:Tile>
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
+                <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
+                    <mah:SplitButton.Icon>
+                        <icons:PackIconModern Kind="Money"/>
+                    </mah:SplitButton.Icon>
+                </mah:SplitButton>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
+                <mah:DateTimePicker SelectedDateTime="{Binding StartDate}"/>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
+                <mah:DateTimePicker SelectedDateTime="{Binding EndDate}"/>
+                <TextBlock/>
+                <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Cursor="Hand" Click="Download">
+                    <WrapPanel>
+                        <icons:Entypo Kind="Download"/>
+                        <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
+                    </WrapPanel>
+                </Button>
+            </StackPanel>
+            <Border Grid.Column="1" Padding="5">
+                <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"/>
             </Border>
+        </Grid>
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Logs:"/>
+            <ListView Grid.Row="2" ItemsSource="{Binding Logs}"/>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>

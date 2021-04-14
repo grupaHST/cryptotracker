@@ -55,12 +55,10 @@ namespace Cryptotracker
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            // application loggers
-
             _loggers = new()
             {
-                new LocalFileLogger(),
-
+                new AppViewModelLogger(),
+                new LocalFileLogger()
             };
 
             LocalDataManager.Current.Init();
