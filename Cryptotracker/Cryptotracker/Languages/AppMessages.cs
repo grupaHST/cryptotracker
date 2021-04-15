@@ -27,5 +27,35 @@
             Language.Polski => "Narodowy Bank Polski",
             _ => "The National Bank of Poland"
         };
+
+        public static string SelectDate(Language lang) => lang switch
+        {
+            Language.Polski => "Wybierz datę",
+            _ => "Select a date"
+        };       
+        
+        public static string Currency(Language lang) => lang switch
+        {
+            Language.Polski => "Waluta",
+            _ => "Currency"
+        };
+
+        public static string Download(Language lang) => lang switch
+        {
+            Language.Polski => "Pobierz",
+            _ => "Download"
+        };
+
+        public static string StartDate(Language lang) => lang switch
+        {
+            Language.Polski => "Data początkowa",
+            _ => "Start date"
+        };
+        
+        public static string EndDate(Language lang) => lang switch
+        {
+            Language.Polski => "Data końcowa",
+            _ => "End date"
+        };
     }
 }

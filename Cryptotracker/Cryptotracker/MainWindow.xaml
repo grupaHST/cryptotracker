@@ -9,28 +9,28 @@
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
                  Height="600" Width="1024" MinHeight="450" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
+    <mah:MetroWindow.Resources>
+        <Style TargetType="mah:DateTimePicker">
+            <Style.Setters>
+                <Setter Property="mah:TextBoxHelper.Watermark" Value="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=SelectDate}"/>
+                <Setter Property="Culture" Value="{Binding Language, Converter={StaticResource LanguageToCultureInfoConverter}}"/>
+                <Setter Property="mah:ValidationHelper.ShowValidationErrorOnMouseOver" Value="False"/>
+            </Style.Setters>
+        </Style>
+    </mah:MetroWindow.Resources>
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="settingsOpener" Click="OpenSettings"
-                    ToolTip="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Settings}">
+                    ToolTip="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Settings}">
                 <icons:PackIconModern Width="22" Height="22" Kind="Settings"/>
             </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
-    <mah:MetroWindow.Triggers>
-        <EventTrigger RoutedEvent="Window.Loaded">
-            <BeginStoryboard>
-                <Storyboard>
-                    <DoubleAnimation Storyboard.TargetName="welcome" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0:4"/>
-                </Storyboard>
-            </BeginStoryboard>
-        </EventTrigger>
-    </mah:MetroWindow.Triggers>
     <!--#region Settings-->
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
             <mah:Flyout x:Name="settingsFlyout" Position="Left"
-                        Header="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Settings}">
+                        Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Settings}">
                 <StackPanel>
                     <StackPanel.Resources>
                         <Style TargetType="{x:Type DockPanel}">
@@ -63,21 +63,54 @@
     </mah:MetroWindow.Flyouts>
     <!--#endregion-->
     <Grid>
-        <StackPanel>
-            <WrapPanel>
-                <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
-                    <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
-                </mah:Tile>
-                <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
-                    <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
-                </mah:Tile>
-                <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
-                          Title="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Nbp}">
-                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
-                </mah:Tile>
-            </WrapPanel>
-            <TextBlock x:Name="welcome" TextWrapping="Wrap" FontSize="72" HorizontalAlignment="Center"
-                       Text="{Binding Language, Converter={StaticResource LanguageToAppMessageConverter}, ConverterParameter=Welcome}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Row="0">
+            <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
+                <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
+            </mah:Tile>
+            <mah:Tile Title="Bitbay" Background="DodgerBlue" HorizontalTitleAlignment="Right" Click="HyperlinkClick" Tag="{StaticResource UrlBitbay}">
+                <icons:BoxIcons Kind="LogosBitcoin" Width="60" Height="60"/>
+            </mah:Tile>
+            <mah:Tile Background="CadetBlue" Click="HyperlinkClick" Tag="{StaticResource UrlNbp}"
+                        Title="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Nbp}">
+                <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
+            </mah:Tile>
+        </WrapPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
+                <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
+                    <mah:SplitButton.Icon>
+                        <icons:PackIconModern Kind="Money"/>
+                    </mah:SplitButton.Icon>
+                </mah:SplitButton>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
+                <mah:DateTimePicker SelectedDateTime="{Binding StartDate}"/>
+                <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
+                <mah:DateTimePicker SelectedDateTime="{Binding EndDate}"/>
+                <TextBlock/>
+                <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Cursor="Hand" Click="Download">
+                    <WrapPanel>
+                        <icons:Entypo Kind="Download"/>
+                        <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
+                    </WrapPanel>
+                </Button>
+            </StackPanel>
+            <Border Grid.Column="1" Padding="5">
+                <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"/>
+            </Border>
+        </Grid>
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Logs:"/>
+            <ListView Grid.Row="2" ItemsSource="{Binding Logs}"/>
         </StackPanel>
     </Grid>
 </mah:MetroWindow>
