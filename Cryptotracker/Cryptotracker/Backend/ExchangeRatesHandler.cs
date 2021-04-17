@@ -31,11 +31,10 @@ namespace Cryptotracker.Backend
                 {
                     bool secondTable = false;
                     char table = 'a';
+                    string currencyCodeStr = currencyCode.ToString().ToLower();
 
                     while (true)
                     {
-                        string currencyCodeStr = currencyCode.ToString().ToLower();
-
                         requestURI = $"{basicNBPAPIAddress}/rates/{table}/{currencyCodeStr}";
 
                         if (startTime.HasValue && endTime.HasValue)
