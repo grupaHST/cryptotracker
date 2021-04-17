@@ -41,9 +41,10 @@ namespace CryptotrackerTests.Backend
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.8065, result.Rates[0].Value);
 
-            //NBP - NO DATA AVAILABLE
+            //NBP - DATA FROM LAST AVAILABLE DAY
             result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-17"));
-            Assert.IsNull(result); //NBP RETURNS NULL IF NO DATA IS AVAILABLE
+            Assert.IsNotNull(result);
+            Assert.AreEqual(3.7978, result.Rates[0].Value);
 
             //DATE RANGE TESTS RATESAPI
             result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.RATES, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));

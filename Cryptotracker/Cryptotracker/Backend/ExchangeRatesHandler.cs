@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.Rates;
+using System.Windows;
 
 namespace Cryptotracker.Backend
 {
@@ -33,11 +34,13 @@ namespace Cryptotracker.Backend
                     char table = 'a';
                     string currencyCodeStr = currencyCode.ToString().ToLower();
 
+                    bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
+
                     while (true)
                     {
                         requestURI = $"{basicNBPAPIAddress}/rates/{table}/{currencyCodeStr}";
 
-                        if (startTime.HasValue && endTime.HasValue)
+                        if (startTime.HasValue && endTime.HasValue && !sameDates)
                         {
                             string startTimeStr = startTime.Value.ToString("yyyy-MM-dd");
                             requestURI += $"/{startTimeStr}";
@@ -51,6 +54,7 @@ namespace Cryptotracker.Backend
                         }
                         else if (endTime.HasValue && !startTime.HasValue)
                         {
+                            (Application.Current as App).LogMessage("NBP: No date has been provided.");
                             return null;
                         }
 
@@ -61,8 +65,13 @@ namespace Cryptotracker.Backend
                         }
                         catch (Exception e)
                         {
-                            if (table == 'b') //second try?
+                            //second try?
+                            if (table == 'b')
+                            {
+                                (Application.Current as App).LogMessage("NBP: No table has demanded currency data.");
+                                (Application.Current as App).LogMessage(e.Message);
                                 return null;
+                            }
 
                             table = 'b';
                         }
@@ -104,6 +113,12 @@ namespace Cryptotracker.Backend
                                 requestURI = $"{basicRatesAPIAddress}/{startTime.Value.AddDays(i).ToString("yyyy-MM-dd")}{baseAndSymbols}";
 
                                 result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                                if(result == null)
+                                {
+                                    (Application.Current as App).LogMessage("RatesAPI: Data range unavailable. Fatal Error.");
+                                    return null;
+                                }
+
                                 var data = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
 
                                 double value = 0;
@@ -119,6 +134,12 @@ namespace Cryptotracker.Backend
                         requestURI = $"{basicRatesAPIAddress}/{startTimeStr}{baseAndSymbols}";
 
                         result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                        if(result == null)
+                        {
+                            (Application.Current as App).LogMessage("RatesAPI: Data for given day is unavailable.");
+                            return null;
+                        }
+
                         ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
 
                         double value = 0;
@@ -131,6 +152,12 @@ namespace Cryptotracker.Backend
                         requestURI = $"{basicRatesAPIAddress}/latest{baseAndSymbols}";
 
                         result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                        if(result == null)
+                        {
+                            (Application.Current as App).LogMessage("RatesAPI: Latest data unavailable!");
+                            return null;
+                        }
+
                         ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
 
                         double value = 0;
