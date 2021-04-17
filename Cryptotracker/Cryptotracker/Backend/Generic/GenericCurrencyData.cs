@@ -9,10 +9,7 @@ namespace Cryptotracker.Backend
 {
     public class GenericCurrencyData
     {
-        public string CurrencyName { get; set; }
         public string Code { get; set; }
         public List<GenericRate> Rates { get; set; }
-        public bool ErrorOccured { get; set; }
-        public string ErrorMessage { get; set; }
     }
 }
