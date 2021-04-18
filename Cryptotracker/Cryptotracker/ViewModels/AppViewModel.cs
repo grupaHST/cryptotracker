@@ -32,6 +32,8 @@ namespace Cryptotracker.ViewModels
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
+        public bool IsLoadingData { get; set; }
+
         public ObservableCollection<string> Logs { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;

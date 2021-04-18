@@ -107,9 +107,11 @@
                                 </WrapPanel>
                             </Button>
                         </StackPanel>
-                        <Border Grid.Column="1" Padding="5">
-                            <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"/>
-                        </Border>
+                        <Grid Grid.Column="1">
+                            <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"
+                                      Visibility="{Binding IsLoadingData, Converter={StaticResource NegatedBoolToVisibilityConverter}}"/>
+                            <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </Grid>
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>

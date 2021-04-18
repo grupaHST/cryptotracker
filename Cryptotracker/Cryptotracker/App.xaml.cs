@@ -36,6 +36,8 @@ namespace Cryptotracker
             {
                 try
                 {
+                    viewModel.IsLoadingData = true;
+
                     var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
                     (
                         Enum.Parse<ExchangePlatform>(viewModel.SelectedExchangePlatform),
@@ -49,6 +51,10 @@ namespace Cryptotracker
                 catch (Exception e)
                 {
                     (Current as App).LogMessage(e.Message);
+                }
+                finally
+                {
+                    viewModel.IsLoadingData = false;
                 }
             }
         }

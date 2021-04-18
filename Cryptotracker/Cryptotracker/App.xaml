@@ -29,6 +29,12 @@
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
             <frontendConverters:LanguageToCultureInfoConverter x:Key="LanguageToCultureInfoConverter"/>
+            <frontendConverters:BoolNegatorConverter x:Key="BoolNegatorConverter"/>
+
+            <frontendConverters:ConverterChain x:Key="NegatedBoolToVisibilityConverter">
+                <frontendConverters:BoolNegatorConverter/>
+                <BooleanToVisibilityConverter/>
+            </frontendConverters:ConverterChain>
 
             <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>
             <sys:String x:Key="UrlBitbay">https://bitbay.net/pl</sys:String>
