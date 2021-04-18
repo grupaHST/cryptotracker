@@ -57,5 +57,23 @@
             Language.Polski => "Data końcowa",
             _ => "End date"
         };
+
+        public static string ExchangeRates(Language lang) => lang switch
+        {
+            Language.Polski => "Kursy walut",
+            _ => "Exchange rates"
+        };
+
+        public static string CurrencyConverter(Language lang) => lang switch
+        {
+            Language.Polski => "Przelicznik",
+            _ => "Converter"
+        };
+
+        public static string AboutApp(Language lang) => lang switch
+        {
+            Language.Polski => "O aplikacji",
+            _ => "About app"
+        };
     }
 }

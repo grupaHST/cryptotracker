@@ -77,14 +77,9 @@
             <RowDefinition Height="150"/>
         </Grid.RowDefinitions>
         <mah:MetroTabControl mah:TabControlHelper.Underlined="SelectedTabItem">
-            <mah:MetroTabItem Header="Waluty">
+            <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ExchangeRates}">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="100"/>
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
@@ -107,18 +102,17 @@
                                 </WrapPanel>
                             </Button>
                         </StackPanel>
-                        <Grid Grid.Column="1">
-                            <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"
-                                      Visibility="{Binding IsLoadingData, Converter={StaticResource NegatedBoolToVisibilityConverter}}"/>
-                            <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                        </Grid>
+                    <Grid Grid.Column="1">
+                        <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"
+                                  Visibility="{Binding IsLoadingData, Converter={StaticResource NegatedBoolToVisibilityConverter}}"/>
+                        <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>
-            <mah:MetroTabItem Header="Przelicznik walut">
+            <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=CurrencyConverter}">
 
             </mah:MetroTabItem>
-            <mah:MetroTabItem Header="O aplikacji">
+            <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AboutApp}">
                 <WrapPanel Grid.Row="0">
                     <mah:Tile Title="GitHub" Background="Coral" Click="HyperlinkClick" Tag="{StaticResource UrlGitHub}">
                         <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
