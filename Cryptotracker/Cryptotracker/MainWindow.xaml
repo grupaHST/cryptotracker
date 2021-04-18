@@ -40,7 +40,7 @@
                     <DockPanel>
                         <icons:Entypo Width="30" Kind="Language"/>
                         <mah:SplitButton x:Name="languageSelector" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"
-                                         Orientation="Vertical"/>
+                                         Orientation="Vertical" SelectionChanged="LanguageChanged"/>
                     </DockPanel>
                     <DockPanel>
                         <mah:ToggleSwitch x:Name="themeSwitch" Toggled="ThemeSwitch_Toggled">

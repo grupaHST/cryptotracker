@@ -25,8 +25,8 @@ namespace Cryptotracker.ViewModels
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
-        public DateTime StartDate { get; set; } = new(2010, 01, 01);
-        public DateTime EndDate { get; set; } = DateTime.Today;
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public ObservableCollection<string> Logs { get; set; } = new();
 
