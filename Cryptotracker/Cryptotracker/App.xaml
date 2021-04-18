@@ -22,6 +22,8 @@
             <sys:String x:Key="DefaultBaseColorScheme">Light</sys:String>
             <sys:String x:Key="DefaultStartDate">2020-12-01</sys:String>
             <sys:String x:Key="DefaultEndDate">2021-01-01</sys:String>
+            <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITBAY</sys:String>
+            <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>

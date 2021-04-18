@@ -10,13 +10,15 @@ namespace Cryptotracker.LocalData
         public string ColorScheme { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string SelectedCryptoExchangePlatform { get; set; }
+        public string SelectedExchangePlatform { get; set; }
 
         public bool Equals(AppSettings other)
         {
             var currentElement = this;
 
             return typeof(AppSettings).GetProperties().ToList()
-                .All(x => x.GetValue(currentElement).Equals(x.GetValue(other)));
+                .All(x => x.GetValue(currentElement) == x.GetValue(other));
         }
 
         public override bool Equals(object obj) => obj is AppSettings settings && Equals(settings);

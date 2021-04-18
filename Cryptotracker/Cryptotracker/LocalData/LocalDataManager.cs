@@ -60,6 +60,8 @@ namespace Cryptotracker.LocalData
                 SetSetting(nameof(AppSettings.ColorScheme), theme.ColorScheme);
                 SetSetting(nameof(AppSettings.StartDate), _appViewModel.StartDate.ToShortDateString());
                 SetSetting(nameof(AppSettings.EndDate), _appViewModel.EndDate.ToShortDateString());
+                SetSetting(nameof(AppSettings.SelectedCryptoExchangePlatform), _appViewModel.SelectedCryptoExchangePlatform);
+                SetSetting(nameof(AppSettings.SelectedExchangePlatform), _appViewModel.SelectedExchangePlatform);
 
                 using FileStream stream = new(FilePath, FileMode.Truncate);
                 _document.Save(stream);

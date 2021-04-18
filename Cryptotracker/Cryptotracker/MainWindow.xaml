@@ -57,18 +57,31 @@
                         <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
                                          SelectionChanged="ColorSchemaSelector_Selected"/>
                     </DockPanel>
+                    <DockPanel>
+                        <icons:PackIconBoxIcons Width="30" Kind="LogosBitcoin"/>
+                        <mah:SplitButton ItemsSource="{Binding CryptoExchangePlatforms}" SelectedItem="{Binding SelectedCryptoExchangePlatform}"/>
+                    </DockPanel>                    
+                    <DockPanel>
+                        <icons:PackIconModern Width="30" Kind="Money"/>
+                        <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
+                    </DockPanel>
                 </StackPanel>
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
     <!--#endregion-->
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
         <mah:MetroTabControl mah:TabControlHelper.Underlined="SelectedTabItem">
             <mah:MetroTabItem Header="Waluty">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
                         <RowDefinition/>
+                        <RowDefinition Height="100"/>
                     </Grid.RowDefinitions>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -76,8 +89,6 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <StackPanel>
-                            <TextBlock Text="API:"/>
-                            <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
                             <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
                             <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
                                 <mah:SplitButton.Icon>
@@ -100,10 +111,6 @@
                             <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"/>
                         </Border>
                     </Grid>
-                    <StackPanel Grid.Row="1">
-                        <TextBlock Text="Logs:"/>
-                        <ListView Grid.Row="2" ItemsSource="{Binding Logs}"/>
-                    </StackPanel>
                 </Grid>
             </mah:MetroTabItem>
             <mah:MetroTabItem Header="Przelicznik walut">
@@ -124,5 +131,9 @@
                 </WrapPanel>
             </mah:MetroTabItem>
         </mah:MetroTabControl>
+        <TextBlock Grid.Row="1" Text="Logi (będą usunięte w ostatecznej wersji programu):" FontSize="16" Padding="5"/>
+        <Border Grid.Row="2" Padding="5" BorderThickness="2">
+            <ListView ItemsSource="{Binding Logs}"/>
+        </Border>
     </Grid>
 </mah:MetroWindow>

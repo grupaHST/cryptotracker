@@ -27,10 +27,8 @@ namespace Cryptotracker
             base.EndInit();
 
             var settings = LocalDataManager.Current.GetSettings();
-
             var appViewModel = DataContext as AppViewModel;
-
-            string defaultConst = "Default";
+            const string defaultConst = "Default";
 
             string language = string.IsNullOrEmpty(settings.Language) ? 
                 TryFindResource($"{defaultConst}{nameof(settings.Language)}")?.ToString() : settings.Language;
@@ -46,6 +44,14 @@ namespace Cryptotracker
 
             string endDate = string.IsNullOrEmpty(settings.EndDate) ? 
                 TryFindResource($"{defaultConst}{nameof(settings.EndDate)}")?.ToString() : settings.EndDate;
+
+            appViewModel.SelectedCryptoExchangePlatform = string.IsNullOrEmpty(settings.SelectedCryptoExchangePlatform) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedCryptoExchangePlatform)}")?.ToString() :
+                settings.SelectedCryptoExchangePlatform;
+
+            appViewModel.SelectedExchangePlatform = string.IsNullOrEmpty(settings.SelectedExchangePlatform) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedExchangePlatform)}")?.ToString() :
+                settings.SelectedExchangePlatform;
 
             if (DateTime.TryParse(startDate, out DateTime sdate))
             {

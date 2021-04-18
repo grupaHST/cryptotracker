@@ -21,10 +21,14 @@ namespace Cryptotracker.ViewModels
 
         public ObservableCollection<string> ExchangePlatforms => new(Enum.GetNames<ExchangePlatform>());
         public string SelectedExchangePlatform { get; set; }
+        public ObservableCollection<string> CryptoExchangePlatforms => new(Enum.GetNames<CryptoExchangePlatform>());
+        public string SelectedCryptoExchangePlatform { get; set; }
+
         public ObservableCollection<GenericRate> Rates { get; set; }
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
+
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
