@@ -14,7 +14,7 @@ namespace Cryptotracker.LocalData
             var currentElement = this;
 
             return typeof(AppSettings).GetProperties().ToList()
-                .All(x => x.GetValue(currentElement) == x.GetValue(other));
+                .All(x => x.GetValue(currentElement).Equals(x.GetValue(other)));
         }
 
         public override bool Equals(object obj) => obj is AppSettings settings && Equals(settings);
