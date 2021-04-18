@@ -52,6 +52,10 @@ namespace Cryptotracker
             appViewModel.SelectedExchangePlatform = string.IsNullOrEmpty(settings.SelectedExchangePlatform) ? 
                 TryFindResource($"{defaultConst}{nameof(settings.SelectedExchangePlatform)}")?.ToString() :
                 settings.SelectedExchangePlatform;
+                        
+            appViewModel.SelectedCurrencyCode = string.IsNullOrEmpty(settings.SelectedCurrencyCode) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedCurrencyCode)}")?.ToString() :
+                settings.SelectedCurrencyCode;
 
             if (DateTime.TryParse(startDate, out DateTime sdate))
             {

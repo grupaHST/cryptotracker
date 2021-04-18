@@ -12,6 +12,7 @@ namespace Cryptotracker.LocalData
         public string EndDate { get; set; }
         public string SelectedCryptoExchangePlatform { get; set; }
         public string SelectedExchangePlatform { get; set; }
+        public string SelectedCurrencyCode { get; set; }
 
         public bool Equals(AppSettings other)
         {

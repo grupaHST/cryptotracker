@@ -24,6 +24,7 @@
             <sys:String x:Key="DefaultEndDate">2021-01-01</sys:String>
             <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITBAY</sys:String>
             <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
+            <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
