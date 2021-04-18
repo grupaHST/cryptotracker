@@ -38,7 +38,7 @@ namespace Cryptotracker
                 {
                     var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
                     (
-                        ExchangePlatform.NBP,
+                        Enum.Parse<ExchangePlatform>(viewModel.SelectedExchangePlatform),
                         Enum.Parse<CurrencyCode>(viewModel.SelectedCurrencyCode),
                         viewModel.StartDate,
                         viewModel.EndDate

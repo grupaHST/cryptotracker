@@ -86,6 +86,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <StackPanel>
+                <TextBlock Text="API:"/>
+                <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
                 <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
                 <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
                     <mah:SplitButton.Icon>

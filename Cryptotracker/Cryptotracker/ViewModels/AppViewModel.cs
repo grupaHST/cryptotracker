@@ -1,4 +1,5 @@
 ﻿using ControlzEx.Theming;
+using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.NBP;
 using Cryptotracker.Languages;
@@ -18,6 +19,8 @@ namespace Cryptotracker.ViewModels
 
         public ThemeManager ThemeManager { get; } = ThemeManager.Current;
 
+        public ObservableCollection<string> ExchangePlatforms => new(Enum.GetNames<ExchangePlatform>());
+        public string SelectedExchangePlatform { get; set; }
         public ObservableCollection<GenericRate> Rates { get; set; }
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
