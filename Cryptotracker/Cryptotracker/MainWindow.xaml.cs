@@ -1,10 +1,13 @@
 ﻿using ControlzEx.Theming;
+using Cryptotracker.Frontend.Converters;
 using Cryptotracker.Languages;
 using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using MahApps.Metro.Controls;
 using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Cryptotracker
@@ -23,17 +26,46 @@ namespace Cryptotracker
         {
             base.EndInit();
 
-            var settings = LocalDataManager.Current.Settings;
+            var settings = LocalDataManager.Current.GetSettings();
             var appViewModel = DataContext as AppViewModel;
+            const string defaultConst = "Default";
 
             string language = string.IsNullOrEmpty(settings.Language) ? 
-                TryFindResource($"Default{nameof(settings.Language)}")?.ToString() : settings.Language;
+                TryFindResource($"{defaultConst}{nameof(settings.Language)}")?.ToString() : settings.Language;
 
             string baseColorScheme = string.IsNullOrEmpty(settings.BaseColorScheme) ? 
-                TryFindResource($"Default{nameof(settings.BaseColorScheme)}")?.ToString() : settings.BaseColorScheme;
+                TryFindResource($"{defaultConst}{nameof(settings.BaseColorScheme)}")?.ToString() : settings.BaseColorScheme;
 
             string colorScheme = string.IsNullOrEmpty(settings.ColorScheme) ? 
-                TryFindResource($"Default{nameof(settings.ColorScheme)}")?.ToString() : settings.ColorScheme;
+                TryFindResource($"{defaultConst}{nameof(settings.ColorScheme)}")?.ToString() : settings.ColorScheme;
+
+            string startDate = string.IsNullOrEmpty(settings.StartDate) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.StartDate)}")?.ToString() : settings.StartDate;
+
+            string endDate = string.IsNullOrEmpty(settings.EndDate) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.EndDate)}")?.ToString() : settings.EndDate;
+
+            appViewModel.SelectedCryptoExchangePlatform = string.IsNullOrEmpty(settings.SelectedCryptoExchangePlatform) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedCryptoExchangePlatform)}")?.ToString() :
+                settings.SelectedCryptoExchangePlatform;
+
+            appViewModel.SelectedExchangePlatform = string.IsNullOrEmpty(settings.SelectedExchangePlatform) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedExchangePlatform)}")?.ToString() :
+                settings.SelectedExchangePlatform;
+                        
+            appViewModel.SelectedCurrencyCode = string.IsNullOrEmpty(settings.SelectedCurrencyCode) ? 
+                TryFindResource($"{defaultConst}{nameof(settings.SelectedCurrencyCode)}")?.ToString() :
+                settings.SelectedCurrencyCode;
+
+            if (DateTime.TryParse(startDate, out DateTime sdate))
+            {
+                appViewModel.StartDate = sdate;
+            }
+
+            if (DateTime.TryParse(endDate, out DateTime edate))
+            {
+                appViewModel.EndDate = edate;
+            }
 
             if (Enum.TryParse(language, out Language enumLang))
             {
@@ -77,5 +109,12 @@ namespace Cryptotracker
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
 
         private async void Download(object sender, RoutedEventArgs e) => await App.DownloadAsync();
+
+        private void LanguageChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var converter = TryFindResource(nameof(LanguageToCultureInfoConverter)) as LanguageToCultureInfoConverter;
+            var cultureInfo = converter.Convert((DataContext as AppViewModel).Language, null, null, null) as CultureInfo;
+            CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
+        }
     }
 }

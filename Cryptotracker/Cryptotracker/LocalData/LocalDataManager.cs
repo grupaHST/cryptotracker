@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Xml.Linq;
 
@@ -13,12 +14,12 @@ namespace Cryptotracker.LocalData
 
         public static string FilePath => $"{LocalDataInfo.Directory}{Path.DirectorySeparatorChar}{nameof(AppSettings)}.xaml";
 
-        public AppSettings Settings => new()
+        public AppSettings GetSettings()
         {
-            Language = GetSetting(nameof(AppSettings.Language)),
-            BaseColorScheme = GetSetting(nameof(AppSettings.BaseColorScheme)),
-            ColorScheme = GetSetting(nameof(AppSettings.ColorScheme)),
-        };
+            object boxedObject = RuntimeHelpers.GetObjectValue(new AppSettings());
+            typeof(AppSettings).GetProperties().ToList().ForEach(x => x.SetValue(boxedObject, GetSetting(x.Name)));
+            return (AppSettings)boxedObject;
+        }
 
         public static XDocument EmptyDocumentStruct => new(new XElement
         (
@@ -54,9 +55,14 @@ namespace Cryptotracker.LocalData
             {
                 var theme = _appViewModel.ThemeManager.DetectTheme();
 
-                SetValue(nameof(AppSettings.Language), _appViewModel.Language.ToString());
-                SetValue(nameof(AppSettings.BaseColorScheme), theme.BaseColorScheme);
-                SetValue(nameof(AppSettings.ColorScheme), theme.ColorScheme);
+                SetSetting(nameof(AppSettings.Language), _appViewModel.Language.ToString());
+                SetSetting(nameof(AppSettings.BaseColorScheme), theme.BaseColorScheme);
+                SetSetting(nameof(AppSettings.ColorScheme), theme.ColorScheme);
+                SetSetting(nameof(AppSettings.StartDate), _appViewModel.StartDate.ToShortDateString());
+                SetSetting(nameof(AppSettings.EndDate), _appViewModel.EndDate.ToShortDateString());
+                SetSetting(nameof(AppSettings.SelectedCryptoExchangePlatform), _appViewModel.SelectedCryptoExchangePlatform);
+                SetSetting(nameof(AppSettings.SelectedExchangePlatform), _appViewModel.SelectedExchangePlatform);
+                SetSetting(nameof(AppSettings.SelectedCurrencyCode), _appViewModel.SelectedCurrencyCode);
 
                 using FileStream stream = new(FilePath, FileMode.Truncate);
                 _document.Save(stream);
@@ -72,7 +78,7 @@ namespace Cryptotracker.LocalData
             return _document?.Descendants(settingName)?.FirstOrDefault(x => x.Name == settingName)?.Value;
         }
 
-        private bool SetValue(string settingName, object newSettingValue)
+        private bool SetSetting(string settingName, object newSettingValue)
         {
             var setting = _document?.Descendants(settingName)?.FirstOrDefault(x => x.Name == settingName);
 

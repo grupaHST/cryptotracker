@@ -8,6 +8,11 @@ namespace Cryptotracker.LocalData
         public string Language { get; set; }
         public string BaseColorScheme { get; set; }
         public string ColorScheme { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string SelectedCryptoExchangePlatform { get; set; }
+        public string SelectedExchangePlatform { get; set; }
+        public string SelectedCurrencyCode { get; set; }
 
         public bool Equals(AppSettings other)
         {

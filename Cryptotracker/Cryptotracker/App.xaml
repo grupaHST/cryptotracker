@@ -20,10 +20,21 @@
             <sys:String x:Key="DefaultLanguage">English</sys:String>
             <sys:String x:Key="DefaultColorScheme">Blue</sys:String>
             <sys:String x:Key="DefaultBaseColorScheme">Light</sys:String>
+            <sys:String x:Key="DefaultStartDate">2020-12-01</sys:String>
+            <sys:String x:Key="DefaultEndDate">2021-01-01</sys:String>
+            <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITBAY</sys:String>
+            <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
+            <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
             <frontendConverters:LanguageToCultureInfoConverter x:Key="LanguageToCultureInfoConverter"/>
+            <frontendConverters:BoolNegatorConverter x:Key="BoolNegatorConverter"/>
+
+            <frontendConverters:ConverterChain x:Key="NegatedBoolToVisibilityConverter">
+                <frontendConverters:BoolNegatorConverter/>
+                <BooleanToVisibilityConverter/>
+            </frontendConverters:ConverterChain>
 
             <sys:String x:Key="UrlGitHub">https://github.com/grupaHST/cryptotracker</sys:String>
             <sys:String x:Key="UrlBitbay">https://bitbay.net/pl</sys:String>
