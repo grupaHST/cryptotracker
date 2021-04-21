@@ -92,5 +92,11 @@
             Language.Polski => "Twórcy aplikacji",
             _ => "Application developers"
         };
+
+        public static string Github(Language lang) => lang switch
+        {
+            Language.Polski => "Zobacz nasz projekt na Github'ie",
+            _ => "See our project on Github website"
+        };
     }
 }

@@ -179,7 +179,8 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <mah:Tile Title="GitHub" Background="{StaticResource GitHubBrush}" Tag="{StaticResource UrlGitHub}">
+                                <mah:Tile Title="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Github}"
+                                          Background="{StaticResource GitHubBrush}" Tag="{StaticResource UrlGitHub}">
                                     <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
                                 </mah:Tile>
                             </mah:FlipViewItem>
