@@ -26,75 +26,22 @@ namespace Cryptotracker
         {
             base.EndInit();
 
-            var settings = LocalDataManager.Current.GetSettings();
             var appViewModel = DataContext as AppViewModel;
-            const string defaultConst = "Default";
+            var theme = appViewModel.ThemeManager.DetectTheme();
 
-            string language = string.IsNullOrEmpty(settings.Language) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.Language)}")?.ToString() : settings.Language;
-
-            string baseColorScheme = string.IsNullOrEmpty(settings.BaseColorScheme) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.BaseColorScheme)}")?.ToString() : settings.BaseColorScheme;
-
-            string colorScheme = string.IsNullOrEmpty(settings.ColorScheme) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.ColorScheme)}")?.ToString() : settings.ColorScheme;
-
-            string startDate = string.IsNullOrEmpty(settings.StartDate) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.StartDate)}")?.ToString() : settings.StartDate;
-
-            string endDate = string.IsNullOrEmpty(settings.EndDate) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.EndDate)}")?.ToString() : settings.EndDate;
-
-            appViewModel.SelectedCryptoExchangePlatform = string.IsNullOrEmpty(settings.SelectedCryptoExchangePlatform) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.SelectedCryptoExchangePlatform)}")?.ToString() :
-                settings.SelectedCryptoExchangePlatform;
-
-            appViewModel.SelectedExchangePlatform = string.IsNullOrEmpty(settings.SelectedExchangePlatform) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.SelectedExchangePlatform)}")?.ToString() :
-                settings.SelectedExchangePlatform;
-                        
-            appViewModel.SelectedCurrencyCode = string.IsNullOrEmpty(settings.SelectedCurrencyCode) ? 
-                TryFindResource($"{defaultConst}{nameof(settings.SelectedCurrencyCode)}")?.ToString() :
-                settings.SelectedCurrencyCode;
-
-            if (DateTime.TryParse(startDate, out DateTime sdate))
-            {
-                appViewModel.StartDate = sdate;
-            }
-
-            if (DateTime.TryParse(endDate, out DateTime edate))
-            {
-                appViewModel.EndDate = edate;
-            }
-
-            if (Enum.TryParse(language, out Language enumLang))
-            {
-                appViewModel.Language = enumLang;
-                languageSelector.SelectedValue = enumLang.ToString();
-            }
-
-            if (appViewModel.ThemeManager.BaseColors.Contains(baseColorScheme))
-            {
-                bool isDark = baseColorScheme == ThemeManager.BaseColorDark;
-                themeSwitch.IsOn = isDark;
-                (Application.Current as App).ChangeTheme(isDark);
-            }
-
-            if (appViewModel.ThemeManager.ColorSchemes.Contains(colorScheme))
-            {
-                colorSchemaSelector.SelectedValue = colorScheme;
-                (Application.Current as App).ChangeColorSchema(colorScheme);
-            }
+            themeSwitch.IsOn = theme.BaseColorScheme == ThemeManager.BaseColorDark;
+            languageSelector.SelectedValue = appViewModel.Language.ToString();
+            colorSchemaSelector.SelectedValue = theme.ColorScheme;
         }
 
         private void ThemeSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeTheme(themeSwitch.IsOn);
+            (Application.Current as App).ChangeBaseColorScheme(themeSwitch.IsOn);
         }
 
         private void ColorSchemaSelector_Selected(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeColorSchema(colorSchemaSelector.SelectedItem.ToString());
+            (Application.Current as App).ChangeColorScheme(colorSchemaSelector.SelectedItem.ToString());
         }
 
         private void HyperlinkClick(object sender, RoutedEventArgs e)
