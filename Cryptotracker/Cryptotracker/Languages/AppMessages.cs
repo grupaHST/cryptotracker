@@ -75,5 +75,22 @@
             Language.Polski => "O aplikacji",
             _ => "About app"
         };
+
+        public static string Description(Language lang) => lang switch
+        {
+            Language.Polski => "Cryptotracker to aplikacja biznesowa umożliwiająca śledzenie aktualnych kursów walut i kryptowalut.",
+            _ => "Cryptotracker is a business application that allows you to track the current exchange rates and cryptocurrencies."
+        };
+
+        public static string ApiDescription(Language lang) => lang switch
+        {
+            Language.Polski => "Zewnętrzne API z których korzystamy",
+            _ => "External API which we use"
+        };        
+        public static string Developers(Language lang) => lang switch
+        {
+            Language.Polski => "Twórcy aplikacji",
+            _ => "Application developers"
+        };
     }
 }
