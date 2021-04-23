@@ -57,5 +57,46 @@
             Language.Polski => "Data końcowa",
             _ => "End date"
         };
+
+        public static string ExchangeRates(Language lang) => lang switch
+        {
+            Language.Polski => "Kursy walut",
+            _ => "Exchange rates"
+        };
+
+        public static string CurrencyConverter(Language lang) => lang switch
+        {
+            Language.Polski => "Przelicznik",
+            _ => "Converter"
+        };
+
+        public static string AboutApp(Language lang) => lang switch
+        {
+            Language.Polski => "O aplikacji",
+            _ => "About app"
+        };
+
+        public static string Description(Language lang) => lang switch
+        {
+            Language.Polski => "Cryptotracker to aplikacja biznesowa umożliwiająca śledzenie aktualnych kursów walut i kryptowalut.",
+            _ => "Cryptotracker is a business application that allows you to track the current exchange rates and cryptocurrencies."
+        };
+
+        public static string ApiDescription(Language lang) => lang switch
+        {
+            Language.Polski => "Zewnętrzne API z których korzystamy",
+            _ => "External API which we use"
+        };        
+        public static string Developers(Language lang) => lang switch
+        {
+            Language.Polski => "Twórcy aplikacji",
+            _ => "Application developers"
+        };
+
+        public static string Github(Language lang) => lang switch
+        {
+            Language.Polski => "Zobacz nasz projekt na Github'ie",
+            _ => "See our project on Github website"
+        };
     }
 }

@@ -1,10 +1,13 @@
 ﻿using ControlzEx.Theming;
+using Cryptotracker.Frontend.Converters;
 using Cryptotracker.Languages;
 using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using MahApps.Metro.Controls;
 using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Cryptotracker
@@ -23,46 +26,22 @@ namespace Cryptotracker
         {
             base.EndInit();
 
-            var settings = LocalDataManager.Current.Settings;
             var appViewModel = DataContext as AppViewModel;
+            var theme = appViewModel.ThemeManager.DetectTheme();
 
-            string language = string.IsNullOrEmpty(settings.Language) ? 
-                TryFindResource($"Default{nameof(settings.Language)}")?.ToString() : settings.Language;
-
-            string baseColorScheme = string.IsNullOrEmpty(settings.BaseColorScheme) ? 
-                TryFindResource($"Default{nameof(settings.BaseColorScheme)}")?.ToString() : settings.BaseColorScheme;
-
-            string colorScheme = string.IsNullOrEmpty(settings.ColorScheme) ? 
-                TryFindResource($"Default{nameof(settings.ColorScheme)}")?.ToString() : settings.ColorScheme;
-
-            if (Enum.TryParse(language, out Language enumLang))
-            {
-                appViewModel.Language = enumLang;
-                languageSelector.SelectedValue = enumLang.ToString();
-            }
-
-            if (appViewModel.ThemeManager.BaseColors.Contains(baseColorScheme))
-            {
-                bool isDark = baseColorScheme == ThemeManager.BaseColorDark;
-                themeSwitch.IsOn = isDark;
-                (Application.Current as App).ChangeTheme(isDark);
-            }
-
-            if (appViewModel.ThemeManager.ColorSchemes.Contains(colorScheme))
-            {
-                colorSchemaSelector.SelectedValue = colorScheme;
-                (Application.Current as App).ChangeColorSchema(colorScheme);
-            }
+            themeSwitch.IsOn = theme.BaseColorScheme == ThemeManager.BaseColorDark;
+            languageSelector.SelectedValue = appViewModel.Language.ToString();
+            colorSchemaSelector.SelectedValue = theme.ColorScheme;
         }
 
         private void ThemeSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeTheme(themeSwitch.IsOn);
+            (Application.Current as App).ChangeBaseColorScheme(themeSwitch.IsOn);
         }
 
         private void ColorSchemaSelector_Selected(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeColorSchema(colorSchemaSelector.SelectedItem.ToString());
+            (Application.Current as App).ChangeColorScheme(colorSchemaSelector.SelectedItem.ToString());
         }
 
         private void HyperlinkClick(object sender, RoutedEventArgs e)
@@ -77,5 +56,12 @@ namespace Cryptotracker
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
 
         private async void Download(object sender, RoutedEventArgs e) => await App.DownloadAsync();
+
+        private void LanguageChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var converter = TryFindResource(nameof(LanguageToCultureInfoConverter)) as LanguageToCultureInfoConverter;
+            var cultureInfo = converter.Convert((DataContext as AppViewModel).Language, null, null, null) as CultureInfo;
+            CultureInfo.CurrentUICulture = CultureInfo.CurrentCulture = cultureInfo;
+        }
     }
 }
