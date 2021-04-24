@@ -31,6 +31,8 @@
             <frontendConverters:LanguageToCultureInfoConverter x:Key="LanguageToCultureInfoConverter"/>
             <frontendConverters:BoolNegatorConverter x:Key="BoolNegatorConverter"/>
 
+            <sys:DateTime x:Key="TheOldestPossibleDate">2011-01-01</sys:DateTime>
+
             <frontendConverters:ConverterChain x:Key="NegatedBoolToVisibilityConverter">
                 <frontendConverters:BoolNegatorConverter/>
                 <BooleanToVisibilityConverter/>
