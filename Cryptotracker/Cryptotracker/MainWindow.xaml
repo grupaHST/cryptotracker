@@ -90,11 +90,11 @@
                             </mah:SplitButton.Icon>
                         </mah:SplitButton>
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
-                        <DatePicker SelectedDate="{Binding StartDate, StringFormat=yyyy-MM.dd}"/>
+                        <DatePicker SelectedDate="{Binding StartDate}"/>
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
                         <DatePicker SelectedDate="{Binding EndDate}"/>
                         <TextBlock/>
-                        <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Click="Download">
+                        <Button Click="Download">
                             <WrapPanel>
                                 <icons:Entypo Kind="Download"/>
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
