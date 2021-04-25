@@ -3,6 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:sys="clr-namespace:System;assembly=mscorlib"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:Cryptotracker"
@@ -10,15 +11,6 @@
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
                  Height="700" Width="1024" MinHeight="600" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
-    <mah:MetroWindow.Resources>
-        <Style TargetType="mah:DateTimePicker">
-            <Style.Setters>
-                <Setter Property="mah:TextBoxHelper.Watermark" Value="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=SelectDate}"/>
-                <Setter Property="Culture" Value="{Binding Language, Converter={StaticResource LanguageToCultureInfoConverter}}"/>
-                <Setter Property="mah:ValidationHelper.ShowValidationErrorOnMouseOver" Value="False"/>
-            </Style.Setters>
-        </Style>
-    </mah:MetroWindow.Resources>
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
             <Button x:Name="settingsOpener" Click="OpenSettings"
@@ -44,6 +36,19 @@
                                          Orientation="Vertical" SelectionChanged="LanguageChanged"/>
                     </DockPanel>
                     <DockPanel>
+                        <icons:PackIconBoxIcons Width="30" Kind="LogosBitcoin"/>
+                        <mah:SplitButton ItemsSource="{Binding CryptoExchangePlatforms}" SelectedItem="{Binding SelectedCryptoExchangePlatform}"/>
+                    </DockPanel>                    
+                    <DockPanel>
+                        <icons:PackIconModern Width="30" Kind="Money"/>
+                        <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <icons:PackIconMaterial Width="30" Kind="FormatColorFill"/>
+                        <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
+                                         SelectionChanged="ColorSchemaSelector_Selected"/>
+                    </DockPanel>
+                    <DockPanel>
                         <mah:ToggleSwitch x:Name="themeSwitch" Toggled="ThemeSwitch_Toggled">
                             <mah:ToggleSwitch.OnContent>
                                 <icons:EvaIcons Kind="Moon"/>
@@ -52,19 +57,6 @@
                                 <icons:EvaIcons Kind="Sun"/>
                             </mah:ToggleSwitch.OffContent>
                         </mah:ToggleSwitch>
-                    </DockPanel>
-                    <DockPanel>
-                        <icons:PackIconMaterial Width="30" Kind="FormatColorFill"/>
-                        <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
-                                         SelectionChanged="ColorSchemaSelector_Selected"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <icons:PackIconBoxIcons Width="30" Kind="LogosBitcoin"/>
-                        <mah:SplitButton ItemsSource="{Binding CryptoExchangePlatforms}" SelectedItem="{Binding SelectedCryptoExchangePlatform}"/>
-                    </DockPanel>                    
-                    <DockPanel>
-                        <icons:PackIconModern Width="30" Kind="Money"/>
-                        <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
                     </DockPanel>
                 </StackPanel>
             </mah:Flyout>
@@ -81,29 +73,36 @@
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ExchangeRates}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel>
-                            <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
-                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
-                                <mah:SplitButton.Icon>
-                                    <icons:PackIconModern Kind="Money"/>
-                                </mah:SplitButton.Icon>
-                            </mah:SplitButton>
-                            <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
-                            <DatePicker SelectedDate="{Binding StartDate}"/>
-                            <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
-                            <DatePicker SelectedDate="{Binding EndDate}"/>
-                            <TextBlock/>
-                            <Button Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" Click="Download">
-                                <WrapPanel>
-                                    <icons:Entypo Kind="Download"/>
-                                    <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
-                                </WrapPanel>
-                            </Button>
-                        </StackPanel>
-                    <Grid Grid.Column="1">
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="10">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type DatePicker}" BasedOn="{StaticResource MahApps.Styles.DatePicker}">
+                                <Setter Property="DisplayDateStart" Value="{StaticResource TheOldestPossibleDate}"/>
+                                <Setter Property="DisplayDateEnd" Value="{x:Static sys:DateTime.Today}"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
+                        <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
+                            <mah:SplitButton.Icon>
+                                <icons:PackIconModern Kind="Money"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
+                        <DatePicker SelectedDate="{Binding StartDate}"/>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
+                        <DatePicker SelectedDate="{Binding EndDate}"/>
+                        <TextBlock/>
+                        <Button Click="Download">
+                            <WrapPanel>
+                                <icons:Entypo Kind="Download"/>
+                                <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
+                    <Grid Grid.Column="1" Margin="10">
+                        <!--zamiast data grid'a w tym miejsu powinien być wykres-->
                         <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"
                                   Visibility="{Binding IsLoadingData, Converter={StaticResource NegatedBoolToVisibilityConverter}}"/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
@@ -111,7 +110,7 @@
                 </Grid>
             </mah:MetroTabItem>
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=CurrencyConverter}">
-
+                
             </mah:MetroTabItem>
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AboutApp}">
                 <DockPanel>

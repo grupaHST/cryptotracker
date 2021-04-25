@@ -22,5 +22,9 @@
     <Style TargetType="{x:Type mah:ToggleSwitch}">
         <Setter Property="Cursor" Value="Hand"/>
     </Style>
+    
+    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Dialogs.Accent}">
+        <Setter Property="Cursor" Value="Hand"/>
+    </Style>
 
 </ResourceDictionary>
