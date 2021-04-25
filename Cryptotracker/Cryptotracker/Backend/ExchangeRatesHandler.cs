@@ -69,8 +69,7 @@ namespace Cryptotracker.Backend
                         }
                         catch (Exception e)
                         {
-                            //(Application.Current as App).LogMessage("NBP: No data for given days.");
-                            //(Application.Current as App).LogMessage(e.Message);
+                            //(Application.Current as App).LogMessage($"NBP: No data for given days. {e.Message}");
                             return null;
                         }
 
@@ -90,8 +89,7 @@ namespace Cryptotracker.Backend
                         }
                         catch (Exception e)
                         {
-                            //(Application.Current as App).LogMessage("NBP: No data for given day.");
-                            //(Application.Current as App).LogMessage(e.Message);
+                            //(Application.Current as App).LogMessage($"NBP: No data for given day. {e.Message}");
                             return null;
                         }
 
@@ -166,19 +164,19 @@ namespace Cryptotracker.Backend
                                 }
                                 catch (Exception e)
                                 {
-                                    //(Application.Current as App).LogMessage("RatesAPI: Data range unavailable. Fatal Error.");
+                                    //(Application.Current as App).LogMessage($"RatesAPI: Data range unavailable. Fatal Error. {e.Message}");
                                     return null;                                    
                                 }
 
-                                var data = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
+                                ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
 
                                 double value = 0;
-                                data.Rates.TryGetValue("PLN", out value);
+                                ratesAPIData.Rates.TryGetValue("PLN", out value);
 
-                                bool realDataReceived = data.Date == startTimeOffset;
+                                bool realDataReceived = ratesAPIData.Date == startTimeOffset;
                                 if (realDataReceived)
                                 {
-                                    rates.Add(new GenericRate() { Date = data.Date, Value = value });
+                                    rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
                                 }
                                 else
                                 {
@@ -191,10 +189,17 @@ namespace Cryptotracker.Backend
                     {
                         requestURI = $"{basicRatesAPIAddress}/{startTimeStr}{baseAndSymbols}";
 
-                        result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
-                        if(result == null)
+                        try
                         {
-                            (Application.Current as App).LogMessage("RatesAPI: Data for given day is unavailable.");
+                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                            if (result == null)
+                            {
+                                return null;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            //(Application.Current as App).LogMessage($"RatesAPI: Data for given day is unavailable. {e.Message}");
                             return null;
                         }
 
@@ -203,16 +208,28 @@ namespace Cryptotracker.Backend
                         double value = 0;
                         ratesAPIData.Rates.TryGetValue("PLN", out value);
 
-                        rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
+                        bool realDataReceived = ratesAPIData.Date == startTime.Value;
+                        if (realDataReceived)
+                        {
+                            rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
+                        }
+                        else
+                        {
+                            //(Application.Current as App).LogMessage($"RatesAPI: Data for {startTime.Value} unavailable.");
+                            return null;
+                        }
                     }
                     else if(noDateProvided)
                     {
                         requestURI = $"{basicRatesAPIAddress}/latest{baseAndSymbols}";
 
-                        result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
-                        if(result == null)
+                        try
                         {
-                            (Application.Current as App).LogMessage("RatesAPI: Latest data unavailable!");
+                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                        }
+                        catch (Exception e)
+                        {
+                            //(Application.Current as App).LogMessage($"RatesAPI: Latest data unavailable! {e.Message}");
                             return null;
                         }
 
