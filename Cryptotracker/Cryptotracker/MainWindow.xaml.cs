@@ -55,8 +55,6 @@ namespace Cryptotracker
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
 
-        private async void Download(object sender, RoutedEventArgs e) => await App.DownloadAsync();
-
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
             var converter = TryFindResource(nameof(LanguageToCultureInfoConverter)) as LanguageToCultureInfoConverter;

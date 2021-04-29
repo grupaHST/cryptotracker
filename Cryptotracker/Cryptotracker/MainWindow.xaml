@@ -94,7 +94,7 @@
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
                         <DatePicker SelectedDate="{Binding EndDate}"/>
                         <TextBlock/>
-                        <Button Click="Download">
+                        <Button Command="{Binding Download}">
                             <WrapPanel>
                                 <icons:Entypo Kind="Download"/>
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>

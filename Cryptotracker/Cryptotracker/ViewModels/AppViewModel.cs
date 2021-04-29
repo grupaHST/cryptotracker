@@ -2,10 +2,13 @@
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.NBP;
+using Cryptotracker.Frontend.Converters;
 using Cryptotracker.Languages;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Reflection;
 
 namespace Cryptotracker.ViewModels
@@ -37,5 +40,31 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<string> Logs { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public RelayCommand Download => new(async() =>
+        {
+            try
+            {
+                IsLoadingData = true;
+
+                var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
+                (
+                    Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
+                    Enum.Parse<CurrencyCode>(SelectedCurrencyCode),
+                    StartDate,
+                    EndDate
+                );
+
+                Rates = new(genericCurrencyData?.Rates);
+            }
+            catch (Exception e)
+            {
+                (App.Current as App).LogMessage(e.Message);
+            }
+            finally
+            {
+                IsLoadingData = false;
+            }
+        });
     }
 }
