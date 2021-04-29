@@ -44,14 +44,6 @@ namespace Cryptotracker
             (Application.Current as App).ChangeColorScheme(colorSchemaSelector.SelectedItem.ToString());
         }
 
-        private void HyperlinkClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement element && element.Tag is string url)
-            {
-                App.OpenWebPageInDefaultBrowser(url);
-            }
-        }
-
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
 

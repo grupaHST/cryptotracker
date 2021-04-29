@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
 
@@ -64,6 +65,18 @@ namespace Cryptotracker.ViewModels
             finally
             {
                 IsLoadingData = false;
+            }
+        });
+
+        public RelayCommand<string> OpenInBrowser => new(url =>
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch (Exception e)
+            {
+                (App.Current as App).LogMessage(e.Message);
             }
         });
     }

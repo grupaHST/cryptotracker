@@ -26,11 +26,6 @@ namespace Cryptotracker
 
         public void LogMessage(string message) => _loggers.ForEach(x => x.Log($"[{DateTime.Now}]: {message}"));
 
-        public static void OpenWebPageInDefaultBrowser(string url)
-        {
-            try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
-        }
-
         public static async Task DownloadAsync()
         {
             if (Current.TryFindResource(nameof(AppViewModel)) is AppViewModel viewModel)
