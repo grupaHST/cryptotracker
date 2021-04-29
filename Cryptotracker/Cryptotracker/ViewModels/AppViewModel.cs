@@ -42,7 +42,7 @@ namespace Cryptotracker.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RelayCommand Download => new(async() =>
+        public RelayCommand DownloadCommand => new(async() =>
         {
             try
             {
@@ -68,7 +68,7 @@ namespace Cryptotracker.ViewModels
             }
         });
 
-        public RelayCommand<string> OpenInBrowser => new(url =>
+        public RelayCommand<string> OpenInBrowserCommand => new(url =>
         {
             try
             {

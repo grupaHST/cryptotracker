@@ -94,7 +94,7 @@
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
                         <DatePicker SelectedDate="{Binding EndDate}"/>
                         <TextBlock/>
-                        <Button Command="{Binding Download}">
+                        <Button Command="{Binding DownloadCommand}">
                             <WrapPanel>
                                 <icons:Entypo Kind="Download"/>
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
@@ -138,7 +138,7 @@
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Style>
                                 <Style TargetType="{x:Type mah:Tile}">
-                                    <Setter Property="Command" Value="{Binding OpenInBrowser}"/>
+                                    <Setter Property="Command" Value="{Binding OpenInBrowserCommand}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                     <Setter Property="Width" Value="Auto"/>
                                     <Setter Property="Height" Value="Auto"/>
