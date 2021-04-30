@@ -94,7 +94,7 @@
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
                         <DatePicker SelectedDate="{Binding EndDate}"/>
                         <TextBlock/>
-                        <Button Click="Download">
+                        <Button Command="{Binding DownloadCommand}">
                             <WrapPanel>
                                 <icons:Entypo Kind="Download"/>
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
@@ -134,44 +134,44 @@
                         <mah:FlipView IsBannerEnabled="False" Width="500" Height="150" HorizontalAlignment="Center">
                             <mah:FlipView.Resources>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Square.Highlight}">
-                                    <EventSetter Event="Click" Handler="HyperlinkClick"/>
+                                    <Setter Property="Command" Value="{Binding OpenInBrowser}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Style>
                                 <Style TargetType="{x:Type mah:Tile}">
-                                    <EventSetter Event="Click" Handler="HyperlinkClick"/>
+                                    <Setter Property="Command" Value="{Binding OpenInBrowserCommand}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                     <Setter Property="Width" Value="Auto"/>
                                     <Setter Property="Height" Value="Auto"/>
                                 </Style>
                             </mah:FlipView.Resources>
                             <mah:FlipViewItem>
-                                <Button Tag="{StaticResource UrlNbp}">
+                                <Button CommandParameter="{StaticResource UrlNbp}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Nbp}}"/>
                                     </Button.Background>
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <Button Tag="{StaticResource UrlBinance}">
+                                <Button CommandParameter="{StaticResource UrlBinance}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Binance}}"/>
                                     </Button.Background>
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <Button Tag="{StaticResource UrlBitbay}">
+                                <Button CommandParameter="{StaticResource UrlBitbay}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitbay}}"/>
                                     </Button.Background>
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <mah:Tile Title="Rates API" Background="{StaticResource RatesBrush}" Tag="{StaticResource UrlRates}">
+                                <mah:Tile Title="Rates API" Background="{StaticResource RatesBrush}" CommandParameter="{StaticResource UrlRates}">
                                     <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
                                 </mah:Tile>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <Button Tag="{StaticResource UrlExchangeRates}">
+                                <Button CommandParameter="{StaticResource UrlExchangeRates}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Exchangerates}}"/>
                                     </Button.Background>
@@ -179,7 +179,7 @@
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
                                 <mah:Tile Title="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Github}"
-                                          Background="{StaticResource GitHubBrush}" Tag="{StaticResource UrlGitHub}">
+                                          Background="{StaticResource GitHubBrush}" CommandParameter="{StaticResource UrlGitHub}">
                                     <icons:BoxIcons Kind="LogosGithub" Width="60" Height="60"/>
                                 </mah:Tile>
                             </mah:FlipViewItem>

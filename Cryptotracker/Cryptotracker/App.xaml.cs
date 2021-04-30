@@ -18,18 +18,7 @@ namespace Cryptotracker
     /// </summary>
     public partial class App : Application
     {
-        public void ChangeColorScheme(string colorSchema) => ThemeManager.Current.ChangeThemeColorScheme(this, colorSchema);
-        public void ChangeBaseColorScheme(bool isDark)
-        {
-            ThemeManager.Current.ChangeThemeBaseColor(this, isDark ? ThemeManager.BaseColorDark : ThemeManager.BaseColorLight);
-        }
-
         public void LogMessage(string message) => _loggers.ForEach(x => x.Log($"[{DateTime.Now}]: {message}"));
-
-        public static void OpenWebPageInDefaultBrowser(string url)
-        {
-            try { Process.Start(new ProcessStartInfo(url) { UseShellExecute = true }); } catch { }
-        }
 
         public static async Task DownloadAsync()
         {
@@ -112,8 +101,7 @@ namespace Cryptotracker
 
             if (vm.ThemeManager.BaseColors.Contains(baseColor))
             {
-                bool isDark = baseColor == ThemeManager.BaseColorDark;
-                ChangeBaseColorScheme(isDark);
+                vm.ThemeManager.ChangeThemeBaseColor(this, baseColor);
             }
 
             setting = Cryptotracker.Properties.Settings.Default[nameof(Theme.ColorScheme)]?.ToString();
@@ -121,7 +109,7 @@ namespace Cryptotracker
 
             if (vm.ThemeManager.ColorSchemes.Contains(color))
             {
-                ChangeColorScheme(color);
+                vm.ThemeManager.ChangeThemeColorScheme(this, color);
             }
         }
 

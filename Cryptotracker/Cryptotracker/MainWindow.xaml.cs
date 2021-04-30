@@ -36,26 +36,24 @@ namespace Cryptotracker
 
         private void ThemeSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeBaseColorScheme(themeSwitch.IsOn);
+            (DataContext as AppViewModel).ThemeManager.ChangeThemeBaseColor
+            (
+                App.Current,
+                themeSwitch.IsOn ? ThemeManager.BaseColorDark : ThemeManager.BaseColorLight
+            );
         }
 
         private void ColorSchemaSelector_Selected(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).ChangeColorScheme(colorSchemaSelector.SelectedItem.ToString());
-        }
-
-        private void HyperlinkClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is FrameworkElement element && element.Tag is string url)
-            {
-                App.OpenWebPageInDefaultBrowser(url);
-            }
+            (DataContext as AppViewModel).ThemeManager.ChangeThemeColorScheme
+            (
+                App.Current,
+                colorSchemaSelector.SelectedItem.ToString()
+            );
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
         private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
-
-        private async void Download(object sender, RoutedEventArgs e) => await App.DownloadAsync();
 
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
