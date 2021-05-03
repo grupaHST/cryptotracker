@@ -9,7 +9,6 @@ namespace Cryptotracker.Backend.ExchangeRateHost
     public class ExchangeRateHostData
     {
         public string Base { get; set; }
-        public DateTime Date { get; set; }
-        public List<ExchangeRateHostRate> Rates { get; set; }
+        public List<ExchangeRateHostRecord> Records { get; set; }
     }
 }

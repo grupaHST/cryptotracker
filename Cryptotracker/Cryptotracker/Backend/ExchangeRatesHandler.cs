@@ -289,16 +289,17 @@ namespace Cryptotracker.Backend
                             return null;
                         }
 
-                        foreach (var rate in data.Rates)
+                        foreach (var record in data.Records)
                         {
                             double value = 0;
-                            rate.ValuesDict.TryGetValue(currencyCodeStr, out value);
-                            rates.Add(new GenericRate() { Date = rate.Date, Value = value });
+                            record.Records.
+
+                            rates.Add(new GenericRate() { Date = rate., Value = value });
                         }
                     }
                     else if (startDateProvided)
                     {
-                        requestURI = $"{basicExchangeRateHostAddress}/timeseries?base={currencyCodeStr}&symbols={symbol}&start_time={startTimeStr}&end_time={startTimeStr}";
+                        requestURI = $"{basicExchangeRateHostAddress}/timeseries?base={currencyCodeStr}&symbols={symbol}&start_date={startTimeStr}&end_date={startTimeStr}";
 
                         try
                         {
@@ -312,8 +313,8 @@ namespace Cryptotracker.Backend
                         }
 
                         double value = 0;
-                        data.Rates.First().ValuesDict.TryGetValue(currencyCodeStr, out value);
-                        rates.Add(new GenericRate() { Date = data.Rates.First().Date, Value = value });
+                        data.Rates.First().Value.TryGetValue(currencyCodeStr, out value);
+                        //rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
                     }
                     else if (endTime.HasValue && !startTime.HasValue)
                     {
@@ -336,18 +337,18 @@ namespace Cryptotracker.Backend
                         }
 
                         double value = 0;
-                        data.Rates.First().ValuesDict.TryGetValue(currencyCodeStr, out value);
-                        rates.Add(new GenericRate() { Date = data.Rates.First().Date, Value = value });
+                        data.Rates.First().Value.TryGetValue(currencyCodeStr, out value);
+                        //rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
                     }
 
-                    if (!data.Rates.First().ValuesDict.Any())
+                    if (!data.Rates.First().Value.Any())
                     {
                         return null;
                     }
 
                     return new GenericCurrencyData()
                     {
-                        Code = data.Rates.First().ValuesDict.Keys.First(),
+                        Code = data.Rates.First().Value.Keys.First(),
                         Rates = rates
                     };
 
