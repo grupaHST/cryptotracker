@@ -2,14 +2,12 @@
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.NBP;
-using Cryptotracker.Frontend.Converters;
 using Cryptotracker.Languages;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Reflection;
 
 namespace Cryptotracker.ViewModels

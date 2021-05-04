@@ -7,7 +7,6 @@ using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 

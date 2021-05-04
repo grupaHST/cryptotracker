@@ -1,10 +1,7 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Frontend.Converters;
-using Cryptotracker.Languages;
-using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using MahApps.Metro.Controls;
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
