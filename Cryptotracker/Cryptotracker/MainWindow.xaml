@@ -8,6 +8,7 @@
                  xmlns:icons="http://metro.mahapps.com/winfx/xaml/iconpacks"
                  xmlns:local="clr-namespace:Cryptotracker"
                  xmlns:properties="clr-namespace:Cryptotracker.Properties"
+                 xmlns:controls="clr-namespace:Cryptotracker.Controls"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
                  Height="700" Width="1024" MinHeight="600" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
@@ -103,8 +104,7 @@
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="10">
                         <!--zamiast data grid'a w tym miejsu powinien być wykres-->
-                        <DataGrid ItemsSource="{Binding Rates}" IsReadOnly="True"
-                                  Visibility="{Binding IsLoadingData, Converter={StaticResource NegatedBoolToVisibilityConverter}}"/>
+                        <controls:RateChart/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </Grid>
