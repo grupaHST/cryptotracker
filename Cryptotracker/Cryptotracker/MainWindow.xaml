@@ -131,24 +131,24 @@
                             </Style>
                         </StackPanel.Resources>
                         <DockPanel>
-                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}">
+                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedValue="{Binding FirstCurrencyCode}">
                                 <mah:SplitButton.Icon>
                                     <icons:PackIconModern Kind="Money" Width="24" Height="24"/>
                                 </mah:SplitButton.Icon>
                             </mah:SplitButton>
-                            <TextBox Text="50"/>
+                            <TextBox Text="{Binding FirstCurrencyValue}"/>
                         </DockPanel>
                         <Button HorizontalAlignment="Right" Style="{DynamicResource MahApps.Styles.Button.Circle}" 
                                 Margin="0,0,75,0" Height="50" Width="50" Cursor="Hand">
                             <icons:EvaIcons Kind="Sync"/>
                         </Button>
                         <DockPanel>
-                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}">
+                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedValue="{Binding SecondCurrencyCode}">
                                 <mah:SplitButton.Icon>
                                     <icons:PackIconModern Kind="Money" Width="24" Height="24"/>
                                 </mah:SplitButton.Icon>
                             </mah:SplitButton>
-                            <TextBox Text="50"/>
+                            <TextBox Text="{Binding SecondCurrencyValue}"/>
                         </DockPanel>
                     </StackPanel>
                 </Grid>
