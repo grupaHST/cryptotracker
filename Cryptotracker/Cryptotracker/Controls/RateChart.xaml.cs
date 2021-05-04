@@ -1,5 +1,6 @@
 ﻿using Cryptotracker.Backend.Generic;
 using Cryptotracker.ViewModels;
+using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,14 @@ namespace Cryptotracker.Controls
         public RateChart()
         {
             InitializeComponent();
+
+            ScottPlot.OHLC[] ohlcs = DataGen.RandomStockPrices(rand: null, pointCount: 60, deltaMinutes: 10);
+            Chart.plt.Title("Open/High/Low/Close (OHLC) Chart");
+            Chart.plt.YLabel("Stock Price (USD)");
+            Chart.plt.PlotOHLC(ohlcs);
+            Chart.plt.Ticks(dateTimeX: true);
+
         }
+        
     }
 }
