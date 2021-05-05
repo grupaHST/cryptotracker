@@ -9,6 +9,7 @@ using System.Text.Json;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.Rates;
 using System.Windows;
+using Cryptotracker.Backend.ExchangeRateHost;
 
 namespace Cryptotracker.Backend
 {
@@ -18,8 +19,12 @@ namespace Cryptotracker.Backend
 
         private static string basicNBPAPIAddress = "http://api.nbp.pl/api/exchangerates";
         private static string basicRatesAPIAddress = "https://api.ratesapi.io/api";
+        private static string basicExchangeRateHostAddress = "https://api.exchangerate.host";
 
         private static JsonSerializerOptions jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
+
+        private static CurrencyCode symbol = CurrencyCode.PLN;
+
 
         public static async Task<GenericCurrencyData> GetCurrencyData(ExchangePlatform currencyPlatform, CurrencyCode currencyCode, DateTime? startTime = null, DateTime? endTime = null)
         {
@@ -128,7 +133,7 @@ namespace Cryptotracker.Backend
                 case ExchangePlatform.RATES:
                 {
                     string currencyCodeStr = currencyCode.ToString().ToUpper();
-                    string baseAndSymbols = $"?base={currencyCodeStr}&symbols=PLN";
+                    string baseAndSymbols = $"?base={currencyCodeStr}&symbols={symbol}";
                     string startTimeStr = string.Empty;
                     string endTimeStr = string.Empty;
 
@@ -246,6 +251,109 @@ namespace Cryptotracker.Backend
                         Code = currencyCode.ToString(),
                         Rates = rates
                     };
+                }
+                break;
+
+                case ExchangePlatform.EXCHANGERATE_HOST:
+                { 
+                    string currencyCodeStr = currencyCode.ToString().ToUpper();
+                    string startTimeStr = string.Empty;
+                    string endTimeStr = string.Empty;
+
+                    if (startTime.HasValue)
+                        startTimeStr = startTime.Value.ToString("yyyy-MM-dd");
+
+                    if (endTime.HasValue)
+                        endTimeStr = endTime.Value.ToString("yyyy-MM-dd");
+
+                    bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
+
+                    var data = new ExchangeRateHostData();
+                    var rates = new List<GenericRate>();
+
+                    bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
+                    bool startDateProvided = !bothDatesProvided && startTime.HasValue;
+
+                    if (bothDatesProvided)
+                    {
+                        requestURI = $"{basicExchangeRateHostAddress}/timeseries?base={currencyCodeStr}&symbols={symbol}&start_date={startTimeStr}&end_date={endTimeStr}";
+
+                        try
+                        {
+                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                            data = JsonSerializer.Deserialize<ExchangeRateHostData>(result, jsonOptions);
+                        }
+                        catch (Exception e)
+                        {
+                            //(Application.Current as App).LogMessage($"NBP: No data for given days. {e.Message}");
+                            return null;
+                        }
+
+                        foreach (var rate in data.Rates)
+                        {
+                            double value = 0;
+                            rate.Value.TryGetValue("PLN", out value);
+
+                            rates.Add(new GenericRate() { Date = rate.Key, Value = value });
+                        }
+                    }
+                    else if (startDateProvided)
+                    {
+                        requestURI = $"{basicExchangeRateHostAddress}/timeseries?base={currencyCodeStr}&symbols={symbol}&start_date={startTimeStr}&end_date={startTimeStr}";
+
+                        try
+                        {
+                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                            data = JsonSerializer.Deserialize<ExchangeRateHostData>(result, jsonOptions);
+                        }
+                        catch (Exception e)
+                        {
+                            //(Application.Current as App).LogMessage($"NBP: No data for given day. {e.Message}");
+                            return null;
+                        }
+
+                        double value = 0;
+                        data.Rates.First().Value.TryGetValue("PLN", out value);
+
+                        rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
+                    }
+                    else if (endTime.HasValue && !startTime.HasValue)
+                    {
+                        //(Application.Current as App).LogMessage("NBP: No start date has been provided.");
+                        return null;
+                    }
+                    else
+                    {
+                        requestURI = $"{basicExchangeRateHostAddress}/latest?base={currencyCodeStr}&symbols={symbol}";
+
+                        try
+                        {
+                            result = await client.GetStringAsync(requestURI);
+                            data = JsonSerializer.Deserialize<ExchangeRateHostData>(result, jsonOptions);
+
+                        }
+                        catch (Exception)
+                        {
+                            return null;
+                        }
+
+                        double value = 0;
+                        data.Rates.First().Value.TryGetValue("PLN", out value);
+
+                        rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
+                    }
+
+                    if (!data.Rates.Any())
+                    {
+                        return null;
+                    }
+
+                    return new GenericCurrencyData()
+                    {
+                        Code = data.Base,
+                        Rates = rates
+                    };
+
                 }
                 break;
 

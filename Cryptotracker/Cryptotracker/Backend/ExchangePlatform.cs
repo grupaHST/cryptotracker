@@ -10,7 +10,6 @@ namespace Cryptotracker.Backend
         {
             NBP,
             RATES,
-            EXCHANGERATES,
             EXCHANGERATE_HOST
         }
 }
