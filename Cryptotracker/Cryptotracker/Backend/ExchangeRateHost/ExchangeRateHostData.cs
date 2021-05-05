@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace Cryptotracker.Backend.ExchangeRateHost
 {
     public class ExchangeRateHostData
-    {
+    { 
         public string Base { get; set; }
-        public List<ExchangeRateHostRecord> Records { get; set; }
+        public Dictionary<DateTime, Dictionary<string, double>> Rates { get; set; }
     }
 }
