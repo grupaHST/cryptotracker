@@ -10,6 +10,10 @@ using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.Rates;
 using System.Windows;
 using Cryptotracker.Backend.ExchangeRateHost;
+using Binance.Net;
+using Binance.Net.Objects.Spot;
+using CryptoExchange.Net.Authentication;
+using Binance.Net.Enums;
 
 namespace Cryptotracker.Backend
 {
@@ -360,6 +364,17 @@ namespace Cryptotracker.Backend
                 default:
                     return null;
             }
+        }
+        public static async Task GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, DateTime? startTime = null, DateTime? endTime = null)
+        {
+            BinanceClient client = new BinanceClient(new BinanceClientOptions()
+            {
+                ApiCredentials = new ApiCredentials("ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh", "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He"),
+                AutoTimestamp = true,
+                AutoTimestampRecalculationInterval = TimeSpan.FromMinutes(30)
+            });
+
+            var candles = client.Spot.Market.GetKlines("BTCUSDT", KlineInterval.OneDay, Convert.ToDateTime("2021-05-04"), Convert.ToDateTime("2021-05-06"));
         }
     }
 }
