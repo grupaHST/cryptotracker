@@ -25,6 +25,8 @@
             <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITBAY</sys:String>
             <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
             <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
+            <sys:String x:Key="DefaultFirstCurrencyCode">EUR</sys:String>
+            <sys:String x:Key="DefaultSecondCurrencyCode">USD</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
