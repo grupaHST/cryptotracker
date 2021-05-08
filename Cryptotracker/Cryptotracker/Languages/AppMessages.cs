@@ -10,12 +10,6 @@
     /// </summary>
     public static class AppMessages
     {
-        public static string Welcome(Language lang) => lang switch
-        {
-            Language.Polski => "Witamy w Cryptotrackerze !!!",
-            _ => "Welcome to the Cryptotracker !!!"
-        };
-
         public static string Settings(Language lang) => lang switch
         {
             Language.Polski => "Ustawienia",
