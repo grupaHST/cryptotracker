@@ -97,6 +97,12 @@
         {
             Language.Polski => "Zobacz nasz projekt na Github'ie",
             _ => "See our project on Github website"
+        };        
+        
+        public static string NumberConversionError(Language lang) => lang switch
+        {
+            Language.Polski => "Oczekiwano liczby",
+            _ => "Number expected"
         };
     }
 }

@@ -117,7 +117,7 @@ namespace Cryptotracker.ViewModels
                             }
                             else
                             {
-                                Error = "ERROR";
+                                Error = AppMessages.NumberConversionError(Language);
                             }
                         }
                         break;
@@ -135,7 +135,7 @@ namespace Cryptotracker.ViewModels
                             }
                             else
                             {
-                                Error = "ERROR";
+                                Error = AppMessages.NumberConversionError(Language);
                             }
                         }
                         break;
