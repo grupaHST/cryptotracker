@@ -12,7 +12,7 @@ using System.Reflection;
 
 namespace Cryptotracker.ViewModels
 {
-    public class AppViewModel : INotifyPropertyChanged
+    public class AppViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public Version AppVersion { get; } = Assembly.GetEntryAssembly().GetName().Version;
 
@@ -45,7 +45,7 @@ namespace Cryptotracker.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RelayCommand DownloadCommand => new(async() =>
+        public RelayCommand DownloadCommand => new(async () =>
         {
             try
             {
@@ -81,6 +81,69 @@ namespace Cryptotracker.ViewModels
             {
                 (App.Current as App).LogMessage(e.Message);
             }
+        });        
+        
+        public RelayCommand<string> SwapCurrenciesCommand => new(url =>
+        {
+            var tempCode = FirstCurrencyCode;
+            var tempValue = FirstCurrencyValue;
+
+            FirstCurrencyCode = SecondCurrencyCode;
+            FirstCurrencyValue = SecondCurrencyValue;
+
+            SecondCurrencyCode = tempCode;
+            SecondCurrencyValue = tempValue;
         });
+
+        public string Error { get; set; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case nameof(FirstCurrencyValue):
+                        {
+                            if (decimal.TryParse(FirstCurrencyValue, out decimal resultValue))
+                            {
+                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
+                                /*
+                                 * Pierwsza waluta została zmodyfikowana przez usera, trzeba zmienić wartość drugiej waluty
+                                 * SecondCurrencyValue = {resultValue po przeliczeniu}.ToString()
+                                 * 
+                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
+                                 */
+                            }
+                            else
+                            {
+                                Error = "ERROR";
+                            }
+                        }
+                        break;
+                    case nameof(SecondCurrencyValue):
+                        {
+                            if (decimal.TryParse(SecondCurrencyValue, out decimal resultValue))
+                            {
+                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
+                                /*
+                                 * Druga waluta została zmodyfikowana przez usera, trzeba zmienić wartość pierwszej waluty
+                                 * FirstCurrencyValue = {resultValue po przeliczeniu}.ToString()
+                                 * 
+                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
+                                 */
+                            }
+                            else
+                            {
+                                Error = "ERROR";
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return Error;
+            }
+        }
     }
 }
