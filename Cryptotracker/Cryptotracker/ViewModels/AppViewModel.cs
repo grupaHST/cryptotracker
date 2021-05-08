@@ -37,9 +37,9 @@ namespace Cryptotracker.ViewModels
         public bool IsLoadingData { get; set; }
 
         public string FirstCurrencyCode { get; set; }
-        public string FirstCurrencyValue { get; set; }
+        public string FirstCurrencyValue { get; set; } = 0.ToString();
         public string SecondCurrencyCode { get; set; }
-        public string SecondCurrencyValue { get; set; }
+        public string SecondCurrencyValue { get; set; } = 0.ToString();
 
         public ObservableCollection<string> Logs { get; set; } = new();
 
