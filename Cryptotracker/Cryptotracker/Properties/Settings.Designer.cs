@@ -116,5 +116,29 @@ namespace Cryptotracker.Properties {
                 this["SelectedCurrencyCode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string FirstCurrencyCode {
+            get {
+                return ((string)(this["FirstCurrencyCode"]));
+            }
+            set {
+                this["FirstCurrencyCode"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SecondCurrencyCode {
+            get {
+                return ((string)(this["SecondCurrencyCode"]));
+            }
+            set {
+                this["SecondCurrencyCode"] = value;
+            }
+        }
     }
 }
