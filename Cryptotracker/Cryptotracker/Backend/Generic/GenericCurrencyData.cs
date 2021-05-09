@@ -10,6 +10,6 @@ namespace Cryptotracker.Backend
     public class GenericCurrencyData
     {
         public string Code { get; set; }
-        public List<GenericRate> Rates { get; set; }
+        public List<GenericRate> Rates { get; set; } = new List<GenericRate>();
     }
 }
