@@ -14,6 +14,7 @@ using Binance.Net;
 using Binance.Net.Objects.Spot;
 using CryptoExchange.Net.Authentication;
 using Binance.Net.Enums;
+using Bitfinex.Net;
 
 namespace Cryptotracker.Backend
 {
@@ -365,7 +366,31 @@ namespace Cryptotracker.Backend
                     return null;
             }
         }
-        public static async Task GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, DateTime? startTime = null, DateTime? endTime = null)
+        /// <summary>
+        /// Method meant to return cryptocurrency data. If interval is provided then startTime is also required. If no startTime is provided then interval is ignored.
+        /// </summary>
+        /// <param name="cryptoPlatform">Crypto platform choice</param>
+        /// <param name="cryptocurrencyCode">Currency choice (value returned in BUSD by default)</param>
+        /// <param name="interval">Interval between rates. At least one time is required for this to be used</param>
+        /// <param name="startTime">Start date of data range</param>
+        /// <param name="endTime">End date of data range</param>
+        /// <returns></returns>
+        public static async Task<GenericCurrencyData> GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
+        {
+            switch(cryptoPlatform)
+            {
+                case CryptoExchangePlatform.BINANCE:
+                {
+                    return await GetBinanceCurrencyData(cryptocurrencyCode, interval, startTime, endTime);
+                }
+                break;
+
+                default:
+                return null;
+            }
+        }
+
+        private static async Task<GenericCurrencyData> GetBinanceCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
         {
             BinanceClient client = new BinanceClient(new BinanceClientOptions()
             {
@@ -374,7 +399,54 @@ namespace Cryptotracker.Backend
                 AutoTimestampRecalculationInterval = TimeSpan.FromMinutes(30)
             });
 
-            var candles = client.Spot.Market.GetKlines("BTCUSDT", KlineInterval.OneDay, Convert.ToDateTime("2021-05-04"), Convert.ToDateTime("2021-05-06"));
+            KlineInterval klineInterval = KlineInterval.OneDay;
+            CryptoIntervalsDict.UniToBinance.TryGetValue(interval, out klineInterval);
+
+            string symbol = $"{cryptocurrencyCode}BUSD";
+
+            var data = new GenericCurrencyData();
+
+            bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
+            bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
+            bool startDateProvidedOnly = startTime.HasValue && !bothDatesProvided;
+            bool endDateProvidedOnly = endTime.HasValue && !bothDatesProvided;
+
+            if(bothDatesProvided)
+            {
+                //RETURNS DATA FROM GIVEN DATE RANGE
+                var result = client.Spot.Market.GetKlines(symbol, klineInterval, startTime, endTime).Data;
+
+                foreach (var rate in result)
+                {
+                    data.Code = cryptocurrencyCode.ToString();
+                    data.Rates.Add(new GenericRate() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                }
+            }
+            else if(startDateProvidedOnly)
+            {
+                //RETURNS DATA FROM START TIME TO TODAY
+
+                var result = client.Spot.Market.GetKlines(symbol, klineInterval, startTime).Data;
+
+                foreach (var rate in result)
+                {
+                    data.Code = cryptocurrencyCode.ToString();
+                    data.Rates.Add(new GenericRate() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                }
+            }
+            else if(endDateProvidedOnly)
+            {
+                return null;
+            }
+            else
+            {
+                var result = client.Spot.Market.Get24HPrice(symbol).Data;
+
+                data.Code = cryptocurrencyCode.ToString();
+                data.Rates.Add(new GenericRate() { Date = result.OpenTime, Value = (double)((result.LowPrice + result.HighPrice) / 2), Low = (double)result.LowPrice, High = (double)result.HighPrice });
+            }
+
+            return data;
         }
     }
 }
