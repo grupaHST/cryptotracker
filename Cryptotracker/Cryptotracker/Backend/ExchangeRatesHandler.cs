@@ -14,7 +14,9 @@ using Binance.Net;
 using Binance.Net.Objects.Spot;
 using CryptoExchange.Net.Authentication;
 using Binance.Net.Enums;
+using Bitfinex;
 using Bitfinex.Net;
+using Bitfinex.Net.Objects;
 
 namespace Cryptotracker.Backend
 {
@@ -385,6 +387,12 @@ namespace Cryptotracker.Backend
                 }
                 break;
 
+                case CryptoExchangePlatform.BITFINEX:
+                {
+                    return await GetBitfinexCurrencyData(cryptocurrencyCode, interval, startTime, endTime);
+                }
+                break;
+
                 default:
                 return null;
             }
@@ -444,6 +452,62 @@ namespace Cryptotracker.Backend
 
                 data.Code = cryptocurrencyCode.ToString();
                 data.Rates.Add(new GenericRate() { Date = result.OpenTime, Value = (double)((result.LowPrice + result.HighPrice) / 2), Low = (double)result.LowPrice, High = (double)result.HighPrice });
+            }
+
+            return data;
+        }
+        private static async Task<GenericCurrencyData> GetBitfinexCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
+        {
+            BitfinexClient client = new BitfinexClient(new BitfinexClientOptions()
+            {
+                ApiCredentials = new ApiCredentials("mDqhNh8HLJmbuBdCSLktNXhpsaqtA4FSdAOutllUoWh", "jv3bsJhv6L0lUYPHbO1KXsPPfzcP5rrcfRjt80QO0t8")
+            });
+
+            TimeFrame klineInterval = TimeFrame.OneDay;
+            CryptoIntervalsDict.UniToBitfinex.TryGetValue(interval, out klineInterval);
+
+            string symbol = $"t{cryptocurrencyCode}USD";
+
+            var data = new GenericCurrencyData();
+
+            bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
+            bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
+            bool startDateProvidedOnly = startTime.HasValue && !bothDatesProvided;
+            bool endDateProvidedOnly = endTime.HasValue && !bothDatesProvided;
+
+            if (bothDatesProvided)
+            {
+                //RETURNS DATA FROM GIVEN DATE RANGE
+                var result = client.GetKlines(klineInterval, symbol, null, null, startTime, endTime, Sorting.OldFirst).Data;
+
+                foreach (var rate in result)
+                {
+                    data.Code = cryptocurrencyCode.ToString();
+                    data.Rates.Add(new GenericRate() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                }
+            }
+            else if (startDateProvidedOnly)
+            {
+                //RETURNS DATA FROM START TIME TO TODAY
+
+                var result = client.GetKlines(klineInterval, symbol, null, null, startTime, null, Sorting.OldFirst).Data;
+
+                foreach (var rate in result)
+                {
+                    data.Code = cryptocurrencyCode.ToString();
+                    data.Rates.Add(new GenericRate() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                }
+            }
+            else if (endDateProvidedOnly)
+            {
+                return null;
+            }
+            else
+            {
+                var result = client.GetLastKline(klineInterval, symbol).Data;
+
+                data.Code = cryptocurrencyCode.ToString();
+                data.Rates.Add(new GenericRate() { Date = result.Timestamp, Value = (double)((result.Low + result.High) / 2), Low = (double)result.Low, High = (double)result.High });
             }
 
             return data;
