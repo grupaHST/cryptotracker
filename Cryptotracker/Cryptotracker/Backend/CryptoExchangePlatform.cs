@@ -9,6 +9,6 @@ namespace Cryptotracker.Backend
     public enum CryptoExchangePlatform
     {
         BINANCE,
-        BITBAY,
+        BITFINEX,
     }
 }

@@ -122,6 +122,31 @@ namespace CryptotrackerTests.Backend
             result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BINANCE, CryptocurrencyCode.BTC, CryptoInterval.ONE_HOUR);
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Rates.Count());
+
+            //BITFINEX - DATE RANGE TESTS
+            result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BITFINEX, CryptocurrencyCode.BTC, CryptoInterval.ONE_DAY, Convert.ToDateTime("2021-05-07"), Convert.ToDateTime("2021-05-08"));
+            Assert.AreEqual(Convert.ToDateTime("2021-05-07"), result.Rates[0].Date);
+            Assert.AreEqual(55300, result.Rates[0].Low);
+            Assert.AreEqual(58635, result.Rates[0].High);
+            Assert.AreEqual((result.Rates[0].High + result.Rates[0].Low) / 2, result.Rates[0].Value, 0.1);
+
+            Assert.AreEqual(Convert.ToDateTime("2021-05-08"), result.Rates[1].Date);
+            Assert.AreEqual(56939, result.Rates[1].Low);
+            Assert.AreEqual(59450, result.Rates[1].High);
+            Assert.AreEqual((result.Rates[1].High + result.Rates[1].Low) / 2, result.Rates[1].Value);
+
+            //BITFINEX - START TIME ONLY - START DATE -> TODAY
+            result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BITFINEX, CryptocurrencyCode.BTC, CryptoInterval.ONE_DAY, Convert.ToDateTime("2021-05-07"));
+            Assert.AreEqual(true, result.Rates.Count() > 2);
+            Assert.AreEqual(Convert.ToDateTime("2021-05-07"), result.Rates[0].Date);
+            Assert.AreEqual(55300, result.Rates[0].Low);
+            Assert.AreEqual(58635, result.Rates[0].High);
+            Assert.AreEqual((result.Rates[0].High + result.Rates[0].Low) / 2, result.Rates[0].Value, 0.1);
+
+            //BITFINEX - 24H VALUE, ONLY INTERVAL PROVIDED (to be ignored)
+            result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BITFINEX, CryptocurrencyCode.BTC, CryptoInterval.ONE_HOUR);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Rates.Count());
         }
     }
 }
