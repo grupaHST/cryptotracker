@@ -183,7 +183,7 @@
                         <mah:FlipView IsBannerEnabled="False" Width="500" Height="150" HorizontalAlignment="Center">
                             <mah:FlipView.Resources>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Square.Highlight}">
-                                    <Setter Property="Command" Value="{Binding OpenInBrowser}"/>
+                                    <Setter Property="Command" Value="{Binding OpenInBrowserCommand}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Style>
                                 <Style TargetType="{x:Type mah:Tile}">
