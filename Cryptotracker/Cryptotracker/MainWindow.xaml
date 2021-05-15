@@ -208,9 +208,9 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <Button CommandParameter="{StaticResource UrlBitbay}">
+                                <Button CommandParameter="{StaticResource UrlBitfinex}">
                                     <Button.Background>
-                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitbay}}"/>
+                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitfinex}}"/>
                                     </Button.Background>
                                 </Button>
                             </mah:FlipViewItem>
