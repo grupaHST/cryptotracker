@@ -73,9 +73,9 @@ namespace Cryptotracker.Properties {
         /// <summary>
         ///   Wyszukuje zlokalizowany zasób typu System.Byte[].
         /// </summary>
-        public static byte[] Bitbay {
+        public static byte[] Bitfinex {
             get {
-                object obj = ResourceManager.GetObject("Bitbay", resourceCulture);
+                object obj = ResourceManager.GetObject("Bitfinex", resourceCulture);
                 return ((byte[])(obj));
             }
         }

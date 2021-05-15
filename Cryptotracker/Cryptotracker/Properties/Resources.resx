@@ -121,8 +121,8 @@
   <data name="Binance" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Frontend\Images\Binance.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="Bitbay" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Frontend\Images\Bitbay.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Bitfinex" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Frontend\Images\Bitfinex.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Exchangerates" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Frontend\Images\Exchangerates.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
