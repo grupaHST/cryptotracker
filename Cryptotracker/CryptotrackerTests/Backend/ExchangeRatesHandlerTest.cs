@@ -16,7 +16,7 @@ namespace CryptotrackerTests.Backend
         [TestMethod]
         public async Task GetCurrencyDataTest()
         {
-            GenericCurrencyData result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.CHF, Convert.ToDateTime("2021-04-09"));
+            CurrencyDataModel result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.CHF, Convert.ToDateTime("2021-04-09"));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(4.1265, result.Rates[0].Value);

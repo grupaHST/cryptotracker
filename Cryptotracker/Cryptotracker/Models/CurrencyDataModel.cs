@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.Backend
 {
-    public class GenericCurrencyData
+    public class CurrencyDataModel
     {
         public string Code { get; set; }
-        public List<GenericRate> Rates { get; set; } = new List<GenericRate>();
+        public List<RateModel> Rates { get; set; } = new List<RateModel>();
     }
 }
