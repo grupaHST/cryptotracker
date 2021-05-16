@@ -36,8 +36,9 @@ namespace Cryptotracker.ViewModels
             get { return _Rates; }
             set
             {
-                OnPropertyChanged(); 
                 _Rates = value;
+                OnPropertyChanged(); 
+                
             }
         }
 
