@@ -33,7 +33,7 @@ namespace Cryptotracker.Backend
         private static CurrencyCode symbol = CurrencyCode.PLN;
 
 
-        public static async Task<GenericCurrencyData> GetCurrencyData(ExchangePlatform currencyPlatform, CurrencyCode currencyCode, DateTime? startTime = null, DateTime? endTime = null)
+        public static async Task<CurrencyDataModel> GetCurrencyData(ExchangePlatform currencyPlatform, CurrencyCode currencyCode, DateTime? startTime = null, DateTime? endTime = null)
         {
             string requestURI = string.Empty;
             string result = string.Empty;
@@ -68,7 +68,7 @@ namespace Cryptotracker.Backend
                     bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
 
                     var nbpData = new NBPCurrencyData();
-                    var rates = new List<GenericRate>();
+                    var rates = new List<RateModel>();
 
                     if (startTime.HasValue && endTime.HasValue && !sameDates)
                     {
@@ -87,7 +87,7 @@ namespace Cryptotracker.Backend
 
                         foreach (var rate in nbpData.Rates)
                         {
-                            rates.Add(new GenericRate() { Date = rate.EffectiveDate, Value = rate.Mid });
+                            rates.Add(new RateModel() { Date = rate.EffectiveDate, Value = rate.Mid });
                         }
                     }
                     else if (startTime.HasValue)
@@ -105,7 +105,7 @@ namespace Cryptotracker.Backend
                             return null;
                         }
 
-                        rates.Add(new GenericRate() { Date = nbpData.Rates.First().EffectiveDate, Value = nbpData.Rates.First().Mid });
+                        rates.Add(new RateModel() { Date = nbpData.Rates.First().EffectiveDate, Value = nbpData.Rates.First().Mid });
                     }
                     else if (endTime.HasValue && !startTime.HasValue)
                     {
@@ -127,10 +127,10 @@ namespace Cryptotracker.Backend
                             return null;
                         }
 
-                        rates.Add(new GenericRate() { Date = nbpData.Rates.First().EffectiveDate, Value = nbpData.Rates.First().Mid });
+                        rates.Add(new RateModel() { Date = nbpData.Rates.First().EffectiveDate, Value = nbpData.Rates.First().Mid });
                     }
 
-                    return new GenericCurrencyData()
+                    return new CurrencyDataModel()
                     {
                         Code = nbpData.Code,
                         Rates = rates
@@ -151,7 +151,7 @@ namespace Cryptotracker.Backend
                         endTimeStr = endTime.Value.ToString("yyyy-MM-dd");
 
 
-                    var rates = new List<GenericRate>();
+                    var rates = new List<RateModel>();
                     var ratesAPIData = new RatesAPICurrencyData();
 
                     bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
@@ -188,7 +188,7 @@ namespace Cryptotracker.Backend
                                 bool realDataReceived = ratesAPIData.Date == startTimeOffset;
                                 if (realDataReceived)
                                 {
-                                    rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
+                                    rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
                                 }
                                 else
                                 {
@@ -223,7 +223,7 @@ namespace Cryptotracker.Backend
                         bool realDataReceived = ratesAPIData.Date == startTime.Value;
                         if (realDataReceived)
                         {
-                            rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
+                            rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
                         }
                         else
                         {
@@ -250,10 +250,10 @@ namespace Cryptotracker.Backend
                         double value = 0;
                         ratesAPIData.Rates.TryGetValue("PLN", out value);
 
-                        rates.Add(new GenericRate() { Date = ratesAPIData.Date, Value = value });
+                        rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
                     }
 
-                    return new GenericCurrencyData()
+                    return new CurrencyDataModel()
                     {
                         Code = currencyCode.ToString(),
                         Rates = rates
@@ -276,7 +276,7 @@ namespace Cryptotracker.Backend
                     bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
 
                     var data = new ExchangeRateHostData();
-                    var rates = new List<GenericRate>();
+                    var rates = new List<RateModel>();
 
                     bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
                     bool startDateProvided = !bothDatesProvided && startTime.HasValue;
@@ -301,7 +301,7 @@ namespace Cryptotracker.Backend
                             double value = 0;
                             rate.Value.TryGetValue("PLN", out value);
 
-                            rates.Add(new GenericRate() { Date = rate.Key, Value = value });
+                            rates.Add(new RateModel() { Date = rate.Key, Value = value });
                         }
                     }
                     else if (startDateProvided)
@@ -322,7 +322,7 @@ namespace Cryptotracker.Backend
                         double value = 0;
                         data.Rates.First().Value.TryGetValue("PLN", out value);
 
-                        rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
+                        rates.Add(new RateModel() { Date = data.Rates.First().Key, Value = value });
                     }
                     else if (endTime.HasValue && !startTime.HasValue)
                     {
@@ -347,7 +347,7 @@ namespace Cryptotracker.Backend
                         double value = 0;
                         data.Rates.First().Value.TryGetValue("PLN", out value);
 
-                        rates.Add(new GenericRate() { Date = data.Rates.First().Key, Value = value });
+                        rates.Add(new RateModel() { Date = data.Rates.First().Key, Value = value });
                     }
 
                     if (!data.Rates.Any())
@@ -355,7 +355,7 @@ namespace Cryptotracker.Backend
                         return null;
                     }
 
-                    return new GenericCurrencyData()
+                    return new CurrencyDataModel()
                     {
                         Code = data.Base,
                         Rates = rates
@@ -377,7 +377,7 @@ namespace Cryptotracker.Backend
         /// <param name="startTime">Start date of data range</param>
         /// <param name="endTime">End date of data range</param>
         /// <returns></returns>
-        public static async Task<GenericCurrencyData> GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
+        public static async Task<CurrencyDataModel> GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
         {
             switch(cryptoPlatform)
             {
@@ -398,7 +398,7 @@ namespace Cryptotracker.Backend
             }
         }
 
-        private static async Task<GenericCurrencyData> GetBinanceCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
+        private static async Task<CurrencyDataModel> GetBinanceCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
         {
             BinanceClient client = new BinanceClient(new BinanceClientOptions()
             {
@@ -412,7 +412,7 @@ namespace Cryptotracker.Backend
 
             string symbol = $"{cryptocurrencyCode}BUSD";
 
-            var data = new GenericCurrencyData();
+            var data = new CurrencyDataModel();
 
             bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
             bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
@@ -427,7 +427,7 @@ namespace Cryptotracker.Backend
                 foreach (var rate in result)
                 {
                     data.Code = cryptocurrencyCode.ToString();
-                    data.Rates.Add(new GenericRate() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                    data.Rates.Add(new RateModel() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
                 }
             }
             else if(startDateProvidedOnly)
@@ -439,7 +439,7 @@ namespace Cryptotracker.Backend
                 foreach (var rate in result)
                 {
                     data.Code = cryptocurrencyCode.ToString();
-                    data.Rates.Add(new GenericRate() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                    data.Rates.Add(new RateModel() { Date = rate.OpenTime, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
                 }
             }
             else if(endDateProvidedOnly)
@@ -451,12 +451,12 @@ namespace Cryptotracker.Backend
                 var result = client.Spot.Market.Get24HPrice(symbol).Data;
 
                 data.Code = cryptocurrencyCode.ToString();
-                data.Rates.Add(new GenericRate() { Date = result.OpenTime, Value = (double)((result.LowPrice + result.HighPrice) / 2), Low = (double)result.LowPrice, High = (double)result.HighPrice });
+                data.Rates.Add(new RateModel() { Date = result.OpenTime, Value = (double)((result.LowPrice + result.HighPrice) / 2), Low = (double)result.LowPrice, High = (double)result.HighPrice });
             }
 
             return data;
         }
-        private static async Task<GenericCurrencyData> GetBitfinexCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
+        private static async Task<CurrencyDataModel> GetBitfinexCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
         {
             BitfinexClient client = new BitfinexClient(new BitfinexClientOptions()
             {
@@ -468,7 +468,7 @@ namespace Cryptotracker.Backend
 
             string symbol = $"t{cryptocurrencyCode}USD";
 
-            var data = new GenericCurrencyData();
+            var data = new CurrencyDataModel();
 
             bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
             bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
@@ -483,7 +483,7 @@ namespace Cryptotracker.Backend
                 foreach (var rate in result)
                 {
                     data.Code = cryptocurrencyCode.ToString();
-                    data.Rates.Add(new GenericRate() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                    data.Rates.Add(new RateModel() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
                 }
             }
             else if (startDateProvidedOnly)
@@ -495,7 +495,7 @@ namespace Cryptotracker.Backend
                 foreach (var rate in result)
                 {
                     data.Code = cryptocurrencyCode.ToString();
-                    data.Rates.Add(new GenericRate() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
+                    data.Rates.Add(new RateModel() { Date = rate.Timestamp, Value = (double)((rate.Low + rate.High) / 2), Low = (double)rate.Low, High = (double)rate.High });
                 }
             }
             else if (endDateProvidedOnly)
@@ -507,7 +507,7 @@ namespace Cryptotracker.Backend
                 var result = client.GetLastKline(klineInterval, symbol).Data;
 
                 data.Code = cryptocurrencyCode.ToString();
-                data.Rates.Add(new GenericRate() { Date = result.Timestamp, Value = (double)((result.Low + result.High) / 2), Low = (double)result.Low, High = (double)result.High });
+                data.Rates.Add(new RateModel() { Date = result.Timestamp, Value = (double)((result.Low + result.High) / 2), Low = (double)result.Low, High = (double)result.High });
             }
 
             return data;
