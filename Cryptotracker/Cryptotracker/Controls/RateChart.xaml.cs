@@ -4,6 +4,7 @@ using ScottPlot;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,8 @@ namespace Cryptotracker.Controls
         {
             InitializeComponent();
 
+            (DataContext as AppViewModel).PropertyChanged += AppViewModel_PropertyChanged;
+
             ScottPlot.OHLC[] ohlcs = DataGen.RandomStockPrices(rand: null, pointCount: 60, deltaMinutes: 10);
             Chart.plt.Title("Open/High/Low/Close (OHLC) Chart");
             Chart.plt.YLabel("Stock Price (USD)");
@@ -33,6 +36,13 @@ namespace Cryptotracker.Controls
             Chart.plt.Ticks(dateTimeX: true);
 
         }
-        
+
+        private void AppViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Rates")
+            {
+                
+            }
+        }
     }
 }
