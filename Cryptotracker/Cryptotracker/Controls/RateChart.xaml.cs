@@ -21,7 +21,7 @@ using System.Windows.Shapes;
 
 namespace Cryptotracker.Controls
 {
-    public partial class RateChart : UserControl 
+    public partial class RateChart : UserControl
     {
         public RateChart()
         {
@@ -29,20 +29,35 @@ namespace Cryptotracker.Controls
 
             (DataContext as AppViewModel).PropertyChanged += AppViewModel_PropertyChanged;
 
-            ScottPlot.OHLC[] ohlcs = DataGen.RandomStockPrices(rand: null, pointCount: 60, deltaMinutes: 10);
-            Chart.plt.Title("Open/High/Low/Close (OHLC) Chart");
-            Chart.plt.YLabel("Stock Price (USD)");
-            Chart.plt.PlotOHLC(ohlcs);
-            Chart.plt.Ticks(dateTimeX: true);
-
         }
 
         private void AppViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "Rates")
             {
+                UpdateChart();
+            }
+        }
+
+        private void UpdateChart()
+        {
+            List<OHLC> tempOhlcs = new List<OHLC>();
+            GenericRate lastRate = null;
+            foreach (var rate in (DataContext as AppViewModel).Rates)
+            {
+                if (lastRate != null)
+                {
+                    tempOhlcs.Add(new OHLC(lastRate.Value, lastRate.Value, rate.Value, rate.Value, rate.Date));
+                }
+                lastRate = rate;
                 
             }
+
+            var ohlcs = tempOhlcs.ToArray();
+            Chart.plt.Title("Open/High/Low/Close (OHLC) Chart");
+            Chart.plt.YLabel("Stock Price (USD)");
+            Chart.plt.PlotCandlestick(ohlcs);
+            Chart.plt.Ticks(dateTimeX: true);
         }
     }
 }
