@@ -54,6 +54,7 @@ namespace Cryptotracker.Controls
             }
 
             var ohlcs = tempOhlcs.ToArray();
+            Chart.plt.Clear();
             Chart.plt.Title(String.Format("{0} Stock Chart",(DataContext as AppViewModel).SelectedCurrencyCode));
             Chart.plt.YLabel(String.Format("Stock Price ({0})", (DataContext as AppViewModel).SelectedCurrencyCode));
             Chart.plt.PlotCandlestick(ohlcs);
