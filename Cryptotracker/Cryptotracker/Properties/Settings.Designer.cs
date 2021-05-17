@@ -140,5 +140,53 @@ namespace Cryptotracker.Properties {
                 this["SecondCurrencyCode"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BinanceKey {
+            get {
+                return ((string)(this["BinanceKey"]));
+            }
+            set {
+                this["BinanceKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BinanceSecret {
+            get {
+                return ((string)(this["BinanceSecret"]));
+            }
+            set {
+                this["BinanceSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BitfinexKey {
+            get {
+                return ((string)(this["BitfinexKey"]));
+            }
+            set {
+                this["BitfinexKey"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string BitfinexSecret {
+            get {
+                return ((string)(this["BitfinexSecret"]));
+            }
+            set {
+                this["BitfinexSecret"] = value;
+            }
+        }
     }
 }
