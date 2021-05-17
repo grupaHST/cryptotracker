@@ -50,7 +50,12 @@ namespace Cryptotracker
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
-        private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
+        private void OpenKeyFlyout(object sender, RoutedEventArgs e) => keysFlyout.IsOpen = true;
+        private void CloseSettings(object sender, MouseButtonEventArgs e)
+        {
+            settingsFlyout.IsOpen = false;
+            keysFlyout.IsOpen = false;
+        }
 
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
