@@ -18,7 +18,7 @@
                 <icons:PackIconModern Width="22" Height="22" Kind="Settings"/>
             </Button>
             <Button x:Name="keyFlyoutOpener" Click="OpenKeyFlyout"
-                    ToolTip="API Keys">
+                    ToolTip="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ApiKeys}">
                 <icons:MaterialDesign Width="22" Height="22" Kind="Security"/>
             </Button>
         </mah:WindowCommands>
@@ -35,15 +35,12 @@
                     <Setter Property="TextWrapping" Value="Wrap"/>
                     <Setter Property="Width" Value="200"/>
                 </Style>                
-                <Style TargetType="{x:Type mah:ContentControlEx}">
-                    <Setter Property="FontSize" Value="20"/>
-                    <Setter Property="Padding" Value="20"/>
-                </Style>
             </mah:FlyoutsControl.Resources>
-            <mah:Flyout x:Name="keysFlyout" Position="Left" Header="API Keys">
+            <mah:Flyout x:Name="keysFlyout" Position="Left" 
+                        Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ApiKeys}">
                 <ScrollViewer>
                     <StackPanel>
-                        <mah:ContentControlEx>
+                        <mah:ContentControlEx FontSize="18" Padding="18">
                             <WrapPanel>
                                 <icons:BoxIcons Kind="LogosBitcoin"/>
                                 <TextBlock Text=" Binance:"/>
@@ -51,13 +48,13 @@
                         </mah:ContentControlEx>
                         <DockPanel>
                             <icons:PackIconMaterial Width="30" Kind="Key"/>
-                            <TextBox mah:TextBoxHelper.Watermark="Binance Key" Text="{Binding BinanceKey}"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Key" Text="{Binding BinanceKey}"/>
                         </DockPanel>
                         <DockPanel>
                             <icons:PackIconMaterial Width="30" Kind="Security"/>
-                            <TextBox mah:TextBoxHelper.Watermark="Binance secret" Text="{Binding BinanceSecret}"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Secret" Text="{Binding BinanceSecret}"/>
                         </DockPanel>
-                        <mah:ContentControlEx>
+                        <mah:ContentControlEx FontSize="18" Padding="18">
                             <WrapPanel>
                                 <icons:BoxIcons Kind="LogosBitcoin"/>
                                 <TextBlock Text=" Bitfinex:"/>
@@ -65,11 +62,11 @@
                         </mah:ContentControlEx>
                         <DockPanel>
                             <icons:PackIconMaterial Width="30" Kind="Key"/>
-                            <TextBox mah:TextBoxHelper.Watermark="Bitfinex Key" Text="{Binding BitfinexKey}"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Key" Text="{Binding BitfinexKey}"/>
                         </DockPanel>
                         <DockPanel>
                             <icons:PackIconMaterial Width="30" Kind="Security"/>
-                            <TextBox mah:TextBoxHelper.Watermark="Bitfinex Secret" Text="{Binding BitfinexSecret}"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Secret" Text="{Binding BitfinexSecret}"/>
                         </DockPanel>
                     </StackPanel>
                 </ScrollViewer>
