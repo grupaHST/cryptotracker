@@ -17,11 +17,18 @@ using Binance.Net.Enums;
 using Bitfinex;
 using Bitfinex.Net;
 using Bitfinex.Net.Objects;
+using Cryptotracker.ViewModels;
 
 namespace Cryptotracker.Backend
 {
     public static class ExchangeRatesHandler
     {
+        public static string BinanceAPIKey { get; set; }
+        public static string BinanceAPISecret { get; set; }
+
+        public static string BitfinexAPIKey { get; set; }
+        public static string BitfinexAPISecret { get; set; }
+
         private static HttpClient client = new HttpClient();
 
         private static string basicNBPAPIAddress = "http://api.nbp.pl/api/exchangerates";
@@ -31,7 +38,6 @@ namespace Cryptotracker.Backend
         private static JsonSerializerOptions jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
 
         private static CurrencyCode symbol = CurrencyCode.PLN;
-
 
         public static async Task<CurrencyDataModel> GetCurrencyData(ExchangePlatform currencyPlatform, CurrencyCode currencyCode, DateTime? startTime = null, DateTime? endTime = null)
         {
@@ -402,7 +408,7 @@ namespace Cryptotracker.Backend
         {
             BinanceClient client = new BinanceClient(new BinanceClientOptions()
             {
-                ApiCredentials = new ApiCredentials("ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh", "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He"),
+                ApiCredentials = new ApiCredentials(BinanceAPIKey, BinanceAPISecret),
                 AutoTimestamp = true,
                 AutoTimestampRecalculationInterval = TimeSpan.FromMinutes(30)
             });
@@ -460,7 +466,7 @@ namespace Cryptotracker.Backend
         {
             BitfinexClient client = new BitfinexClient(new BitfinexClientOptions()
             {
-                ApiCredentials = new ApiCredentials("mDqhNh8HLJmbuBdCSLktNXhpsaqtA4FSdAOutllUoWh", "jv3bsJhv6L0lUYPHbO1KXsPPfzcP5rrcfRjt80QO0t8")
+                ApiCredentials = new ApiCredentials(BitfinexAPIKey, BitfinexAPISecret)
             });
 
             TimeFrame klineInterval = TimeFrame.OneDay;
