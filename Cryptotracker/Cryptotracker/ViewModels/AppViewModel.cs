@@ -41,6 +41,11 @@ namespace Cryptotracker.ViewModels
         public string SecondCurrencyCode { get; set; }
         public string SecondCurrencyValue { get; set; } = 0.ToString();
 
+        public string BinanceKey { get; set; }
+        public string BitfinexKey { get; set; }
+        public string BinanceSecret { get; set; }
+        public string BitfinexSecret { get; set; }
+
         public ObservableCollection<string> Logs { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;

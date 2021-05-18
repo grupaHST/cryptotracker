@@ -97,6 +97,12 @@
         {
             Language.Polski => "Oczekiwano liczby",
             _ => "Number expected"
+        };        
+        
+        public static string ApiKeys(Language lang) => lang switch
+        {
+            Language.Polski => "Klucze do API",
+            _ => "API Keys"
         };
     }
 }
