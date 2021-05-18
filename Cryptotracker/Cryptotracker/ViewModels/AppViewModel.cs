@@ -41,15 +41,30 @@ namespace Cryptotracker.ViewModels
         public string SecondCurrencyCode { get; set; }
         public string SecondCurrencyValue { get; set; } = 0.ToString();
 
-        public string BinanceKey { get; set; }
-        public string BitfinexKey { get; set; }
-        public string BinanceSecret { get; set; }
-        public string BitfinexSecret { get; set; }
+        public string BinanceKey
+        {
+            get => ExchangeRatesHandler.BinanceAPIKey;
+            set => ExchangeRatesHandler.BinanceAPIKey = value;
+        }
+        public string BitfinexKey
+        {
+            get => ExchangeRatesHandler.BitfinexAPIKey;
+            set => ExchangeRatesHandler.BitfinexAPIKey = value;
+        }
+        public string BinanceSecret
+        {
+            get => ExchangeRatesHandler.BinanceAPISecret;
+            set => ExchangeRatesHandler.BinanceAPISecret = value;
+        }
+        public string BitfinexSecret
+        {
+            get => ExchangeRatesHandler.BitfinexAPISecret;
+            set => ExchangeRatesHandler.BitfinexAPISecret = value;
+        }
 
         public ObservableCollection<string> Logs { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         public RelayCommand DownloadCommand => new(async () =>
         {
             try
