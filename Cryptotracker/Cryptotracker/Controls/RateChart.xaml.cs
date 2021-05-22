@@ -43,15 +43,30 @@ namespace Cryptotracker.Controls
         {
             List<OHLC> tempOhlcs = new List<OHLC>();
             RateModel lastRate = null;
-            foreach (var rate in (DataContext as AppViewModel).Rates)
+            if  ((DataContext as AppViewModel).Rates[0].Low!=0)
             {
-                if (lastRate != null)
+                foreach (var rate in (DataContext as AppViewModel).Rates)
                 {
-                    tempOhlcs.Add(new OHLC(lastRate.Value, lastRate.Value, rate.Value, rate.Value, rate.Date));
+                    if (lastRate != null)
+                    {
+                        tempOhlcs.Add(new OHLC(lastRate.Value, rate.High, rate.Low, rate.Value, rate.Date));
+                    }
+                    lastRate = rate;
                 }
-                lastRate = rate;
-                
             }
+            else
+            {
+                foreach (var rate in (DataContext as AppViewModel).Rates)
+                {
+                    if (lastRate != null)
+                    {
+                        tempOhlcs.Add(new OHLC(lastRate.Value, lastRate.Value, rate.Value, rate.Value, rate.Date));
+                    }
+                    lastRate = rate;
+
+                }
+            }
+            
 
             var ohlcs = tempOhlcs.ToArray();
             Chart.plt.Clear();
