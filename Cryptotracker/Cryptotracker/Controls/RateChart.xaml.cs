@@ -42,7 +42,7 @@ namespace Cryptotracker.Controls
         private void UpdateChart()
         {
             List<OHLC> tempOhlcs = new List<OHLC>();
-            GenericRate lastRate = null;
+            RateModel lastRate = null;
             foreach (var rate in (DataContext as AppViewModel).Rates)
             {
                 if (lastRate != null)
