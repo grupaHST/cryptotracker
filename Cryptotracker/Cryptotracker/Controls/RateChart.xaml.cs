@@ -41,34 +41,27 @@ namespace Cryptotracker.Controls
 
         private void UpdateChart()
         {
-            List<OHLC> tempOhlcs = new List<OHLC>();
-            RateModel lastRate = null;
+            OHLC [] ohlcs = new OHLC[(DataContext as AppViewModel).Rates.Count - 1];
+            RateModel lastRate = (DataContext as AppViewModel).Rates[0];
             if  ((DataContext as AppViewModel).Rates[0].Low!=0)
             {
-                foreach (var rate in (DataContext as AppViewModel).Rates)
+                for(int i = 1;i<(DataContext as AppViewModel).Rates.Count;i++)
                 {
-                    if (lastRate != null)
-                    {
-                        tempOhlcs.Add(new OHLC(lastRate.Value, rate.High, rate.Low, rate.Value, rate.Date));
-                    }
-                    lastRate = rate;
+                    var tempRate = (DataContext as AppViewModel).Rates[i];
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, tempRate.High, tempRate.Low, tempRate.Value, tempRate.Date);
+                    lastRate = tempRate;
                 }
             }
             else
             {
-                foreach (var rate in (DataContext as AppViewModel).Rates)
+                for (int i = 1; i < (DataContext as AppViewModel).Rates.Count; i++)
                 {
-                    if (lastRate != null)
-                    {
-                        tempOhlcs.Add(new OHLC(lastRate.Value, lastRate.Value, rate.Value, rate.Value, rate.Date));
-                    }
-                    lastRate = rate;
-
+                    var tempRate = (DataContext as AppViewModel).Rates[i];
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, lastRate.Value, tempRate.Value, tempRate.Value, tempRate.Date);
+                    lastRate = tempRate;
                 }
             }
             
-
-            var ohlcs = tempOhlcs.ToArray();
             Chart.plt.Clear();
             Chart.plt.Title(String.Format("{0} Stock Chart",(DataContext as AppViewModel).SelectedCurrencyCode));
             Chart.plt.YLabel(String.Format("Stock Price ({0})", (DataContext as AppViewModel).SelectedCurrencyCode));
