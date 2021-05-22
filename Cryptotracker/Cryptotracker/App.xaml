@@ -22,9 +22,11 @@
             <sys:String x:Key="DefaultBaseColorScheme">Light</sys:String>
             <sys:String x:Key="DefaultStartDate">2020-12-01</sys:String>
             <sys:String x:Key="DefaultEndDate">2021-01-01</sys:String>
-            <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITBAY</sys:String>
+            <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITFINEX</sys:String>
             <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
             <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
+            <sys:String x:Key="DefaultFirstCurrencyCode">EUR</sys:String>
+            <sys:String x:Key="DefaultSecondCurrencyCode">USD</sys:String>
 
             <viewModels:AppViewModel x:Key="AppViewModel"/>
             <langConverters:LanguageToAppMessageConverter x:Key="LangConv"/>
@@ -42,7 +44,7 @@
             <sys:String x:Key="UrlBinance">https://www.binance.com/pl</sys:String>
             <sys:String x:Key="UrlExchangeRates">https://exchangeratesapi.io/</sys:String>
             <sys:String x:Key="UrlRates">https://ratesapi.io/</sys:String>
-            <sys:String x:Key="UrlBitbay">https://bitbay.net/pl</sys:String>
+            <sys:String x:Key="UrlBitfinex">https://www.bitfinex.com/</sys:String>
             <sys:String x:Key="UrlNbp">https://www.nbp.pl</sys:String>
 
             <SolidColorBrush x:Key="GitHubBrush">#ad5c51</SolidColorBrush>

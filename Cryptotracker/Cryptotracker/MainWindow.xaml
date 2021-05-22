@@ -18,48 +18,94 @@
                     ToolTip="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Settings}">
                 <icons:PackIconModern Width="22" Height="22" Kind="Settings"/>
             </Button>
+            <Button x:Name="keyFlyoutOpener" Click="OpenKeyFlyout"
+                    ToolTip="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ApiKeys}">
+                <icons:MaterialDesign Width="22" Height="22" Kind="Security"/>
+            </Button>
         </mah:WindowCommands>
     </mah:MetroWindow.LeftWindowCommands>
     <!--#region Settings-->
     <mah:MetroWindow.Flyouts>
         <mah:FlyoutsControl>
+            <mah:FlyoutsControl.Resources>
+                <Style TargetType="{x:Type DockPanel}">
+                    <Setter Property="Margin" Value="5"/>
+                </Style>
+                <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MahApps.Styles.TextBox}">
+                    <Setter Property="MinLines" Value="5"/>
+                    <Setter Property="TextWrapping" Value="Wrap"/>
+                    <Setter Property="Width" Value="200"/>
+                </Style>                
+            </mah:FlyoutsControl.Resources>
+            <mah:Flyout x:Name="keysFlyout" Position="Left" 
+                        Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ApiKeys}">
+                <ScrollViewer>
+                    <StackPanel>
+                        <mah:ContentControlEx FontSize="18" Padding="18">
+                            <WrapPanel>
+                                <icons:BoxIcons Kind="LogosBitcoin"/>
+                                <TextBlock Text=" Binance:"/>
+                            </WrapPanel>
+                        </mah:ContentControlEx>
+                        <DockPanel>
+                            <icons:PackIconMaterial Width="30" Kind="Key"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Key" Text="{Binding BinanceKey}"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <icons:PackIconMaterial Width="30" Kind="Security"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Secret" Text="{Binding BinanceSecret}"/>
+                        </DockPanel>
+                        <mah:ContentControlEx FontSize="18" Padding="18">
+                            <WrapPanel>
+                                <icons:BoxIcons Kind="LogosBitcoin"/>
+                                <TextBlock Text=" Bitfinex:"/>
+                            </WrapPanel>
+                        </mah:ContentControlEx>
+                        <DockPanel>
+                            <icons:PackIconMaterial Width="30" Kind="Key"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Key" Text="{Binding BitfinexKey}"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <icons:PackIconMaterial Width="30" Kind="Security"/>
+                            <TextBox mah:TextBoxHelper.Watermark="Secret" Text="{Binding BitfinexSecret}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </mah:Flyout>
             <mah:Flyout x:Name="settingsFlyout" Position="Left"
                         Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Settings}">
-                <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="{x:Type DockPanel}">
-                            <Setter Property="Margin" Value="5"/>
-                        </Style>
-                    </StackPanel.Resources>
-                    <DockPanel>
-                        <icons:Entypo Width="30" Kind="Language"/>
-                        <mah:SplitButton x:Name="languageSelector" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"
-                                         Orientation="Vertical" SelectionChanged="LanguageChanged"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <icons:PackIconBoxIcons Width="30" Kind="LogosBitcoin"/>
-                        <mah:SplitButton ItemsSource="{Binding CryptoExchangePlatforms}" SelectedItem="{Binding SelectedCryptoExchangePlatform}"/>
-                    </DockPanel>                    
-                    <DockPanel>
-                        <icons:PackIconModern Width="30" Kind="Money"/>
-                        <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <icons:PackIconMaterial Width="30" Kind="FormatColorFill"/>
-                        <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
-                                         SelectionChanged="ColorSchemaSelector_Selected"/>
-                    </DockPanel>
-                    <DockPanel>
-                        <mah:ToggleSwitch x:Name="themeSwitch" Toggled="ThemeSwitch_Toggled">
-                            <mah:ToggleSwitch.OnContent>
-                                <icons:EvaIcons Kind="Moon"/>
-                            </mah:ToggleSwitch.OnContent>
-                            <mah:ToggleSwitch.OffContent>
-                                <icons:EvaIcons Kind="Sun"/>
-                            </mah:ToggleSwitch.OffContent>
-                        </mah:ToggleSwitch>
-                    </DockPanel>
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel>
+                        <DockPanel>
+                            <icons:Entypo Width="30" Kind="Language"/>
+                            <mah:SplitButton x:Name="languageSelector" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"
+                                             Orientation="Vertical" SelectionChanged="LanguageChanged"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <icons:PackIconBoxIcons Width="30" Kind="LogosBitcoin"/>
+                            <mah:SplitButton ItemsSource="{Binding CryptoExchangePlatforms}" SelectedItem="{Binding SelectedCryptoExchangePlatform}"/>
+                        </DockPanel>                    
+                        <DockPanel>
+                            <icons:PackIconModern Width="30" Kind="Money"/>
+                            <mah:SplitButton ItemsSource="{Binding ExchangePlatforms}" SelectedItem="{Binding SelectedExchangePlatform}"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <icons:PackIconMaterial Width="30" Kind="FormatColorFill"/>
+                            <mah:SplitButton x:Name="colorSchemaSelector" ItemsSource="{Binding ThemeManager.ColorSchemes}" Orientation="Vertical"
+                                             SelectionChanged="ColorSchemaSelector_Selected"/>
+                        </DockPanel>
+                        <DockPanel>
+                            <mah:ToggleSwitch x:Name="themeSwitch" Toggled="ThemeSwitch_Toggled">
+                                <mah:ToggleSwitch.OnContent>
+                                    <icons:EvaIcons Kind="Moon"/>
+                                </mah:ToggleSwitch.OnContent>
+                                <mah:ToggleSwitch.OffContent>
+                                    <icons:EvaIcons Kind="Sun"/>
+                                </mah:ToggleSwitch.OffContent>
+                            </mah:ToggleSwitch>
+                        </DockPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </mah:Flyout>
         </mah:FlyoutsControl>
     </mah:MetroWindow.Flyouts>
@@ -70,7 +116,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="100"/>
         </Grid.RowDefinitions>
-        <mah:MetroTabControl mah:TabControlHelper.Underlined="SelectedTabItem">
+        <mah:MetroAnimatedTabControl mah:TabControlHelper.Underlined="SelectedTabItem">
+            <!--#region Exchange rates -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ExchangeRates}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -109,9 +156,57 @@
                     </Grid>
                 </Grid>
             </mah:MetroTabItem>
+            <!--#endregion-->
+            <!--#region Converter -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=CurrencyConverter}">
-                
+                <Grid>
+                    <StackPanel Margin="20">
+                        <StackPanel.Resources>
+                            <Style TargetType="{x:Type TextBox}">
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="FontSize" Value="36"/>
+                                <Setter Property="TextAlignment" Value="Right"/>
+                                <Setter Property="MaxLength" Value="24"/>
+                                <Setter Property="MaxLines" Value="1"/>
+                                <Setter Property="ToolTip" Value="{Binding Error}"/>
+                                <Style.Triggers>
+                                    <Trigger Property="Validation.HasError" Value="True">
+                                        <Setter Property="Background" Value="#FF3333"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type mah:SplitButton}">
+                                <Setter Property="Margin" Value="5"/>
+                                <Setter Property="FontSize" Value="24"/>
+                                <Setter Property="Width" Value="200"/>
+                                <Setter Property="DockPanel.Dock" Value="Right"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <DockPanel>
+                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedValue="{Binding FirstCurrencyCode}">
+                                <mah:SplitButton.Icon>
+                                    <icons:PackIconModern Kind="Money" Width="24" Height="24"/>
+                                </mah:SplitButton.Icon>
+                            </mah:SplitButton>
+                            <TextBox Text="{Binding FirstCurrencyValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                        </DockPanel>
+                        <Button HorizontalAlignment="Right" Style="{DynamicResource MahApps.Styles.Button.Circle}" 
+                                Margin="0,0,75,0" Height="50" Width="50" Cursor="Hand" Command="{Binding SwapCurrenciesCommand}">
+                            <icons:EvaIcons Kind="Sync"/>
+                        </Button>
+                        <DockPanel>
+                            <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedValue="{Binding SecondCurrencyCode}">
+                                <mah:SplitButton.Icon>
+                                    <icons:PackIconModern Kind="Money" Width="24" Height="24"/>
+                                </mah:SplitButton.Icon>
+                            </mah:SplitButton>
+                            <TextBox Text="{Binding SecondCurrencyValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                        </DockPanel>
+                    </StackPanel>
+                </Grid>
             </mah:MetroTabItem>
+            <!--#endregion-->
+            <!--#region About app -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AboutApp}">
                 <DockPanel>
                     <DockPanel.Resources>
@@ -124,7 +219,7 @@
                         </Style>
                     </DockPanel.Resources>
                     <ListView DockPanel.Dock="Bottom" Width="500">
-                        <TextBlock Text="Dawid Heinrich" />
+                        <TextBlock Text="Dawid Heinrich"/>
                         <TextBlock Text="Szymon Świstek"/>
                         <TextBlock Text="Oswald Toma"/>
                     </ListView>
@@ -134,7 +229,7 @@
                         <mah:FlipView IsBannerEnabled="False" Width="500" Height="150" HorizontalAlignment="Center">
                             <mah:FlipView.Resources>
                                 <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Square.Highlight}">
-                                    <Setter Property="Command" Value="{Binding OpenInBrowser}"/>
+                                    <Setter Property="Command" Value="{Binding OpenInBrowserCommand}"/>
                                     <Setter Property="Cursor" Value="Hand"/>
                                 </Style>
                                 <Style TargetType="{x:Type mah:Tile}">
@@ -159,9 +254,9 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <Button CommandParameter="{StaticResource UrlBitbay}">
+                                <Button CommandParameter="{StaticResource UrlBitfinex}">
                                     <Button.Background>
-                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitbay}}"/>
+                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitfinex}}"/>
                                     </Button.Background>
                                 </Button>
                             </mah:FlipViewItem>
@@ -188,7 +283,8 @@
                     </StackPanel>
                 </DockPanel>
             </mah:MetroTabItem>
-        </mah:MetroTabControl>
+            <!--#endregion-->
+        </mah:MetroAnimatedTabControl>
         <TextBlock Grid.Row="1" Text="Logi (będą usunięte w ostatecznej wersji programu):" FontSize="16" Padding="5"/>
         <Border Grid.Row="2" Padding="5" BorderThickness="2">
             <ListView ItemsSource="{Binding Logs}"/>

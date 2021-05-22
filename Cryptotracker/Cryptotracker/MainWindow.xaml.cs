@@ -1,10 +1,7 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Frontend.Converters;
-using Cryptotracker.Languages;
-using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using MahApps.Metro.Controls;
-using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -53,7 +50,12 @@ namespace Cryptotracker
         }
 
         private void OpenSettings(object sender, RoutedEventArgs e) => settingsFlyout.IsOpen = true;
-        private void CloseSettings(object sender, MouseButtonEventArgs e) => settingsFlyout.IsOpen = false;
+        private void OpenKeyFlyout(object sender, RoutedEventArgs e) => keysFlyout.IsOpen = true;
+        private void CloseSettings(object sender, MouseButtonEventArgs e)
+        {
+            settingsFlyout.IsOpen = false;
+            keysFlyout.IsOpen = false;
+        }
 
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {

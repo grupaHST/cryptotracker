@@ -2,20 +2,18 @@
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
 using Cryptotracker.Backend.NBP;
-using Cryptotracker.Frontend.Converters;
 using Cryptotracker.Languages;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace Cryptotracker.ViewModels
 {
-    public class AppViewModel : INotifyPropertyChanged
+    public class AppViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public Version AppVersion { get; } = Assembly.GetEntryAssembly().GetName().Version;
 
@@ -50,6 +48,32 @@ namespace Cryptotracker.ViewModels
         public DateTime EndDate { get; set; }
 
         public bool IsLoadingData { get; set; }
+
+        public string FirstCurrencyCode { get; set; }
+        public string FirstCurrencyValue { get; set; } = 0.ToString();
+        public string SecondCurrencyCode { get; set; }
+        public string SecondCurrencyValue { get; set; } = 0.ToString();
+
+        public string BinanceKey
+        {
+            get => ExchangeRatesHandler.BinanceAPIKey;
+            set => ExchangeRatesHandler.BinanceAPIKey = value;
+        }
+        public string BitfinexKey
+        {
+            get => ExchangeRatesHandler.BitfinexAPIKey;
+            set => ExchangeRatesHandler.BitfinexAPIKey = value;
+        }
+        public string BinanceSecret
+        {
+            get => ExchangeRatesHandler.BinanceAPISecret;
+            set => ExchangeRatesHandler.BinanceAPISecret = value;
+        }
+        public string BitfinexSecret
+        {
+            get => ExchangeRatesHandler.BitfinexAPISecret;
+            set => ExchangeRatesHandler.BitfinexAPISecret = value;
+        }
 
         public ObservableCollection<string> Logs { get; set; } = new();
 
@@ -95,6 +119,69 @@ namespace Cryptotracker.ViewModels
             {
                 (App.Current as App).LogMessage(e.Message);
             }
+        });        
+        
+        public RelayCommand<string> SwapCurrenciesCommand => new(url =>
+        {
+            var tempCode = FirstCurrencyCode;
+            var tempValue = FirstCurrencyValue;
+
+            FirstCurrencyCode = SecondCurrencyCode;
+            FirstCurrencyValue = SecondCurrencyValue;
+
+            SecondCurrencyCode = tempCode;
+            SecondCurrencyValue = tempValue;
         });
+
+        public string Error { get; set; }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch (columnName)
+                {
+                    case nameof(FirstCurrencyValue):
+                        {
+                            if (decimal.TryParse(FirstCurrencyValue, out decimal resultValue))
+                            {
+                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
+                                /*
+                                 * Pierwsza waluta została zmodyfikowana przez usera, trzeba zmienić wartość drugiej waluty
+                                 * SecondCurrencyValue = {resultValue po przeliczeniu}.ToString()
+                                 * 
+                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
+                                 */
+                            }
+                            else
+                            {
+                                Error = AppMessages.NumberConversionError(Language);
+                            }
+                        }
+                        break;
+                    case nameof(SecondCurrencyValue):
+                        {
+                            if (decimal.TryParse(SecondCurrencyValue, out decimal resultValue))
+                            {
+                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
+                                /*
+                                 * Druga waluta została zmodyfikowana przez usera, trzeba zmienić wartość pierwszej waluty
+                                 * FirstCurrencyValue = {resultValue po przeliczeniu}.ToString()
+                                 * 
+                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
+                                 */
+                            }
+                            else
+                            {
+                                Error = AppMessages.NumberConversionError(Language);
+                            }
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                return Error;
+            }
+        }
     }
 }

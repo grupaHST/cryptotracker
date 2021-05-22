@@ -7,7 +7,6 @@ using Cryptotracker.LocalData;
 using Cryptotracker.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -72,6 +71,26 @@ namespace Cryptotracker
             vm.SelectedCurrencyCode = string.IsNullOrEmpty(currencyCode)
                 ? Default(nameof(vm.SelectedCurrencyCode))?.ToString() : currencyCode;
 
+            var firstCode = Cryptotracker.Properties.Settings.Default[nameof(vm.FirstCurrencyCode)]?.ToString();
+            vm.FirstCurrencyCode = string.IsNullOrEmpty(firstCode)
+                ? Default(nameof(vm.FirstCurrencyCode))?.ToString() : firstCode;
+
+            var secondCode = Cryptotracker.Properties.Settings.Default[nameof(vm.SecondCurrencyCode)]?.ToString();
+            vm.SecondCurrencyCode = string.IsNullOrEmpty(secondCode)
+                ? Default(nameof(vm.FirstCurrencyCode))?.ToString() : secondCode;
+            
+            var binanceKey = Cryptotracker.Properties.Settings.Default[nameof(vm.BinanceKey)]?.ToString();
+            vm.BinanceKey = string.IsNullOrEmpty(binanceKey) ? Default(nameof(vm.BinanceKey))?.ToString() : binanceKey;
+            
+            var binanceSecret = Cryptotracker.Properties.Settings.Default[nameof(vm.BinanceSecret)]?.ToString();
+            vm.BinanceSecret = string.IsNullOrEmpty(binanceSecret) ? Default(nameof(vm.BinanceSecret))?.ToString() : binanceSecret;
+            
+            var bitfinexKey = Cryptotracker.Properties.Settings.Default[nameof(vm.BitfinexKey)]?.ToString();
+            vm.BitfinexKey = string.IsNullOrEmpty(bitfinexKey) ? Default(nameof(vm.BitfinexKey))?.ToString() : bitfinexKey;
+            
+            var bitfinexSecret = Cryptotracker.Properties.Settings.Default[nameof(vm.BitfinexSecret)]?.ToString();
+            vm.BitfinexSecret = string.IsNullOrEmpty(bitfinexSecret) ? Default(nameof(vm.BitfinexSecret))?.ToString() : bitfinexSecret;
+
             var startDate = Cryptotracker.Properties.Settings.Default[nameof(vm.StartDate)]?.ToString();
             bool parseResult = DateTime.TryParse
             (
@@ -124,6 +143,12 @@ namespace Cryptotracker
             Cryptotracker.Properties.Settings.Default.SelectedCryptoExchangePlatform = viewModel.SelectedCryptoExchangePlatform;
             Cryptotracker.Properties.Settings.Default.SelectedExchangePlatform = viewModel.SelectedExchangePlatform;
             Cryptotracker.Properties.Settings.Default.SelectedCurrencyCode = viewModel.SelectedCurrencyCode;
+            Cryptotracker.Properties.Settings.Default.FirstCurrencyCode = viewModel.FirstCurrencyCode;
+            Cryptotracker.Properties.Settings.Default.SecondCurrencyCode = viewModel.SecondCurrencyCode;
+            Cryptotracker.Properties.Settings.Default.BinanceKey = viewModel.BinanceKey;
+            Cryptotracker.Properties.Settings.Default.BinanceSecret = viewModel.BinanceSecret;
+            Cryptotracker.Properties.Settings.Default.BitfinexKey = viewModel.BitfinexKey;
+            Cryptotracker.Properties.Settings.Default.BitfinexSecret = viewModel.BitfinexSecret;
             Cryptotracker.Properties.Settings.Default.Save();
         }
 
