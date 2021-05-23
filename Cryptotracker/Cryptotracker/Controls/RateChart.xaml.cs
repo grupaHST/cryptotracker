@@ -60,9 +60,14 @@ namespace Cryptotracker.Controls
             }
         }
 
+        private string GenerateChartTitle()
+        {
+            return String.Format("{0} ({1})", Title, (DataContext as AppViewModel).SelectedCurrencyCode);
+        }
+
         private void UpdateChartDescription()
         {
-            Chart.plt.Title(Title);
+            Chart.plt.Title(GenerateChartTitle());
             Chart.Render();
         }
 
@@ -90,7 +95,7 @@ namespace Cryptotracker.Controls
             }
             
             Chart.plt.Clear();
-            Chart.plt.Title(String.Format("{0} Stock Chart",(DataContext as AppViewModel).SelectedCurrencyCode));
+            Chart.plt.Title(GenerateChartTitle());
             Chart.plt.YLabel(String.Format("Stock Price ({0})", (DataContext as AppViewModel).SelectedCurrencyCode));
             Chart.plt.PlotCandlestick(ohlcs);
             Chart.plt.Ticks(dateTimeX: true);
