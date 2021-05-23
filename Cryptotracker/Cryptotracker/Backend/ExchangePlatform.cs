@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.Backend
 {
-        public enum ExchangePlatform
-        {
-            NBP,
-            RATES,
-            EXCHANGERATE_HOST
-        }
+    public enum ExchangePlatform
+    {
+        NBP,
+        EXCHANGERATE_HOST,
+        YAHOO
+    }
 }

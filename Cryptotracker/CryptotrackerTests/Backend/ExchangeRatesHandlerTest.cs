@@ -16,6 +16,12 @@ namespace CryptotrackerTests.Backend
         [TestMethod]
         public async Task GetCurrencyDataTest()
         {
+            // TESTING API KEYS
+            ExchangeRatesHandler.BitfinexAPIKey = "mDqhNh8HLJmbuBdCSLktNXhpsaqtA4FSdAOutllUoWh";
+            ExchangeRatesHandler.BitfinexAPISecret = "jv3bsJhv6L0lUYPHbO1KXsPPfzcP5rrcfRjt80QO0t8";
+            ExchangeRatesHandler.BinanceAPIKey = "ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh";
+            ExchangeRatesHandler.BinanceAPISecret = "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He";
+
             CurrencyDataModel result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.CHF, Convert.ToDateTime("2021-04-09"));
 
             Assert.IsNotNull(result);
@@ -56,18 +62,18 @@ namespace CryptotrackerTests.Backend
             Assert.AreEqual(Convert.ToDateTime("2021-04-21"), result.Rates.First().Date);
             Assert.AreEqual(0.2651, result.Rates.First().Value);
 
-            //DATE RANGE TESTS RATESAPI
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.RATES, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
+            //DATE RANGE TESTS YAHOO
+            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
             Assert.AreEqual("USD", result.Code);
-            Assert.AreEqual(3.8061685055, result.Rates[0].Value);
-            Assert.AreEqual(3.8056808688, result.Rates[1].Value);
-            Assert.AreEqual(3.7968463207, result.Rates[2].Value);
+            Assert.AreEqual(3.806945, result.Rates[0].Value);
+            Assert.AreEqual(3.80178, result.Rates[1].Value);
+            Assert.AreEqual(3.7968, result.Rates[2].Value);
             Assert.AreEqual(3, result.Rates.Count);
 
-            //RATESAPI - START DATE ONLY
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.RATES, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
+            //YAHOO - START DATE ONLY
+            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
             Assert.AreEqual("USD", result.Code);
-            Assert.AreEqual(3.8061685055, result.Rates[0].Value);
+            Assert.AreEqual(3.806945, result.Rates[0].Value);
 
 
             //EXCHANGERATES.HOST - START DATE ONLY
