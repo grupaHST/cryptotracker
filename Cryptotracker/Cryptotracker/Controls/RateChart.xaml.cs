@@ -44,6 +44,28 @@ namespace Cryptotracker.Controls
             UpdateChartDescription();
         }
 
+        public static readonly DependencyProperty CurrencyCodeProperty =
+            DependencyProperty.Register("CurrencyCode", typeof(string), typeof(RateChart),
+                new PropertyMetadata("", new PropertyChangedCallback(OnCurrencyCodeChanged)));
+
+        public string CurrencyCode
+        {
+            get { return (string)GetValue(CurrencyCodeProperty); }
+            set { SetValue(CurrencyCodeProperty, value); }
+        }
+
+        private static void OnCurrencyCodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnCurrencyCodeChanged(e);
+        }
+
+        private void OnCurrencyCodeChanged(DependencyPropertyChangedEventArgs e)
+        {
+            Chart.plt.Clear();
+            UpdateChartDescription();
+        }
+
         public RateChart()
         {
             InitializeComponent();
@@ -62,7 +84,7 @@ namespace Cryptotracker.Controls
 
         private string GenerateChartTitle()
         {
-            return String.Format("{0} ({1})", Title, (DataContext as AppViewModel).SelectedCurrencyCode);
+            return String.Format("{0} ({1})", Title, CurrencyCode);
         }
 
         private void UpdateChartDescription()
