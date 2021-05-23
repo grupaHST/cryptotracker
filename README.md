@@ -73,7 +73,7 @@ Dokument ten obejmuje czynniki, których wymaga klient od sporządzanej aplikacj
 # Technologie użyte w projekcie
 
 Projekt zostanie wykonany w języku [C#](https://docs.microsoft.com/pl-pl/dotnet/csharp/whats-new/csharp-9) w wersji 9.0. 
-Bazowymi technologiami będą [.NET 5.0](https://docs.microsoft.com/pl-pl/dotnet/core/dotnet-five) oraz Windows Presention Foundation [(WPF)](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/?view=netdesktop-5.0). Za graficzne przedstawienie użytkownikowi danych odpowiedzialna będzie biblioteka [LiveCharts](https://lvcharts.net/). Do testów jednostkowych użyty zostanie framework 
+Bazowymi technologiami będą [.NET 5.0](https://docs.microsoft.com/pl-pl/dotnet/core/dotnet-five) oraz Windows Presention Foundation [(WPF)](https://docs.microsoft.com/en-us/dotnet/desktop/wpf/?view=netdesktop-5.0). Za graficzne przedstawienie użytkownikowi danych odpowiedzialna będzie biblioteka [ScottPlot](https://swharden.com/scottplot/). Do testów jednostkowych użyty zostanie framework 
 [UnitTesting](https://en.wikipedia.org/wiki/Visual_Studio_Unit_Testing_Framework) udostępniony przez firmę Microsoft. Projekt będzie wykonywany zgodnie ze wzorcem projektowym MVVM.
 
 # Podział ról i odpowiedzialności w projekcie
