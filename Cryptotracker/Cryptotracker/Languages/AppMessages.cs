@@ -110,5 +110,11 @@
             Language.Polski => "Wykres kursu",
             _ => "Stock Chart"
         };
+
+        public static string YLabel(Language lang) => lang switch
+        {
+            Language.Polski => "Cena waloru",
+            _ => "Stock Price"
+        };
     }
 }

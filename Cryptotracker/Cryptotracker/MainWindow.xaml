@@ -153,6 +153,7 @@
                         <!--zamiast data grid'a w tym miejsu powinien być wykres-->
                         <controls:RateChart 
                             Title="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=ChartTitle}"
+                            YLabel="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=YLabel}"
                             CurrencyCode="{Binding SelectedCurrencyCode}"/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
