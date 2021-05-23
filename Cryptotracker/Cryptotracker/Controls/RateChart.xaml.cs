@@ -23,6 +23,27 @@ namespace Cryptotracker.Controls
 {
     public partial class RateChart : UserControl
     {
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(RateChart), 
+                new PropertyMetadata("", new PropertyChangedCallback(OnTitleChanged)));
+
+        public string Title
+        {
+            get {return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnTitleChanged(e);
+        }
+
+        private void OnTitleChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateChartDescription();
+        }
+
         public RateChart()
         {
             InitializeComponent();
@@ -37,6 +58,12 @@ namespace Cryptotracker.Controls
             {
                 UpdateChart();
             }
+        }
+
+        private void UpdateChartDescription()
+        {
+            Chart.plt.Title(Title);
+            Chart.Render();
         }
 
         private void UpdateChart()
