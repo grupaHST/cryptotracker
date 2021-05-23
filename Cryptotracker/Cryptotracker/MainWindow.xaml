@@ -151,7 +151,7 @@
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="10">
                         <!--zamiast data grid'a w tym miejsu powinien być wykres-->
-                        <controls:RateChart/>
+                        <controls:RateChart Title="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=ChartTitle}"/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </Grid>
