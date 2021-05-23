@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Cryptotracker.ViewModels
 {
@@ -26,7 +27,19 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<string> CryptoExchangePlatforms => new(Enum.GetNames<CryptoExchangePlatform>());
         public string SelectedCryptoExchangePlatform { get; set; }
 
-        public ObservableCollection<RateModel> Rates { get; set; }
+        private ObservableCollection<RateModel> _Rates;
+
+        public ObservableCollection<RateModel> Rates
+        {
+            get { return _Rates; }
+            set
+            {
+                _Rates = value;
+                OnPropertyChanged(); 
+                
+            }
+        }
+
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
@@ -65,7 +78,12 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<string> Logs { get; set; } = new();
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public RelayCommand DownloadCommand => new(async () =>
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public RelayCommand DownloadCommand => new(async() =>
         {
             try
             {
