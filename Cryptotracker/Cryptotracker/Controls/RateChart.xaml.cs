@@ -25,11 +25,15 @@ namespace Cryptotracker.Controls
     {
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(RateChart), 
-                new PropertyMetadata("", new PropertyChangedCallback(OnTitleChanged)));
+                new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
 
         public static readonly DependencyProperty CurrencyCodeProperty =
             DependencyProperty.Register("CurrencyCode", typeof(string), typeof(RateChart),
                 new PropertyMetadata("", new PropertyChangedCallback(OnCurrencyCodeChanged)));
+
+        public static readonly DependencyProperty YLabelProperty =
+            DependencyProperty.Register("YLabel", typeof(string), typeof(RateChart),
+                new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
 
         public string Title
         {
@@ -42,14 +46,22 @@ namespace Cryptotracker.Controls
             get { return (string)GetValue(CurrencyCodeProperty); }
             set { SetValue(CurrencyCodeProperty, value); }
         }
-
-        private static void OnTitleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        
+        public string YLabel
         {
-            RateChart rateChart = d as RateChart;
-            rateChart.OnTitleChanged(e);
+            get { return (string)GetValue(YLabelProperty); }
+            set { SetValue(YLabelProperty, value); }
         }
 
-        private void OnTitleChanged(DependencyPropertyChangedEventArgs e)
+
+
+        private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnDescriptionChanged(e);
+        }
+
+        private void OnDescriptionChanged(DependencyPropertyChangedEventArgs e)
         {
             UpdateChartDescription();
         }
