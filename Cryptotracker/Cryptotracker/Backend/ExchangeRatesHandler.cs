@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Cryptotracker.Backend.Generic;
-using Cryptotracker.Backend.Rates;
 using System.Windows;
 using Cryptotracker.Backend.ExchangeRateHost;
 using Binance.Net;
@@ -18,6 +17,7 @@ using Bitfinex;
 using Bitfinex.Net;
 using Bitfinex.Net.Objects;
 using Cryptotracker.ViewModels;
+using YahooFinanceApi;
 
 namespace Cryptotracker.Backend
 {
@@ -143,23 +143,12 @@ namespace Cryptotracker.Backend
                     };
                 }
 
-                case ExchangePlatform.RATES:
-                {
+                case ExchangePlatform.YAHOO:
+                { 
                     string currencyCodeStr = currencyCode.ToString().ToUpper();
-                    string baseAndSymbols = $"?base={currencyCodeStr}&symbols={symbol}";
-                    string startTimeStr = string.Empty;
-                    string endTimeStr = string.Empty;
-
-                    if (startTime.HasValue)
-                        startTimeStr = startTime.Value.ToString("yyyy-MM-dd");
-
-                    if (endTime.HasValue)
-                        endTimeStr = endTime.Value.ToString("yyyy-MM-dd");
-
 
                     var rates = new List<RateModel>();
-                    var ratesAPIData = new RatesAPICurrencyData();
-
+            
                     bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
 
                     bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
@@ -168,95 +157,43 @@ namespace Cryptotracker.Backend
 
                     if (bothDatesProvided)
                     {
-                        var daysSpanCount = (endTime - startTime).Value.TotalDays + 1;
-                        if(daysSpanCount > 0)
+                        try
                         {
-                            for (int i = 0; i < Math.Abs(daysSpanCount); i++)
+                            var history = await Yahoo.GetHistoricalAsync($"{currencyCodeStr}PLN=X", startTime, endTime, Period.Daily);
+
+                            foreach (var rate in history)
                             {
-                                var startTimeOffset = startTime.Value.AddDays(i);
-                                requestURI = $"{basicRatesAPIAddress}/{startTimeOffset.ToString("yyyy-MM-dd")}{baseAndSymbols}";
-
-                                try
-                                {
-                                    result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
-                                }
-                                catch (Exception e)
-                                {
-                                    //(Application.Current as App).LogMessage($"RatesAPI: Data range unavailable. Fatal Error. {e.Message}");
-                                    return null;                                    
-                                }
-
-                                ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
-
-                                double value = 0;
-                                ratesAPIData.Rates.TryGetValue("PLN", out value);
-
-                                bool realDataReceived = ratesAPIData.Date == startTimeOffset;
-                                if (realDataReceived)
-                                {
-                                    rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
-                                }
-                                else
-                                {
-                                    //(Application.Current as App).LogMessage($"RatesAPI: Data for {startTimeOffset} unavailable.");
-                                }
+                                rates.Add(new RateModel() { Date = rate.DateTime, Value = (double)((rate.High + rate.Low) / 2) });
                             }
+                        }
+                        catch (Exception)
+                        {
+                            return null;
                         }
                     }
                     else if (startDateProvided)
                     {
-                        requestURI = $"{basicRatesAPIAddress}/{startTimeStr}{baseAndSymbols}";
-
                         try
                         {
-                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
-                            if (result == null)
-                            {
-                                return null;
-                            }
+                            var history = await Yahoo.GetHistoricalAsync($"{currencyCodeStr}PLN=X", startTime, startTime, Period.Daily);
+                            rates.Add(new RateModel() { Date = history.First().DateTime, Value = (double)((history.First().High + history.First().Low) / 2) });
                         }
                         catch (Exception e)
                         {
-                            //(Application.Current as App).LogMessage($"RatesAPI: Data for given day is unavailable. {e.Message}");
-                            return null;
-                        }
-
-                        ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
-
-                        double value = 0;
-                        ratesAPIData.Rates.TryGetValue("PLN", out value);
-
-                        bool realDataReceived = ratesAPIData.Date == startTime.Value;
-                        if (realDataReceived)
-                        {
-                            rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
-                        }
-                        else
-                        {
-                            //(Application.Current as App).LogMessage($"RatesAPI: Data for {startTime.Value} unavailable.");
                             return null;
                         }
                     }
-                    else if(noDateProvided)
+                    else if (noDateProvided)
                     {
-                        requestURI = $"{basicRatesAPIAddress}/latest{baseAndSymbols}";
-
                         try
                         {
-                            result = await client.GetStringAsync(requestURI).ConfigureAwait(false);
+                            var history = await Yahoo.GetHistoricalAsync($"{currencyCodeStr}PLN=X");
+                            rates.Add(new RateModel() { Date = history.First().DateTime, Value = (double)((history.First().High + history.First().Low) / 2) });
                         }
                         catch (Exception e)
                         {
-                            //(Application.Current as App).LogMessage($"RatesAPI: Latest data unavailable! {e.Message}");
                             return null;
                         }
-
-                        ratesAPIData = JsonSerializer.Deserialize<RatesAPICurrencyData>(result, jsonOptions);
-
-                        double value = 0;
-                        ratesAPIData.Rates.TryGetValue("PLN", out value);
-
-                        rates.Add(new RateModel() { Date = ratesAPIData.Date, Value = value });
                     }
 
                     return new CurrencyDataModel()
