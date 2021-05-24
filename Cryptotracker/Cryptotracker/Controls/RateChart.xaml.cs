@@ -23,6 +23,61 @@ namespace Cryptotracker.Controls
 {
     public partial class RateChart : UserControl
     {
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(RateChart), 
+                new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
+
+        public static readonly DependencyProperty CurrencyCodeProperty =
+            DependencyProperty.Register("CurrencyCode", typeof(string), typeof(RateChart),
+                new PropertyMetadata("", new PropertyChangedCallback(OnCurrencyCodeChanged)));
+
+        public static readonly DependencyProperty YLabelProperty =
+            DependencyProperty.Register("YLabel", typeof(string), typeof(RateChart),
+                new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
+
+        public string Title
+        {
+            get {return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        public string CurrencyCode
+        {
+            get { return (string)GetValue(CurrencyCodeProperty); }
+            set { SetValue(CurrencyCodeProperty, value); }
+        }
+        
+        public string YLabel
+        {
+            get { return (string)GetValue(YLabelProperty); }
+            set { SetValue(YLabelProperty, value); }
+        }
+
+
+
+        private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnDescriptionChanged(e);
+        }
+
+        private void OnDescriptionChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateChartDescription();
+        }
+
+        private static void OnCurrencyCodeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnCurrencyCodeChanged(e);
+        }
+
+        private void OnCurrencyCodeChanged(DependencyPropertyChangedEventArgs e)
+        {
+            Chart.plt.Clear();
+            UpdateChartDescription();
+        }
+
         public RateChart()
         {
             InitializeComponent();
@@ -37,6 +92,23 @@ namespace Cryptotracker.Controls
             {
                 UpdateChart();
             }
+        }
+                
+        private void UpdateChartDescription()
+        {
+            Chart.plt.Title(GenerateChartTitle());
+            Chart.plt.YLabel(GenerateChartYLabel());
+            Chart.Render();
+        }
+
+        private string GenerateChartTitle()
+        {
+            return String.Format("{0} ({1})", Title, CurrencyCode);
+        }
+
+        private string GenerateChartYLabel()
+        {
+            return String.Format("{0} ({1})", YLabel, "PLN");
         }
 
         private void UpdateChart()
@@ -63,8 +135,8 @@ namespace Cryptotracker.Controls
             }
             
             Chart.plt.Clear();
-            Chart.plt.Title(String.Format("{0} Stock Chart",(DataContext as AppViewModel).SelectedCurrencyCode));
-            Chart.plt.YLabel(String.Format("Stock Price ({0})", (DataContext as AppViewModel).SelectedCurrencyCode));
+            Chart.plt.Title(GenerateChartTitle());
+            Chart.plt.YLabel(GenerateChartYLabel());
             Chart.plt.PlotCandlestick(ohlcs);
             Chart.plt.Ticks(dateTimeX: true);
             Chart.Render();
