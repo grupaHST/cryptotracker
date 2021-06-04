@@ -9,7 +9,8 @@ namespace Cryptotracker.LocalData
 
         public void Log(string message)
         {
-            // TODO: Log to local file, or create if file doesn't exists
+            using var writer = File.AppendText(FilePath);
+            writer.WriteLine(message);
         }
     }
 }
