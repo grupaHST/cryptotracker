@@ -1,4 +1,4 @@
-﻿using Cryptotracker.Backend.NBP;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,6 @@ namespace Cryptotracker.Backend
         private static HttpClient client = new HttpClient();
 
         private static string basicNBPAPIAddress = "http://api.nbp.pl/api/exchangerates";
-        private static string basicRatesAPIAddress = "https://api.ratesapi.io/api";
         private static string basicExchangeRateHostAddress = "https://api.exchangerate.host";
 
         private static JsonSerializerOptions jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
@@ -320,7 +319,7 @@ namespace Cryptotracker.Backend
         /// <param name="startTime">Start date of data range</param>
         /// <param name="endTime">End date of data range</param>
         /// <returns></returns>
-        public static async Task<CurrencyDataModel> GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
+        public static async Task<CurrencyDataModel> GetCryptocurrencyData(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
         {
             switch(cryptoPlatform)
             {
@@ -340,6 +339,44 @@ namespace Cryptotracker.Backend
                 return null;
             }
         }
+        public static async Task<double> GetCryptoCurrentPrice(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode)
+        {
+            switch (cryptoPlatform)
+            {
+                case CryptoExchangePlatform.BINANCE:
+                {
+                    string symbol = $"{cryptocurrencyCode}BUSD";
+
+                    BinanceClient client = new BinanceClient(new BinanceClientOptions()
+                    {
+                        ApiCredentials = new ApiCredentials(BinanceAPIKey, BinanceAPISecret),
+                        AutoTimestamp = true,
+                        AutoTimestampRecalculationInterval = TimeSpan.FromMinutes(30)
+                    });
+
+                    var result = await client.Spot.Market.GetCurrentAvgPriceAsync(symbol);
+
+                    return (double)result.Data.Price;
+                }
+
+                case CryptoExchangePlatform.BITFINEX:
+                {
+                    string symbol = $"t{cryptocurrencyCode}USD";
+
+                    BitfinexClient client = new BitfinexClient(new BitfinexClientOptions()
+                    {
+                        ApiCredentials = new ApiCredentials(BitfinexAPIKey, BitfinexAPISecret)
+                    });
+
+                    var result = await client.GetTickerAsync(default, symbol);
+
+                    return (double)result.Data.First().LastPrice;
+                }
+
+                default:
+                    return 0;
+            }
+        }
 
         private static async Task<CurrencyDataModel> GetBinanceCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime ? startTime = null, DateTime? endTime = null)
         {
@@ -357,7 +394,7 @@ namespace Cryptotracker.Backend
 
             var data = new CurrencyDataModel();
 
-            bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value == endTime.Value : true;
+            bool sameDates = startTime.HasValue && endTime.HasValue ? startTime.Value.ToString() == endTime.Value.ToString() : true;
             bool bothDatesProvided = startTime.HasValue && endTime.HasValue && !sameDates;
             bool startDateProvidedOnly = startTime.HasValue && !bothDatesProvided;
             bool endDateProvidedOnly = endTime.HasValue && !bothDatesProvided;
@@ -455,5 +492,6 @@ namespace Cryptotracker.Backend
 
             return data;
         }
+
     }
 }
