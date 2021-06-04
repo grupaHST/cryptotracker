@@ -1,6 +1,6 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Backend;
-using Cryptotracker.Backend.NBP;
+using Cryptotracker.Backend.Notifications;
 using Cryptotracker.Interfaces;
 using Cryptotracker.Languages;
 using Cryptotracker.LocalData;
@@ -8,15 +8,20 @@ using Cryptotracker.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows;
+using System.Windows.Forms;
+using System.Drawing;
+using Cryptotracker.Models;
 
 namespace Cryptotracker
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : System.Windows.Application
     {
+        private readonly NotifyIcon trayIcon = new NotifyIcon();
         public void LogMessage(string message) => _loggers.ForEach(x => x.Log($"[{DateTime.Now}]: {message}"));
 
         public static async Task DownloadAsync()
@@ -55,6 +60,13 @@ namespace Cryptotracker
                 new AppViewModelLogger(),
                 new LocalFileLogger()
             };
+
+            trayIcon.Visible = true;
+            trayIcon.Icon = new Icon("..\\..\\..\\icon.ico");
+
+            NotificationManager.Init();
+
+            NotificationManager.EventHandler += OnNotificationOccurence;
 
             object Default(object key) => TryFindResource($"Default{key}");
             var vm = TryFindResource(nameof(AppViewModel)) as AppViewModel;
@@ -153,5 +165,13 @@ namespace Cryptotracker
         }
 
         protected List<IApplicationLogger> _loggers;
+
+        private void OnNotificationOccurence(object? sender, List<NotificationModel> notificationsToDisplay)
+        {
+            foreach (var notification in notificationsToDisplay)
+            {
+                trayIcon.ShowBalloonTip(3000, "Notification", $"{notification.CurrencyCode}{notification.Comparison}{notification.Threshold}. Current price is: {notification.CurrentValue}", ToolTipIcon.Info);
+            }
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
-using Cryptotracker.Backend.NBP;
 using Cryptotracker.Languages;
 using GalaSoft.MvvmLight.Command;
 using System;
