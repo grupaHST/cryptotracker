@@ -1,6 +1,5 @@
 ﻿using Cryptotracker;
 using Cryptotracker.Backend;
-using Cryptotracker.Backend.NBP;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
