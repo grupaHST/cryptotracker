@@ -271,11 +271,6 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
-                                <mah:Tile Title="Rates API" Background="{StaticResource RatesBrush}" CommandParameter="{StaticResource UrlRates}">
-                                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
-                                </mah:Tile>
-                            </mah:FlipViewItem>
-                            <mah:FlipViewItem>
                                 <Button CommandParameter="{StaticResource UrlExchangeRates}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Exchangerates}}"/>
