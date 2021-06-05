@@ -99,5 +99,15 @@ namespace Cryptotracker.Properties {
                 return ((byte[])(obj));
             }
         }
+        
+        /// <summary>
+        ///   Wyszukuje zlokalizowany zasób typu System.Byte[].
+        /// </summary>
+        public static byte[] Yahoo {
+            get {
+                object obj = ResourceManager.GetObject("Yahoo", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }
