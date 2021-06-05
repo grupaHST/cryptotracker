@@ -250,6 +250,13 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
+                                <Button CommandParameter="{StaticResource UrlYahoo}">
+                                    <Button.Background>
+                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Yahoo}}"/>
+                                    </Button.Background>
+                                </Button>
+                            </mah:FlipViewItem>
+                            <mah:FlipViewItem>
                                 <Button CommandParameter="{StaticResource UrlBinance}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Binance}}"/>
