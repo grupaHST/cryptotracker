@@ -47,6 +47,7 @@
             <sys:String x:Key="UrlRates">https://ratesapi.io/</sys:String>
             <sys:String x:Key="UrlBitfinex">https://www.bitfinex.com/</sys:String>
             <sys:String x:Key="UrlNbp">https://www.nbp.pl</sys:String>
+            <sys:String x:Key="UrlYahoo">https://finance.yahoo.com/</sys:String>
 
             <SolidColorBrush x:Key="GitHubBrush">#ad5c51</SolidColorBrush>
             <SolidColorBrush x:Key="RatesBrush">#3b4265</SolidColorBrush>
