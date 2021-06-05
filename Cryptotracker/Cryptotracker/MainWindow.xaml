@@ -250,6 +250,13 @@
                                 </Button>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
+                                <Button CommandParameter="{StaticResource UrlYahoo}">
+                                    <Button.Background>
+                                        <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Yahoo}}"/>
+                                    </Button.Background>
+                                </Button>
+                            </mah:FlipViewItem>
+                            <mah:FlipViewItem>
                                 <Button CommandParameter="{StaticResource UrlBinance}">
                                     <Button.Background>
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Binance}}"/>
@@ -262,11 +269,6 @@
                                         <ImageBrush ImageSource="{Binding Source={x:Static properties:Resources.Bitfinex}}"/>
                                     </Button.Background>
                                 </Button>
-                            </mah:FlipViewItem>
-                            <mah:FlipViewItem>
-                                <mah:Tile Title="Rates API" Background="{StaticResource RatesBrush}" CommandParameter="{StaticResource UrlRates}">
-                                    <icons:PackIconModern Kind="Money" Width="60" Height="60"/>
-                                </mah:Tile>
                             </mah:FlipViewItem>
                             <mah:FlipViewItem>
                                 <Button CommandParameter="{StaticResource UrlExchangeRates}">
