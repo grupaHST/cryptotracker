@@ -74,7 +74,7 @@ namespace Cryptotracker.Controls
 
         private void OnCurrencyCodeChanged(DependencyPropertyChangedEventArgs e)
         {
-            Chart.plt.Clear();
+            Chart.Plot.Clear();
             UpdateChartDescription();
         }
 
@@ -96,8 +96,8 @@ namespace Cryptotracker.Controls
                 
         private void UpdateChartDescription()
         {
-            Chart.plt.Title(GenerateChartTitle());
-            Chart.plt.YLabel(GenerateChartYLabel());
+            Chart.Plot.Title(GenerateChartTitle());
+            Chart.Plot.YLabel(GenerateChartYLabel());
             Chart.Render();
         }
 
@@ -120,7 +120,7 @@ namespace Cryptotracker.Controls
                 for(int i = 1;i<(DataContext as AppViewModel).Rates.Count;i++)
                 {
                     var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, tempRate.High, tempRate.Low, tempRate.Value, tempRate.Date);
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, tempRate.High, tempRate.Low, tempRate.Value, tempRate.Date, tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
@@ -129,16 +129,16 @@ namespace Cryptotracker.Controls
                 for (int i = 1; i < (DataContext as AppViewModel).Rates.Count; i++)
                 {
                     var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, lastRate.Value, tempRate.Value, tempRate.Value, tempRate.Date);
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, lastRate.Value, tempRate.Value, tempRate.Value, tempRate.Date, tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
-            
-            Chart.plt.Clear();
-            Chart.plt.Title(GenerateChartTitle());
-            Chart.plt.YLabel(GenerateChartYLabel());
-            Chart.plt.PlotCandlestick(ohlcs);
-            Chart.plt.Ticks(dateTimeX: true);
+
+            Chart.Plot.Clear();
+            Chart.Plot.Title(GenerateChartTitle());
+            Chart.Plot.YLabel(GenerateChartYLabel());
+            Chart.Plot.AddCandlesticks(ohlcs);
+            Chart.Plot.XAxis.DateTimeFormat(true);
             Chart.Render();
         }
     }
