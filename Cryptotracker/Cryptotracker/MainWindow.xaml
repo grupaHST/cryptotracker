@@ -154,7 +154,8 @@
                         <controls:RateChart 
                             Title="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=ChartTitle}"
                             YLabel="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=YLabel}"
-                            CurrencyCode="{Binding SelectedCurrencyCode}"/>
+                            CurrencyCode="{Binding SelectedCurrencyCode}"
+                            DarkMode="{Binding ElementName=themeSwitch, Path=IsOn}"/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </Grid>
