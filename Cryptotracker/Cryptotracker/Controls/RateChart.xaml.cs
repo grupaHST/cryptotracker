@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,10 @@ namespace Cryptotracker.Controls
             DependencyProperty.Register("YLabel", typeof(string), typeof(RateChart),
                 new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
 
+        public static readonly DependencyProperty DarkModeProperty =
+            DependencyProperty.Register("DarkMode", typeof(bool), typeof(RateChart),
+                new PropertyMetadata(false, new PropertyChangedCallback(OnColorSchemeChanged)));
+
         public string Title
         {
             get {return (string)GetValue(TitleProperty); }
@@ -51,6 +56,12 @@ namespace Cryptotracker.Controls
         {
             get { return (string)GetValue(YLabelProperty); }
             set { SetValue(YLabelProperty, value); }
+        }
+
+        public bool DarkMode
+        {
+            get { return (bool)GetValue(DarkModeProperty); }
+            set { SetValue(DarkModeProperty, value); }
         }
 
 
@@ -74,8 +85,19 @@ namespace Cryptotracker.Controls
 
         private void OnCurrencyCodeChanged(DependencyPropertyChangedEventArgs e)
         {
-            Chart.plt.Clear();
+            Chart.Plot.Clear();
             UpdateChartDescription();
+        }
+
+        private static void OnColorSchemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnColorSchemeChanged(e);
+        }
+
+        private void OnColorSchemeChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateColorScheme();
         }
 
         public RateChart()
@@ -96,8 +118,8 @@ namespace Cryptotracker.Controls
                 
         private void UpdateChartDescription()
         {
-            Chart.plt.Title(GenerateChartTitle());
-            Chart.plt.YLabel(GenerateChartYLabel());
+            Chart.Plot.Title(GenerateChartTitle());
+            Chart.Plot.YLabel(GenerateChartYLabel());
             Chart.Render();
         }
 
@@ -111,6 +133,45 @@ namespace Cryptotracker.Controls
             return String.Format("{0} ({1})", YLabel, "PLN");
         }
 
+        private void UpdateColorScheme()
+        {
+            if(DarkMode)
+            {
+                Chart.Plot.Style(figureBackground: ColorTranslator.FromHtml("#0d0d0d"),
+                                dataBackground: ColorTranslator.FromHtml("#0d0d0d"),
+                                titleLabel: System.Drawing.Color.White,
+                                axisLabel: System.Drawing.Color.White);
+
+                Chart.Plot.XAxis.TickLabelStyle(color: System.Drawing.Color.White);
+                Chart.Plot.XAxis.TickMarkColor(ColorTranslator.FromHtml("#595959"));
+                Chart.Plot.XAxis.MajorGrid(color: ColorTranslator.FromHtml("#595959"));
+
+                Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.White);
+                Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#595959"));
+                Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#595959"));
+
+                Chart.Render();
+            }
+            else
+            {
+                Chart.Plot.Style(figureBackground: System.Drawing.Color.White,
+                                dataBackground: System.Drawing.Color.White,
+                                titleLabel: System.Drawing.Color.Black,
+                                axisLabel: System.Drawing.Color.Black);
+
+                Chart.Plot.XAxis.TickLabelStyle(color: System.Drawing.Color.Black);
+                Chart.Plot.XAxis.TickMarkColor(ColorTranslator.FromHtml("#e6e6e6"));
+                Chart.Plot.XAxis.MajorGrid(color: ColorTranslator.FromHtml("#e6e6e6"));
+
+                Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.Black);
+                Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#e6e6e6"));
+                Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#e6e6e6"));
+
+                Chart.Render();
+            }
+            
+        }
+
         private void UpdateChart()
         {
             OHLC [] ohlcs = new OHLC[(DataContext as AppViewModel).Rates.Count - 1];
@@ -120,7 +181,7 @@ namespace Cryptotracker.Controls
                 for(int i = 1;i<(DataContext as AppViewModel).Rates.Count;i++)
                 {
                     var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, tempRate.High, tempRate.Low, tempRate.Value, tempRate.Date);
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, tempRate.High, tempRate.Low, tempRate.Value, tempRate.Date, tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
@@ -129,17 +190,18 @@ namespace Cryptotracker.Controls
                 for (int i = 1; i < (DataContext as AppViewModel).Rates.Count; i++)
                 {
                     var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, lastRate.Value, tempRate.Value, tempRate.Value, tempRate.Date);
+                    ohlcs[i - 1] = new OHLC(lastRate.Value, lastRate.Value, tempRate.Value, tempRate.Value, tempRate.Date, tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
-            
-            Chart.plt.Clear();
-            Chart.plt.Title(GenerateChartTitle());
-            Chart.plt.YLabel(GenerateChartYLabel());
-            Chart.plt.PlotCandlestick(ohlcs);
-            Chart.plt.Ticks(dateTimeX: true);
+
+            Chart.Plot.Clear();
+            Chart.Plot.Title(GenerateChartTitle());
+            Chart.Plot.YLabel(GenerateChartYLabel());
+            Chart.Plot.AddCandlesticks(ohlcs);
+            Chart.Plot.XAxis.DateTimeFormat(true);
             Chart.Render();
+
         }
     }
 }
