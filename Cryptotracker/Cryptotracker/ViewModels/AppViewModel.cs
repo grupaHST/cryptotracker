@@ -1,7 +1,9 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
+using Cryptotracker.Backend.Notifications;
 using Cryptotracker.Languages;
+using Cryptotracker.Models;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
@@ -114,6 +116,13 @@ namespace Cryptotracker.ViewModels
             SecondCurrencyCode = tempCode;
             SecondCurrencyValue = tempValue;
         });
+
+        public CryptocurrencyCode NotificationCryptoCurrencyCode { get; set; }
+        public CryptoExchangePlatform NotificationCryptoCurrencyPlatform { get; set; }
+        public CurrencyCode NotificationCurrencyCode { get; set; }
+        public ExchangePlatform NotificationCurrencyPlatform { get; set; }
+        public Comparison NotificationComparision { get; set; }
+        public double NotificationThreeshold { get; set; }
 
         public string Error { get; set; }
 
