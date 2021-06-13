@@ -20,11 +20,26 @@ namespace Cryptotracker.Backend.Notifications
     {
         private static List<NotificationModel> notificationModels = new List<NotificationModel>();
 
+        public static void Clear() => notificationModels.Clear();
+
         public static EventHandler<List<NotificationModel>> EventHandler;
-        public static void Init()
+
+        public delegate Task<double> GetCryptoCurrentPriceDel(CryptoExchangePlatform cryptoExchangePlatform, CryptocurrencyCode cryptocurrencyCode);
+        private static GetCryptoCurrentPriceDel GetCryptoCurrentPriceHandler;
+
+        public delegate Task<CurrencyDataModel> GetCurrencyDataDel(ExchangePlatform exchangePlatform, CurrencyCode currencyCode, DateTime? startTime, DateTime? endTime);
+        private static GetCurrencyDataDel GetCurrencyDataHandler;
+
+        public static void Init(GetCryptoCurrentPriceDel GetCryptoCurrentPriceCb, GetCurrencyDataDel GetCurrencyDataCb)
         {
-            DispatcherTimer updateTimer = new DispatcherTimer();
-            updateTimer.Interval = TimeSpan.FromMinutes(1);
+            GetCryptoCurrentPriceHandler = GetCryptoCurrentPriceCb;
+            GetCurrencyDataHandler = GetCurrencyDataCb;
+
+            DispatcherTimer updateTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMinutes(1)
+            };
+
             updateTimer.Tick += UpdateTimer_Tick;
             updateTimer.Start();
         }
@@ -36,10 +51,10 @@ namespace Cryptotracker.Backend.Notifications
 
         public static async Task Update()
         {
+            List<NotificationModel> notificationsToDisplay = new List<NotificationModel>();
+
             if (notificationModels.Any())
             {
-                List<NotificationModel> notificationsToDisplay = new List<NotificationModel>();
-
                 double currentPrice = 0;
 
                 foreach (var notification in notificationModels)
@@ -48,13 +63,13 @@ namespace Cryptotracker.Backend.Notifications
                     {
                         case NotificationModel.CurrencyTypeEnum.CRYPTO:
                         {
-                            currentPrice = await ExchangeRatesHandler.GetCryptoCurrentPrice(notification.CryptoExchangePlatform, notification.CryptocurrencyCode);
+                            currentPrice = await GetCryptoCurrentPriceHandler(notification.CryptoExchangePlatform, notification.CryptocurrencyCode);
                         }
                         break;
 
                         case NotificationModel.CurrencyTypeEnum.FIAT:
                         {
-                            var currencyData = await ExchangeRatesHandler.GetCurrencyData(notification.ExchangePlatform, notification.CurrencyCode, DateTime.Today, DateTime.Today);
+                            var currencyData = await GetCurrencyDataHandler(notification.ExchangePlatform, notification.CurrencyCode, DateTime.Today, DateTime.Today);
                             currentPrice = currencyData.Rates.First().Value;
                         }
                         break;
@@ -62,18 +77,21 @@ namespace Cryptotracker.Backend.Notifications
 
                     if(CheckCondition(notification.Threshold, notification.Comparison, currentPrice))
                     {
+                        if (notification.WasDisplayed)
+                            break;
+
                         notification.CurrentValue = currentPrice;
                         notificationsToDisplay.Add(notification);
+                        notification.WasDisplayed = true;
+                    }
+                    else
+                    {
+                        notification.WasDisplayed = false;
                     }
                 }
-
-                if (notificationsToDisplay.Any())
-                {
-                    EventHandler.Invoke(null, notificationsToDisplay);
-                }
-
-                notificationModels.Clear(); //TODO: Temporarily used to prevent looping
             }
+
+            EventHandler.Invoke(null, notificationsToDisplay);
         }
 
         private static bool CheckCondition(double setvalue, Comparison comparison, double currentValue)
