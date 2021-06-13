@@ -25,6 +25,8 @@ namespace Cryptotracker.Models
         public readonly CurrencyTypeEnum CurrencyType;
         public double CurrentValue { get; set; }
 
+        public bool WasDisplayed { get; set; }
+
         public NotificationModel(CurrencyCode currencyCode, ExchangePlatform exchangePlatform, double threshold, Comparison comparison)
         {
             CurrencyCode = currencyCode;

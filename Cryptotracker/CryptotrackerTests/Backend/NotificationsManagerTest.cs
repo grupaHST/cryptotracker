@@ -13,27 +13,23 @@ namespace CryptotrackerTests.Backend
     [TestClass]
     public class NotificationsManagerTest
     {
-        public void OnNotificationOccurenceTest(object? sender, List<NotificationModel> notificationsToDisplay)
+        private static double CryptoCurrentPrice = 0;
+
+        private static CurrencyDataModel CurrencyDataModel = new();
+
+        private static List<NotificationModel> notifications = new();
+
+        public static async Task<double> GetCryptoCurrentPriceMock(CryptoExchangePlatform cryptoPlatform, CryptocurrencyCode cryptocurrencyCode)
         {
-            //BINANCE
-            Assert.AreEqual(true, notificationsToDisplay[0].Threshold == 20000);
-            Assert.AreEqual(true, notificationsToDisplay[0].CurrentValue > 20000);
-            Assert.AreEqual(true, notificationsToDisplay[1].Threshold == 1500);
-            Assert.AreEqual(false, (notificationsToDisplay[2].Threshold == 1000000 && notificationsToDisplay[2].CryptocurrencyCode == CryptocurrencyCode.BTC));
-            Assert.AreEqual(true, notificationsToDisplay[2].Threshold == 1000000);
-            Assert.AreEqual(true, notificationsToDisplay[2].CurrentValue < 1000000);
-
-            //BITFINEX
-            Assert.AreEqual(true, notificationsToDisplay[3].CurrentValue > 20000);
-            Assert.AreEqual(true, notificationsToDisplay[3].Threshold == 20000);
-            Assert.AreEqual(true, notificationsToDisplay[4].CurrentValue > 1000);
-            Assert.AreEqual(true, notificationsToDisplay[4].Threshold == 1000);
-            Assert.AreEqual(true, notificationsToDisplay[5].CurrentValue > 10000);
-            Assert.AreEqual(true, notificationsToDisplay[5].Threshold == 10000);
-
-            //NBP
-            Assert.AreEqual(true, notificationsToDisplay[6].CurrentValue > 2);
-            Assert.AreEqual(true, notificationsToDisplay[6].Threshold == 2);
+            return CryptoCurrentPrice;
+        }
+        public static async Task<CurrencyDataModel> GetCurrencyDataMock(ExchangePlatform currencyPlatform, CurrencyCode currencyCode, DateTime? startTime = null, DateTime? endTime = null)
+        {
+            return CurrencyDataModel;
+        }
+        public static void OnNotificationOccurence(object? sender, List<NotificationModel> notificationsToDisplay)
+        {
+            notifications = notificationsToDisplay;
         }
 
         [TestMethod]
@@ -45,7 +41,9 @@ namespace CryptotrackerTests.Backend
             ExchangeRatesHandler.BinanceAPIKey = "ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh";
             ExchangeRatesHandler.BinanceAPISecret = "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He";
 
-            NotificationManager.EventHandler += OnNotificationOccurenceTest;
+            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetCurrencyData);
+
+            NotificationManager.EventHandler = OnNotificationOccurence;
 
             //BINANCE
             NotificationManager.AddNotification(new NotificationModel(CryptocurrencyCode.BTC, CryptoExchangePlatform.BINANCE, 20000, Comparison.GREATER_THAN));
@@ -63,6 +61,74 @@ namespace CryptotrackerTests.Backend
             NotificationManager.AddNotification(new NotificationModel(CurrencyCode.USD, ExchangePlatform.NBP, 2, Comparison.LESS_THAN)); //FALSE
 
             await NotificationManager.Update();
+
+            //BINANCE
+            Assert.AreEqual(true, notifications[0].Threshold == 20000);
+            Assert.AreEqual(true, notifications[0].CurrentValue > 20000);
+            Assert.AreEqual(true, notifications[1].Threshold == 1500);
+            Assert.AreEqual(false, (notifications[2].Threshold == 1000000 && notifications[2].CryptocurrencyCode == CryptocurrencyCode.BTC));
+            Assert.AreEqual(true, notifications[2].Threshold == 1000000);
+            Assert.AreEqual(true, notifications[2].CurrentValue < 1000000);
+
+            //BITFINEX
+            Assert.AreEqual(true, notifications[3].CurrentValue > 20000);
+            Assert.AreEqual(true, notifications[3].Threshold == 20000);
+            Assert.AreEqual(true, notifications[4].CurrentValue > 1000);
+            Assert.AreEqual(true, notifications[4].Threshold == 1000);
+            Assert.AreEqual(true, notifications[5].CurrentValue > 10000);
+            Assert.AreEqual(true, notifications[5].Threshold == 10000);
+
+            //NBP
+            Assert.AreEqual(true, notifications[6].CurrentValue > 2);
+            Assert.AreEqual(true, notifications[6].Threshold == 2);
+
+            NotificationManager.Clear();
+            notifications.Clear();
+
+            ///MOCKED VALUES - SCENARIO 1
+            NotificationManager.Init(GetCryptoCurrentPriceMock, GetCurrencyDataMock);
+
+            //SHOW ONCE TEST
+            CryptoCurrentPrice = 20000;
+            NotificationManager.AddNotification(new NotificationModel(CryptocurrencyCode.BTC, CryptoExchangePlatform.BINANCE, 20000, Comparison.EQUAL));
+
+            await NotificationManager.Update();
+            Assert.AreEqual(true, notifications[0].Threshold == 20000); //SHOWN 
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //NO NOTIFICATIONS (WAS ALREADY SHOWN)
+
+            //BREAKING THE CONDITION
+            CryptoCurrentPrice = 20001;
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //SHOULD STILL BE EMPTY
+            CryptoCurrentPrice = 20000; //GOING BACK AGAIN
+            await NotificationManager.Update();
+            Assert.AreEqual(true, notifications[0].Threshold == 20000); //SHOULD BE BACK
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //AND... GONE AGAIN
+
+
+            ///MOCKED VALUES - SCENARIO 2
+            NotificationManager.Clear();
+
+            //SHOW ONCE TEST
+            CryptoCurrentPrice = 20001;
+            NotificationManager.AddNotification(new NotificationModel(CryptocurrencyCode.BTC, CryptoExchangePlatform.BINANCE, 20000, Comparison.GREATER_THAN));
+
+            await NotificationManager.Update();
+            Assert.AreEqual(true, notifications[0].Threshold == 20000); //SHOWN 
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //NO NOTIFICATIONS (WAS ALREADY SHOWN)
+
+            //BREAKING THE CONDITION
+            CryptoCurrentPrice = 20000;
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //SHOULD STILL BE EMPTY
+            CryptoCurrentPrice = 20001; //GOING BACK AGAIN
+            await NotificationManager.Update();
+            Assert.AreEqual(true, notifications[0].Threshold == 20000); //SHOULD BE BACK
+            await NotificationManager.Update();
+            Assert.AreEqual(false, notifications.Any()); //AND... GONE AGAIN
         }
     }
 }
