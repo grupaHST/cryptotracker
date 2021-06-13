@@ -117,30 +117,29 @@ namespace Cryptotracker.ViewModels
             SecondCurrencyValue = tempValue;
         });
 
+        public ObservableCollection<string> AvailableComparisions => new(Enum.GetNames<Comparison>());
         public CryptocurrencyCode NotificationCryptoCurrencyCode { get; set; }
-        public CryptoExchangePlatform NotificationCryptoCurrencyPlatform { get; set; }
         public CurrencyCode NotificationCurrencyCode { get; set; }
-        public ExchangePlatform NotificationCurrencyPlatform { get; set; }
         public Comparison NotificationComparision { get; set; }
         public double NotificationThreeshold { get; set; }
 
-        public RelayCommand AddCurrencyNotification => new(() =>
+        public RelayCommand AddCurrencyNotificationCommand => new(() =>
         {
             NotificationManager.AddNotification(new
             (
                 NotificationCurrencyCode,
-                NotificationCurrencyPlatform,
+                Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
                 NotificationThreeshold,
                 Comparison.EQUAL
             ));
         });
 
-        public RelayCommand AddCryptoCurrencyNotification => new(() =>
+        public RelayCommand AddCryptoCurrencyNotificationCommand => new(() =>
         {
             NotificationManager.AddNotification(new
             (
                 NotificationCryptoCurrencyCode,
-                NotificationCryptoCurrencyPlatform,
+                Enum.Parse<CryptoExchangePlatform>(SelectedCryptoExchangePlatform),
                 NotificationThreeshold,
                 Comparison.EQUAL
             ));

@@ -212,7 +212,20 @@
             <!--#endregion-->
             <!--#region Notifications -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Notifications}">
-                
+                <StackPanel>
+                    <Button Command="{Binding AddCurrencyNotificationCommand}">
+                        <WrapPanel>
+                            <icons:BootstrapIcons Kind="Alarm"/>
+                            <TextBlock Text="Dodaj powiadomienie dla walut"/>
+                        </WrapPanel>
+                    </Button>                    
+                    <Button Command="{Binding AddCryptoCurrencyNotificationCommand}">
+                        <WrapPanel>
+                            <icons:BootstrapIcons Kind="Alarm"/>
+                            <TextBlock Text="Dodaj powiadomienie dla kryptowalut"/>
+                        </WrapPanel>
+                    </Button>
+                </StackPanel>
             </mah:MetroTabItem>
             <!--#endregion-->
             <!--#region About app -->
