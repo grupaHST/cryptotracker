@@ -154,7 +154,19 @@ namespace Cryptotracker.Controls
             }
             else
             {
-                Chart.Plot.Style();
+                Chart.Plot.Style(figureBackground: System.Drawing.Color.White,
+                                dataBackground: System.Drawing.Color.White,
+                                titleLabel: System.Drawing.Color.Black,
+                                axisLabel: System.Drawing.Color.Black);
+
+                Chart.Plot.XAxis.TickLabelStyle(color: System.Drawing.Color.Black);
+                Chart.Plot.XAxis.TickMarkColor(ColorTranslator.FromHtml("#e6e6e6"));
+                Chart.Plot.XAxis.MajorGrid(color: ColorTranslator.FromHtml("#e6e6e6"));
+
+                Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.Black);
+                Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#e6e6e6"));
+                Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#e6e6e6"));
+
                 Chart.Render();
             }
             
