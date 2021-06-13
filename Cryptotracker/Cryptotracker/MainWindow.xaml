@@ -211,7 +211,7 @@
             </mah:MetroTabItem>
             <!--#endregion-->
             <!--#region Notifications -->
-            <mah:MetroTabItem Header="Notifications">
+            <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Notifications}">
                 
             </mah:MetroTabItem>
             <!--#endregion-->

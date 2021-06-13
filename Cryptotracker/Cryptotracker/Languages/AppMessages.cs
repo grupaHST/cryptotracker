@@ -116,5 +116,11 @@
             Language.Polski => "Cena waloru",
             _ => "Stock Price"
         };
+        
+        public static string Notifications(Language lang) => lang switch
+        {
+            Language.Polski => "Powiadomienia",
+            _ => "Notifications"
+        };
     }
 }
