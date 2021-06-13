@@ -64,7 +64,7 @@ namespace Cryptotracker
             trayIcon.Visible = true;
             trayIcon.Icon = new Icon("..\\..\\..\\icon.ico");
 
-            NotificationManager.Init();
+            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetCurrencyData);
 
             NotificationManager.EventHandler += OnNotificationOccurence;
 
