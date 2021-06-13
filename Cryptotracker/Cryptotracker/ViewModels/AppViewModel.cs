@@ -124,6 +124,28 @@ namespace Cryptotracker.ViewModels
         public Comparison NotificationComparision { get; set; }
         public double NotificationThreeshold { get; set; }
 
+        public RelayCommand AddCurrencyNotification => new(() =>
+        {
+            NotificationManager.AddNotification(new
+            (
+                NotificationCurrencyCode,
+                NotificationCurrencyPlatform,
+                NotificationThreeshold,
+                Comparison.EQUAL
+            ));
+        });
+
+        public RelayCommand AddCryptoCurrencyNotification => new(() =>
+        {
+            NotificationManager.AddNotification(new
+            (
+                NotificationCryptoCurrencyCode,
+                NotificationCryptoCurrencyPlatform,
+                NotificationThreeshold,
+                Comparison.EQUAL
+            ));
+        });
+
         public string Error { get; set; }
 
         public string this[string columnName]
