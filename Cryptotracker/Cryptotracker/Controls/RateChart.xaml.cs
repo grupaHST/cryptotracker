@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -139,6 +140,24 @@ namespace Cryptotracker.Controls
             Chart.Plot.YLabel(GenerateChartYLabel());
             Chart.Plot.AddCandlesticks(ohlcs);
             Chart.Plot.XAxis.DateTimeFormat(true);
+            //Chart.Render();
+
+            
+            Chart.Plot.Style(figureBackground: ColorTranslator.FromHtml("#0d0d0d"), 
+                                dataBackground: ColorTranslator.FromHtml("#0d0d0d"), 
+                                titleLabel: System.Drawing.Color.White, 
+                                axisLabel: System.Drawing.Color.White);
+            
+            Chart.Plot.XAxis.TickLabelStyle(color: System.Drawing.Color.White);
+            Chart.Plot.XAxis.TickMarkColor(ColorTranslator.FromHtml("#595959"));
+            Chart.Plot.XAxis.MajorGrid(color: ColorTranslator.FromHtml("#595959"));
+
+            Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.White);
+            Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#595959"));
+            Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#595959"));
+
+
+
             Chart.Render();
         }
     }
