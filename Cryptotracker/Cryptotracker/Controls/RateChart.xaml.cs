@@ -36,6 +36,10 @@ namespace Cryptotracker.Controls
             DependencyProperty.Register("YLabel", typeof(string), typeof(RateChart),
                 new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
 
+        public static readonly DependencyProperty DarkModeProperty =
+            DependencyProperty.Register("DarkMode", typeof(bool), typeof(RateChart),
+                new PropertyMetadata(false, new PropertyChangedCallback(OnColorSchemeChanged)));
+
         public string Title
         {
             get {return (string)GetValue(TitleProperty); }
@@ -52,6 +56,12 @@ namespace Cryptotracker.Controls
         {
             get { return (string)GetValue(YLabelProperty); }
             set { SetValue(YLabelProperty, value); }
+        }
+
+        public bool DarkMode
+        {
+            get { return (bool)GetValue(DarkModeProperty); }
+            set { SetValue(DarkModeProperty, value); }
         }
 
 
@@ -77,6 +87,17 @@ namespace Cryptotracker.Controls
         {
             Chart.Plot.Clear();
             UpdateChartDescription();
+        }
+
+        private static void OnColorSchemeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnColorSchemeChanged(e);
+        }
+
+        private void OnColorSchemeChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateColorScheme();
         }
 
         public RateChart()
@@ -110,6 +131,11 @@ namespace Cryptotracker.Controls
         private string GenerateChartYLabel()
         {
             return String.Format("{0} ({1})", YLabel, "PLN");
+        }
+
+        private void UpdateColorScheme()
+        {
+
         }
 
         private void UpdateChart()
