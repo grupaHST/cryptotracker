@@ -121,6 +121,18 @@
         {
             Language.Polski => "Powiadomienia",
             _ => "Notifications"
+        };        
+        
+        public static string AddCurrencyNotification(Language lang) => lang switch
+        {
+            Language.Polski => "Dodaj powiadomienie dla walut",
+            _ => "Add currency notification"
+        };
+
+        public static string AddCryptocurrencyNotification(Language lang) => lang switch
+        {
+            Language.Polski => "Dodaj powiadomienie dla kryptowalut",
+            _ => "Add cryptocurrency notification"
         };
     }
 }

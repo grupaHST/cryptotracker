@@ -216,13 +216,13 @@
                     <Button Command="{Binding AddCurrencyNotificationCommand}">
                         <WrapPanel>
                             <icons:BootstrapIcons Kind="Alarm"/>
-                            <TextBlock Text="Dodaj powiadomienie dla walut"/>
+                            <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCurrencyNotification}"/>
                         </WrapPanel>
                     </Button>                    
                     <Button Command="{Binding AddCryptoCurrencyNotificationCommand}">
                         <WrapPanel>
                             <icons:BootstrapIcons Kind="Alarm"/>
-                            <TextBlock Text="Dodaj powiadomienie dla kryptowalut"/>
+                            <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCryptocurrencyNotification}"/>
                         </WrapPanel>
                     </Button>
                 </StackPanel>
