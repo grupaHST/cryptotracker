@@ -30,6 +30,7 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<RateModel> Rates { get; set; }
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
+        public ObservableCollection<string> CryptocurrencyCodes => new(Enum.GetNames<CryptocurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
 
         public DateTime StartDate { get; set; }
