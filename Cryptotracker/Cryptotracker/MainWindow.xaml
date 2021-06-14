@@ -212,20 +212,45 @@
             <!--#endregion-->
             <!--#region Notifications -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Notifications}">
-                <StackPanel>
-                    <Button Command="{Binding AddCurrencyNotificationCommand}">
-                        <WrapPanel>
-                            <icons:BootstrapIcons Kind="Alarm"/>
-                            <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCurrencyNotification}"/>
-                        </WrapPanel>
-                    </Button>                    
-                    <Button Command="{Binding AddCryptoCurrencyNotificationCommand}">
-                        <WrapPanel>
-                            <icons:BootstrapIcons Kind="Alarm"/>
-                            <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCryptocurrencyNotification}"/>
-                        </WrapPanel>
-                    </Button>
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <mah:NumericUpDown Minimum="0" DecimalPointCorrection="Currency" StringFormat="0.000" Interval="0.1" Value="{Binding NotificationThreeshold}"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="50">
+                        <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding NotificationCurrencyCode}">
+                            <mah:SplitButton.Icon>
+                                <icons:PackIconBoxIcons Kind="RegularMoney"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button Margin="10" Command="{Binding AddCurrencyNotificationCommand}">
+                            <WrapPanel>
+                                <icons:BootstrapIcons Kind="Alarm"/>
+                                <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCurrencyNotification}"/>
+                            </WrapPanel>
+                        </Button>                    
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="50" Grid.Column="1">
+                        <mah:SplitButton ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding NotificationCryptoCurrencyCode}">
+                            <mah:SplitButton.Icon>
+                                <icons:PackIconBoxIcons Kind="LogosBitcoin"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button Margin="10" Command="{Binding AddCryptoCurrencyNotificationCommand}">
+                            <WrapPanel>
+                                <icons:BootstrapIcons Kind="Alarm"/>
+                                <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCryptocurrencyNotification}"/>
+                            </WrapPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
             </mah:MetroTabItem>
             <!--#endregion-->
             <!--#region About app -->
