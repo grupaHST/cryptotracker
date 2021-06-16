@@ -158,5 +158,11 @@
             Language.Polski => "Wybierz operator porównania",
             _ => "Choose a comparision operator"
         };
+        
+        public static string NotificationTitle(Language lang) => lang switch
+        {
+            Language.Polski => "Dzięki aplikacji Cryptotracker możesz otrzymać powiadomienie gdy wybrana przez ciebie waluta osiągnie podany próg",
+            _ => "With the Cryptotracker application, you can receive a notification of the currency of your choice reaching the threshold"
+        };
     }
 }

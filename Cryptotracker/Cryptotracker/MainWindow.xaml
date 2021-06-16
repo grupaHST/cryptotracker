@@ -10,7 +10,7 @@
                  xmlns:properties="clr-namespace:Cryptotracker.Properties"
                  xmlns:controls="clr-namespace:Cryptotracker.Controls"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
-                 Height="700" Width="1024" MinHeight="600" MinWidth="800" MouseLeftButtonUp="CloseSettings"
+                 Height="700" Width="1024" MinHeight="620" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -229,6 +229,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.ColumnSpan="2">
+                        <TextBlock Margin="10" FontSize="20" FontWeight="Bold" Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationTitle}"/>
                         <TextBlock MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}">
                             <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ThresholdValue}"/>
                             <Run Text=":"/>
