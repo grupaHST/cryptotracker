@@ -213,17 +213,22 @@
             <!--#region Notifications -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Notifications}">
                 <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{mah:StaticResource MahApps.Styles.TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <StackPanel>
-                        <mah:NumericUpDown Minimum="0" DecimalPointCorrection="Currency" StringFormat="0.000" Interval="0.1" Value="{Binding NotificationThreeshold}"/>
-                        <mah:SplitButton ItemsSource="{Binding AvailableComparisions}" SelectedItem="{Binding NotificationComparision}">
+                    <StackPanel Grid.ColumnSpan="2">
+                        <mah:NumericUpDown MaxWidth="250" Margin="5" Minimum="0" DecimalPointCorrection="Currency" StringFormat="0.000" Interval="0.1" Value="{Binding NotificationThreeshold}"/>
+                        <mah:SplitButton MaxWidth="250" ItemsSource="{Binding AvailableComparisions}" SelectedItem="{Binding NotificationComparision}" Cursor="Hand">
                             <mah:SplitButton.Icon>
                                 <icons:FontAwesome Kind="GreaterThanEqualSolid"/>
                             </mah:SplitButton.Icon>
@@ -240,7 +245,16 @@
                                 <icons:BootstrapIcons Kind="Alarm"/>
                                 <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCurrencyNotification}"/>
                             </WrapPanel>
-                        </Button>                    
+                        </Button>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationService}"/>
+                            <Run Text=": "/>
+                            <Run Text="{Binding SelectedExchangePlatform}"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationServiceMessage}"/>
+                            <Run Text="."/>
+                        </TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="50" Grid.Column="1">
                         <mah:SplitButton ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding NotificationCryptoCurrencyCode}">
@@ -254,6 +268,15 @@
                                 <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCryptocurrencyNotification}"/>
                             </WrapPanel>
                         </Button>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationService}"/>
+                            <Run Text=": "/>
+                            <Run Text="{Binding SelectedCryptoExchangePlatform}"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationServiceMessage}"/>
+                            <Run Text="."/>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
             </mah:MetroTabItem>
