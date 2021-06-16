@@ -146,5 +146,17 @@
             Language.Polski => "Aby wybrać inny, zmień serwis w ustawieniach",
             _ => "To select a different one, change the service in the settings"
         };
+
+        public static string ThresholdValue(Language lang) => lang switch
+        {
+            Language.Polski => "Wartość progowa",
+            _ => "Threshold value"
+        };
+        
+        public static string ComparisonOperator(Language lang) => lang switch
+        {
+            Language.Polski => "Wybierz operator porównania",
+            _ => "Choose a comparision operator"
+        };
     }
 }
