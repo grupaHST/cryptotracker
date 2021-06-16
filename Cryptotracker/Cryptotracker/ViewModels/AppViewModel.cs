@@ -119,9 +119,9 @@ namespace Cryptotracker.ViewModels
         });
 
         public ObservableCollection<string> AvailableComparisions => new(Enum.GetNames<Comparison>());
-        public CryptocurrencyCode NotificationCryptoCurrencyCode { get; set; }
-        public CurrencyCode NotificationCurrencyCode { get; set; }
-        public Comparison NotificationComparision { get; set; }
+        public CryptocurrencyCode NotificationCryptoCurrencyCode { get; set; } = CryptocurrencyCode.BTC;
+        public CurrencyCode NotificationCurrencyCode { get; set; } = CurrencyCode.AED;
+        public Comparison NotificationComparision { get; set; } = Comparison.GREATER_THAN;
         public double NotificationThreeshold { get; set; }
 
         public RelayCommand AddCurrencyNotificationCommand => new(() =>

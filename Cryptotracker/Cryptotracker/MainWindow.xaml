@@ -10,7 +10,7 @@
                  xmlns:properties="clr-namespace:Cryptotracker.Properties"
                  xmlns:controls="clr-namespace:Cryptotracker.Controls"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
-                 Height="700" Width="1024" MinHeight="620" MinWidth="800" MouseLeftButtonUp="CloseSettings"
+                 Height="700" Width="1024" MinHeight="660" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -240,7 +240,7 @@
                             <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ComparisonOperator}"/>
                             <Run Text=":"/>
                         </TextBlock>
-                        <mah:SplitButton MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}" 
+                        <mah:SplitButton MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}" SelectedIndex="0"
                                          ItemsSource="{Binding AvailableComparisions}" SelectedItem="{Binding NotificationComparision}">
                             <mah:SplitButton.Icon>
                                 <icons:FontAwesome Kind="GreaterThanEqualSolid"/>
@@ -248,7 +248,7 @@
                         </mah:SplitButton>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="50">
-                        <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding NotificationCurrencyCode}">
+                        <mah:SplitButton SelectedIndex="0" ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding NotificationCurrencyCode}">
                             <mah:SplitButton.Icon>
                                 <icons:PackIconBoxIcons Kind="RegularMoney"/>
                             </mah:SplitButton.Icon>
@@ -270,7 +270,7 @@
                         </TextBlock>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="50" Grid.Column="1">
-                        <mah:SplitButton ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding NotificationCryptoCurrencyCode}">
+                        <mah:SplitButton SelectedIndex="0" ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding NotificationCryptoCurrencyCode}">
                             <mah:SplitButton.Icon>
                                 <icons:PackIconBoxIcons Kind="LogosBitcoin"/>
                             </mah:SplitButton.Icon>
