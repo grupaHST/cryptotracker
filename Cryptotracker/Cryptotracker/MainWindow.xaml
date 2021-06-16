@@ -223,6 +223,11 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <mah:NumericUpDown Minimum="0" DecimalPointCorrection="Currency" StringFormat="0.000" Interval="0.1" Value="{Binding NotificationThreeshold}"/>
+                        <mah:SplitButton ItemsSource="{Binding AvailableComparisions}" SelectedItem="{Binding NotificationComparision}">
+                            <mah:SplitButton.Icon>
+                                <icons:FontAwesome Kind="GreaterThanEqualSolid"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
                     </StackPanel>
                     <StackPanel Grid.Row="1" Margin="50">
                         <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding NotificationCurrencyCode}">

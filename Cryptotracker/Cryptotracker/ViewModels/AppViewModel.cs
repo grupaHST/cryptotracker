@@ -131,7 +131,7 @@ namespace Cryptotracker.ViewModels
                 NotificationCurrencyCode,
                 Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
                 NotificationThreeshold,
-                Comparison.EQUAL
+                NotificationComparision
             ));
         });
 
@@ -142,7 +142,7 @@ namespace Cryptotracker.ViewModels
                 NotificationCryptoCurrencyCode,
                 Enum.Parse<CryptoExchangePlatform>(SelectedCryptoExchangePlatform),
                 NotificationThreeshold,
-                Comparison.EQUAL
+                NotificationComparision
             ));
         });
 
