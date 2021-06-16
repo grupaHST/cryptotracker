@@ -133,6 +133,18 @@
         {
             Language.Polski => "Dodaj powiadomienie dla kryptowalut",
             _ => "Add cryptocurrency notification"
+        };        
+        
+        public static string NotificationService(Language lang) => lang switch
+        {
+            Language.Polski => "Serwis powiadomienia",
+            _ => "Notification service"
+        };        
+        
+        public static string NotificationServiceMessage(Language lang) => lang switch
+        {
+            Language.Polski => "Aby wybrać inny, zmień serwis w ustawieniach",
+            _ => "To select a different one, change the service in the settings"
         };
     }
 }
