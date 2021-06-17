@@ -82,6 +82,10 @@ namespace Cryptotracker
             var currencyCode = Cryptotracker.Properties.Settings.Default[nameof(vm.SelectedCurrencyCode)]?.ToString();
             vm.SelectedCurrencyCode = string.IsNullOrEmpty(currencyCode)
                 ? Default(nameof(vm.SelectedCurrencyCode))?.ToString() : currencyCode;
+            
+            var cryptoCode = Cryptotracker.Properties.Settings.Default[nameof(vm.SelectedCryptocurrencyCode)]?.ToString();
+            vm.SelectedCryptocurrencyCode = string.IsNullOrEmpty(cryptoCode)
+                ? Default(nameof(vm.SelectedCryptocurrencyCode))?.ToString() : cryptoCode;
 
             var firstCode = Cryptotracker.Properties.Settings.Default[nameof(vm.FirstCurrencyCode)]?.ToString();
             vm.FirstCurrencyCode = string.IsNullOrEmpty(firstCode)
@@ -155,6 +159,7 @@ namespace Cryptotracker
             Cryptotracker.Properties.Settings.Default.SelectedCryptoExchangePlatform = viewModel.SelectedCryptoExchangePlatform;
             Cryptotracker.Properties.Settings.Default.SelectedExchangePlatform = viewModel.SelectedExchangePlatform;
             Cryptotracker.Properties.Settings.Default.SelectedCurrencyCode = viewModel.SelectedCurrencyCode;
+            Cryptotracker.Properties.Settings.Default.SelectedCryptocurrencyCode = viewModel.SelectedCryptocurrencyCode;
             Cryptotracker.Properties.Settings.Default.FirstCurrencyCode = viewModel.FirstCurrencyCode;
             Cryptotracker.Properties.Settings.Default.SecondCurrencyCode = viewModel.SecondCurrencyCode;
             Cryptotracker.Properties.Settings.Default.BinanceKey = viewModel.BinanceKey;

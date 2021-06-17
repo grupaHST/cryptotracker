@@ -26,6 +26,7 @@
             <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITFINEX</sys:String>
             <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
             <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
+            <sys:String x:Key="DefaultSelectedCryptocurrencyCode">BTC</sys:String>
             <sys:String x:Key="DefaultFirstCurrencyCode">EUR</sys:String>
             <sys:String x:Key="DefaultSecondCurrencyCode">USD</sys:String>
 
