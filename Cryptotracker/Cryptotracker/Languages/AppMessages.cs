@@ -32,6 +32,12 @@
         {
             Language.Polski => "Waluta",
             _ => "Currency"
+        };        
+        
+        public static string Cryptocurrency(Language lang) => lang switch
+        {
+            Language.Polski => "Kryptowaluta",
+            _ => "Cryptocurrency"
         };
 
         public static string Download(Language lang) => lang switch
