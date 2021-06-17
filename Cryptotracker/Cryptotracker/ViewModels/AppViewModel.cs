@@ -1,7 +1,9 @@
 ﻿using ControlzEx.Theming;
 using Cryptotracker.Backend;
 using Cryptotracker.Backend.Generic;
+using Cryptotracker.Backend.Notifications;
 using Cryptotracker.Languages;
+using Cryptotracker.Models;
 using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.ObjectModel;
@@ -28,6 +30,7 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<RateModel> Rates { get; set; }
 
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
+        public ObservableCollection<string> CryptocurrencyCodes => new(Enum.GetNames<CryptocurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -113,6 +116,34 @@ namespace Cryptotracker.ViewModels
 
             SecondCurrencyCode = tempCode;
             SecondCurrencyValue = tempValue;
+        });
+
+        public ObservableCollection<string> AvailableComparisions => new(Enum.GetNames<Comparison>());
+        public CryptocurrencyCode NotificationCryptoCurrencyCode { get; set; } = CryptocurrencyCode.BTC;
+        public CurrencyCode NotificationCurrencyCode { get; set; } = CurrencyCode.AED;
+        public Comparison NotificationComparision { get; set; } = Comparison.GREATER_THAN;
+        public double NotificationThreeshold { get; set; }
+
+        public RelayCommand AddCurrencyNotificationCommand => new(() =>
+        {
+            NotificationManager.AddNotification(new
+            (
+                NotificationCurrencyCode,
+                Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
+                NotificationThreeshold,
+                NotificationComparision
+            ));
+        });
+
+        public RelayCommand AddCryptoCurrencyNotificationCommand => new(() =>
+        {
+            NotificationManager.AddNotification(new
+            (
+                NotificationCryptoCurrencyCode,
+                Enum.Parse<CryptoExchangePlatform>(SelectedCryptoExchangePlatform),
+                NotificationThreeshold,
+                NotificationComparision
+            ));
         });
 
         public string Error { get; set; }

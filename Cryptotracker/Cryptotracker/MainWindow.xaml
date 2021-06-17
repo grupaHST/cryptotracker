@@ -10,7 +10,7 @@
                  xmlns:properties="clr-namespace:Cryptotracker.Properties"
                  xmlns:controls="clr-namespace:Cryptotracker.Controls"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
-                 Height="700" Width="1024" MinHeight="600" MinWidth="800" MouseLeftButtonUp="CloseSettings"
+                 Height="700" Width="1024" MinHeight="660" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -206,6 +206,90 @@
                             </mah:SplitButton>
                             <TextBox Text="{Binding SecondCurrencyValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
                         </DockPanel>
+                    </StackPanel>
+                </Grid>
+            </mah:MetroTabItem>
+            <!--#endregion-->
+            <!--#region Notifications -->
+            <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=Notifications}">
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type TextBlock}" BasedOn="{mah:StaticResource MahApps.Styles.TextBlock}">
+                            <Setter Property="TextWrapping" Value="Wrap"/>
+                        </Style>
+                        <sys:Double x:Key="MaxWidth">300</sys:Double>
+                        <Thickness x:Key="Margin">4</Thickness>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.ColumnSpan="2">
+                        <TextBlock Margin="10" FontSize="20" FontWeight="Bold" Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationTitle}"/>
+                        <TextBlock MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}">
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ThresholdValue}"/>
+                            <Run Text=":"/>
+                        </TextBlock>
+                        <mah:NumericUpDown MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}" Minimum="0" Maximum="1000000"
+                                           DecimalPointCorrection="Currency" StringFormat="0.000" Interval="0.1" Value="{Binding NotificationThreeshold}"/>
+                        <TextBlock MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}">
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ComparisonOperator}"/>
+                            <Run Text=":"/>
+                        </TextBlock>
+                        <mah:SplitButton MaxWidth="{StaticResource MaxWidth}" Margin="{StaticResource Margin}" SelectedIndex="0"
+                                         ItemsSource="{Binding AvailableComparisions}" SelectedItem="{Binding NotificationComparision}">
+                            <mah:SplitButton.Icon>
+                                <icons:FontAwesome Kind="GreaterThanEqualSolid"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="50">
+                        <mah:SplitButton SelectedIndex="0" ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding NotificationCurrencyCode}">
+                            <mah:SplitButton.Icon>
+                                <icons:PackIconBoxIcons Kind="RegularMoney"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button Margin="10" Command="{Binding AddCurrencyNotificationCommand}">
+                            <WrapPanel>
+                                <icons:BootstrapIcons Kind="Alarm"/>
+                                <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCurrencyNotification}"/>
+                            </WrapPanel>
+                        </Button>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationService}"/>
+                            <Run Text=": "/>
+                            <Run Text="{Binding SelectedExchangePlatform}"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationServiceMessage}"/>
+                            <Run Text="."/>
+                        </TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Margin="50" Grid.Column="1">
+                        <mah:SplitButton SelectedIndex="0" ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding NotificationCryptoCurrencyCode}">
+                            <mah:SplitButton.Icon>
+                                <icons:PackIconBoxIcons Kind="LogosBitcoin"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button Margin="10" Command="{Binding AddCryptoCurrencyNotificationCommand}">
+                            <WrapPanel>
+                                <icons:BootstrapIcons Kind="Alarm"/>
+                                <TextBlock Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=AddCryptocurrencyNotification}"/>
+                            </WrapPanel>
+                        </Button>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationService}"/>
+                            <Run Text=": "/>
+                            <Run Text="{Binding SelectedCryptoExchangePlatform}"/>
+                        </TextBlock>
+                        <TextBlock>
+                            <Run Text="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=NotificationServiceMessage}"/>
+                            <Run Text="."/>
+                        </TextBlock>
                     </StackPanel>
                 </Grid>
             </mah:MetroTabItem>
