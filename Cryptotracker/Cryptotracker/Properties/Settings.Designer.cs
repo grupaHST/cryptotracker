@@ -188,5 +188,17 @@ namespace Cryptotracker.Properties {
                 this["BitfinexSecret"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedCryptocurrencyCode {
+            get {
+                return ((string)(this["SelectedCryptocurrencyCode"]));
+            }
+            set {
+                this["SelectedCryptocurrencyCode"] = value;
+            }
+        }
     }
 }

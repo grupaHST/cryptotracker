@@ -131,20 +131,31 @@
                                 <Setter Property="DisplayDateEnd" Value="{x:Static sys:DateTime.Today}"/>
                             </Style>
                         </StackPanel.Resources>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
+                        <DatePicker SelectedDate="{Binding StartDate}"/>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
+                        <DatePicker SelectedDate="{Binding EndDate}"/>
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Currency}"/>
                         <mah:SplitButton ItemsSource="{Binding CurrencyCodes}" SelectedItem="{Binding SelectedCurrencyCode}" Cursor="Hand">
                             <mah:SplitButton.Icon>
                                 <icons:PackIconModern Kind="Money"/>
                             </mah:SplitButton.Icon>
                         </mah:SplitButton>
-                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
-                        <DatePicker SelectedDate="{Binding StartDate}"/>
-                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=EndDate}"/>
-                        <DatePicker SelectedDate="{Binding EndDate}"/>
-                        <TextBlock/>
-                        <Button Command="{Binding DownloadCommand}">
+                        <Button Command="{Binding DownloadCommand}" Margin="0,7,0,7">
                             <WrapPanel>
                                 <icons:Entypo Kind="Download"/>
+                                <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
+                            </WrapPanel>
+                        </Button>
+                        <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=Cryptocurrency}"/>
+                        <mah:SplitButton ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding SelectedCryptocurrencyCode}" Cursor="Hand">
+                            <mah:SplitButton.Icon>
+                                <icons:BoxIcons Kind="LogosBitcoin"/>
+                            </mah:SplitButton.Icon>
+                        </mah:SplitButton>
+                        <Button Command="{Binding CryptoDownloadCommand}" Margin="0,7,0,7">
+                            <WrapPanel>
+                                <icons:BoxIcons Kind="RegularDownload"/>
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
                             </WrapPanel>
                         </Button>
