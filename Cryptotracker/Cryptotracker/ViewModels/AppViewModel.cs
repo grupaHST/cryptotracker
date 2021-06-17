@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Cryptotracker.ViewModels
 {
@@ -32,6 +33,7 @@ namespace Cryptotracker.ViewModels
         public ObservableCollection<string> CurrencyCodes => new(Enum.GetNames<CurrencyCode>());
         public ObservableCollection<string> CryptocurrencyCodes => new(Enum.GetNames<CryptocurrencyCode>());
         public string SelectedCurrencyCode { get; set; }
+        public string SelectedCryptocurrencyCode { get; set; }
 
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -68,21 +70,38 @@ namespace Cryptotracker.ViewModels
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public RelayCommand DownloadCommand => new(async() =>
+        public RelayCommand DownloadCommand => new(async() => await Download());
+        public RelayCommand CryptoDownloadCommand => new(async() => await Download(crypto: true));
+
+        private async Task Download(bool crypto = false)
         {
             try
             {
                 IsLoadingData = true;
+                CurrencyDataModel data = null;
 
-                var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
-                (
-                    Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
-                    Enum.Parse<CurrencyCode>(SelectedCurrencyCode),
-                    StartDate,
-                    EndDate
-                );
-
-                Rates = new(genericCurrencyData?.Rates);
+                if (crypto)
+                {
+                    data = await ExchangeRatesHandler.GetCryptocurrencyData
+                    (
+                        Enum.Parse<CryptoExchangePlatform>(SelectedCryptoExchangePlatform),
+                        Enum.Parse<CryptocurrencyCode>(SelectedCryptocurrencyCode),
+                        CryptoInterval.ONE_DAY,
+                        StartDate,
+                        EndDate
+                    );
+                }
+                else
+                {
+                    data = await ExchangeRatesHandler.GetCurrencyData
+                    (
+                        Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
+                        Enum.Parse<CurrencyCode>(SelectedCurrencyCode),
+                        StartDate,
+                        EndDate
+                    );
+                }
+                Rates = new(data?.Rates);
             }
             catch (Exception e)
             {
@@ -92,7 +111,7 @@ namespace Cryptotracker.ViewModels
             {
                 IsLoadingData = false;
             }
-        });
+        }
 
         public RelayCommand<string> OpenInBrowserCommand => new(url =>
         {
