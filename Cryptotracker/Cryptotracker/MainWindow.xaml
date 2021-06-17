@@ -136,6 +136,11 @@
                             <mah:SplitButton.Icon>
                                 <icons:PackIconModern Kind="Money"/>
                             </mah:SplitButton.Icon>
+                        </mah:SplitButton>                        
+                        <mah:SplitButton ItemsSource="{Binding CryptocurrencyCodes}" SelectedItem="{Binding SelectedCryptocurrencyCode}" Cursor="Hand">
+                            <mah:SplitButton.Icon>
+                                <icons:BoxIcons Kind="LogosBitcoin"/>
+                            </mah:SplitButton.Icon>
                         </mah:SplitButton>
                         <TextBlock Text="{Binding Language, StringFormat={}{0}:, Converter={StaticResource LangConv}, ConverterParameter=StartDate}"/>
                         <DatePicker SelectedDate="{Binding StartDate}"/>
