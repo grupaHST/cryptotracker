@@ -154,6 +154,12 @@
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
                             </WrapPanel>
                         </Button>
+                        <Button Command="{Binding CryptoDownloadCommand}">
+                            <WrapPanel>
+                                <icons:BoxIcons Kind="RegularDownload"/>
+                                <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
+                            </WrapPanel>
+                        </Button>
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="10">
                         <!--zamiast data grid'a w tym miejsu powinien być wykres-->
