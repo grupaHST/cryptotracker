@@ -4,5 +4,6 @@
     {
         Polski,
         English,
+        Deutsch,
     }
 }
