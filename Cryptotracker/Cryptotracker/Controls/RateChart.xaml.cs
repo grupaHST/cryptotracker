@@ -1,6 +1,7 @@
 ﻿using Cryptotracker.Backend.Generic;
 using Cryptotracker.ViewModels;
 using ScottPlot;
+using ScottPlot.Plottable;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -241,25 +242,46 @@ namespace Cryptotracker.Controls
 
         }
 
-        private (double[] xs, double[] ys) sma1;
-        private (double[] xs, double[] ys) sma2;
-        private (double[] xs, double[] sma, double[] lower, double[] upper) bollinger;
+        private (double[] xs, double[] ys) sma1Data;
+        private ScatterPlot sma1;
+        private (double[] xs, double[] ys) sma2Data;
+        private ScatterPlot sma2;
+        private (double[] xs, double[] sma, double[] lower, double[] upper) bollingerData;
+        private ScatterPlot bollingerSma;
+        private ScatterPlot bollingerLower;
+        private ScatterPlot bollingerUpper;
 
         private void UpdateIndicators()
         {
             if (ShowSMA1)
             {
-                Chart.Plot.AddScatterLines(sma1.xs, sma1.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
+                sma1 = Chart.Plot.AddScatterLines(sma1Data.xs, sma1Data.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
             }
+            else
+            {
+                Chart.Plot.Remove(sma1);
+            }
+            
             if (ShowSMA2)
             {
-                Chart.Plot.AddScatterLines(sma2.xs, sma2.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
+                sma2 = Chart.Plot.AddScatterLines(sma2Data.xs, sma2Data.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
             }
+            else
+            {
+                Chart.Plot.Remove(sma2);
+            }
+
             if (ShowBollingerBands)
             {
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.sma, System.Drawing.Color.DarkCyan, 2);
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                bollingerSma = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.sma, System.Drawing.Color.DarkCyan, 2);
+                bollingerLower = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                bollingerUpper = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+            }
+            else
+            {
+                Chart.Plot.Remove(bollingerSma);
+                Chart.Plot.Remove(bollingerLower);
+                Chart.Plot.Remove(bollingerUpper);
             }
         }
 
@@ -303,9 +325,9 @@ namespace Cryptotracker.Controls
             var candlePlot = Chart.Plot.AddCandlesticks(ohlcs);
             Chart.Plot.XAxis.DateTimeFormat(true);
 
-            sma1 = candlePlot.GetSMA(SMA1_N);
-            sma2 = candlePlot.GetSMA(SMA2_N);
-            bollinger = candlePlot.GetBollingerBands(BollingerBandsN);
+            sma1Data = candlePlot.GetSMA(SMA1_N);
+            sma2Data = candlePlot.GetSMA(SMA2_N);
+            bollingerData = candlePlot.GetBollingerBands(BollingerBandsN);
 
             UpdateIndicators();
 
