@@ -32,7 +32,7 @@ namespace Cryptotracker
                 {
                     viewModel.IsLoadingData = true;
 
-                    var genericCurrencyData = await ExchangeRatesHandler.GetCurrencyData
+                    var genericCurrencyData = await ExchangeRatesHandler.GetFIATCurrencyData
                     (
                         Enum.Parse<ExchangePlatform>(viewModel.SelectedExchangePlatform),
                         Enum.Parse<CurrencyCode>(viewModel.SelectedCurrencyCode),
@@ -64,7 +64,7 @@ namespace Cryptotracker
             trayIcon.Visible = true;
             trayIcon.Icon = new Icon("..\\..\\..\\icon.ico");
 
-            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetCurrencyData);
+            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetFIATCurrencyData);
 
             NotificationManager.EventHandler += OnNotificationOccurence;
 

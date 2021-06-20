@@ -41,7 +41,7 @@ namespace CryptotrackerTests.Backend
             ExchangeRatesHandler.BinanceAPIKey = "ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh";
             ExchangeRatesHandler.BinanceAPISecret = "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He";
 
-            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetCurrencyData);
+            NotificationManager.Init(ExchangeRatesHandler.GetCryptoCurrentPrice, ExchangeRatesHandler.GetFIATCurrencyData);
 
             NotificationManager.EventHandler = OnNotificationOccurence;
 
