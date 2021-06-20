@@ -219,8 +219,6 @@ namespace Cryptotracker.Controls
                 Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.White);
                 Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#595959"));
                 Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#595959"));
-
-                Chart.Render();
             }
             else
             {
@@ -236,25 +234,25 @@ namespace Cryptotracker.Controls
                 Chart.Plot.YAxis.TickLabelStyle(color: System.Drawing.Color.Black);
                 Chart.Plot.YAxis.TickMarkColor(ColorTranslator.FromHtml("#e6e6e6"));
                 Chart.Plot.YAxis.MajorGrid(color: ColorTranslator.FromHtml("#e6e6e6"));
-
-                Chart.Render();
             }
 
+            ClearIndicators();
+            Chart.Render();
+            UpdateIndicators();
         }
 
-        private (double[] xs, double[] ys) sma1Data;
         private ScatterPlot sma1;
-        private (double[] xs, double[] ys) sma2Data;
         private ScatterPlot sma2;
-        private (double[] xs, double[] sma, double[] lower, double[] upper) bollingerData;
         private ScatterPlot bollingerSma;
         private ScatterPlot bollingerLower;
         private ScatterPlot bollingerUpper;
 
         private void UpdateIndicators()
         {
-            if (ShowSMA1)
+            if (ShowSMA1 && SMA1_N>1)
             {
+                Chart.Plot.Remove(sma1);
+                var sma1Data = candlePlot.GetSMA(SMA1_N);
                 sma1 = Chart.Plot.AddScatterLines(sma1Data.xs, sma1Data.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
             }
             else
@@ -262,8 +260,10 @@ namespace Cryptotracker.Controls
                 Chart.Plot.Remove(sma1);
             }
             
-            if (ShowSMA2)
+            if (ShowSMA2 && SMA2_N > 1)
             {
+                Chart.Plot.Remove(sma2);
+                var sma2Data = candlePlot.GetSMA(SMA2_N);
                 sma2 = Chart.Plot.AddScatterLines(sma2Data.xs, sma2Data.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
             }
             else
@@ -271,8 +271,12 @@ namespace Cryptotracker.Controls
                 Chart.Plot.Remove(sma2);
             }
 
-            if (ShowBollingerBands)
+            if (ShowBollingerBands && BollingerBandsN > 1)
             {
+                Chart.Plot.Remove(bollingerSma);
+                Chart.Plot.Remove(bollingerLower);
+                Chart.Plot.Remove(bollingerUpper);
+                var bollingerData = candlePlot.GetBollingerBands(BollingerBandsN);
                 bollingerSma = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.sma, System.Drawing.Color.DarkCyan, 2);
                 bollingerLower = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
                 bollingerUpper = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
@@ -285,6 +289,16 @@ namespace Cryptotracker.Controls
             }
         }
 
+        private void ClearIndicators()
+        {
+            Chart.Plot.Remove(sma1);
+            Chart.Plot.Remove(sma2);
+            Chart.Plot.Remove(bollingerSma);
+            Chart.Plot.Remove(bollingerLower);
+            Chart.Plot.Remove(bollingerUpper);
+        }
+
+        FinancePlot candlePlot;
 
         private void UpdateChart()
         {
@@ -322,12 +336,8 @@ namespace Cryptotracker.Controls
             Chart.Plot.Clear();
             Chart.Plot.Title(GenerateChartTitle());
             Chart.Plot.YLabel(GenerateChartYLabel());
-            var candlePlot = Chart.Plot.AddCandlesticks(ohlcs);
+            candlePlot = Chart.Plot.AddCandlesticks(ohlcs);
             Chart.Plot.XAxis.DateTimeFormat(true);
-
-            sma1Data = candlePlot.GetSMA(SMA1_N);
-            sma2Data = candlePlot.GetSMA(SMA2_N);
-            bollingerData = candlePlot.GetBollingerBands(BollingerBandsN);
 
             UpdateIndicators();
 
