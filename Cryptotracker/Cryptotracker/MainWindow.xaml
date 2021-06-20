@@ -159,9 +159,15 @@
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
                             </WrapPanel>
                         </Button>
+                        <mah:ToggleSwitch Header="SMA1" Height="50" Width="100"/>
+                        <TextBox Name="sma1n" />
+                        <mah:ToggleSwitch Header="SMA2" Height="50" Width="100"/>
+                        <TextBox Name="sma2n" />
+                        <mah:ToggleSwitch Header="Bollinger Bands" Height="50" Width="100"/>
+                        <TextBox Name="boln" />
+
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="10">
-                        <!--zamiast data grid'a w tym miejsu powinien być wykres-->
                         <controls:RateChart 
                             Title="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=ChartTitle}"
                             YLabel="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=YLabel}"
