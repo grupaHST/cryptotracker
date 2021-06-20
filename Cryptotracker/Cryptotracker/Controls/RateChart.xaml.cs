@@ -56,6 +56,14 @@ namespace Cryptotracker.Controls
             DependencyProperty.Register("SMA2_N", typeof(int), typeof(RateChart),
                 new PropertyMetadata(8, new PropertyChangedCallback(OnIndicatorChanged)));
 
+        public static readonly DependencyProperty ShowBollingerBandsProperty =
+            DependencyProperty.Register("ShowBollingerBands", typeof(bool), typeof(RateChart),
+                new PropertyMetadata(false, new PropertyChangedCallback(OnIndicatorChanged)));
+
+        public static readonly DependencyProperty BollingerBandsNProperty =
+            DependencyProperty.Register("BollingerBandsN", typeof(int), typeof(RateChart),
+                new PropertyMetadata(8, new PropertyChangedCallback(OnIndicatorChanged)));
+
         public string Title
         {
             get {return (string)GetValue(TitleProperty); }
@@ -102,6 +110,18 @@ namespace Cryptotracker.Controls
         {
             get { return (int)GetValue(SMA2_NProperty); }
             set { SetValue(SMA2_NProperty, value); }
+        }
+
+        public bool ShowBollingerBands
+        {
+            get { return (bool)GetValue(ShowBollingerBandsProperty); }
+            set { SetValue(ShowBollingerBandsProperty, value); }
+        }
+
+        public int BoolingerBandsN
+        {
+            get { return (int)GetValue(BollingerBandsNProperty); }
+            set { SetValue(BollingerBandsNProperty, value); }
         }
 
         private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
