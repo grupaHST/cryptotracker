@@ -25,7 +25,7 @@ namespace Cryptotracker.Controls
     public partial class RateChart : UserControl
     {
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(RateChart), 
+            DependencyProperty.Register("Title", typeof(string), typeof(RateChart),
                 new PropertyMetadata("", new PropertyChangedCallback(OnDescriptionChanged)));
 
         public static readonly DependencyProperty CurrencyCodeProperty =
@@ -66,7 +66,7 @@ namespace Cryptotracker.Controls
 
         public string Title
         {
-            get {return (string)GetValue(TitleProperty); }
+            get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
 
@@ -75,7 +75,7 @@ namespace Cryptotracker.Controls
             get { return (string)GetValue(CurrencyCodeProperty); }
             set { SetValue(CurrencyCodeProperty, value); }
         }
-        
+
         public string YLabel
         {
             get { return (string)GetValue(YLabelProperty); }
@@ -184,7 +184,7 @@ namespace Cryptotracker.Controls
                 UpdateChart();
             }
         }
-                
+
         private void UpdateChartDescription()
         {
             Chart.Plot.Title(GenerateChartTitle());
@@ -204,7 +204,7 @@ namespace Cryptotracker.Controls
 
         private void UpdateColorScheme()
         {
-            if(DarkMode)
+            if (DarkMode)
             {
                 Chart.Plot.Style(figureBackground: ColorTranslator.FromHtml("#0d0d0d"),
                                 dataBackground: ColorTranslator.FromHtml("#0d0d0d"),
@@ -238,8 +238,12 @@ namespace Cryptotracker.Controls
 
                 Chart.Render();
             }
-            
+
         }
+
+        (double[] xs, double[] ys) sma1;
+        (double[] xs, double[] ys) sma2;
+        (double[] xs, double[] sma, double[] lower, double[] upper) bollinger;
 
         private void UpdateChart()
         {
@@ -279,6 +283,11 @@ namespace Cryptotracker.Controls
             Chart.Plot.YLabel(GenerateChartYLabel());
             var candlePlot = Chart.Plot.AddCandlesticks(ohlcs);
             Chart.Plot.XAxis.DateTimeFormat(true);
+
+            sma1 = candlePlot.GetSMA(SMA1_N);
+            sma2 = candlePlot.GetSMA(SMA2_N);
+            bollinger = candlePlot.GetBollingerBands(BoolingerBandsN);
+
             Chart.Render();
 
         }
