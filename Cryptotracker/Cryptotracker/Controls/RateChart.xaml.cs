@@ -48,6 +48,14 @@ namespace Cryptotracker.Controls
             DependencyProperty.Register("SMA1_N", typeof(int), typeof(RateChart),
                 new PropertyMetadata(20, new PropertyChangedCallback(OnIndicatorChanged)));
 
+        public static readonly DependencyProperty ShowSMA2Property =
+            DependencyProperty.Register("ShowSMA2", typeof(bool), typeof(RateChart),
+                new PropertyMetadata(false, new PropertyChangedCallback(OnIndicatorChanged)));
+
+        public static readonly DependencyProperty SMA2_NProperty =
+            DependencyProperty.Register("SMA2_N", typeof(int), typeof(RateChart),
+                new PropertyMetadata(8, new PropertyChangedCallback(OnIndicatorChanged)));
+
         public string Title
         {
             get {return (string)GetValue(TitleProperty); }
@@ -82,6 +90,18 @@ namespace Cryptotracker.Controls
         {
             get { return (int)GetValue(SMA1_NProperty); }
             set { SetValue(SMA1_NProperty, value); }
+        }
+
+        public bool ShowSMA2
+        {
+            get { return (bool)GetValue(ShowSMA2Property); }
+            set { SetValue(ShowSMA2Property, value); }
+        }
+
+        public int SMA2_N
+        {
+            get { return (int)GetValue(SMA2_NProperty); }
+            set { SetValue(SMA2_NProperty, value); }
         }
 
         private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
