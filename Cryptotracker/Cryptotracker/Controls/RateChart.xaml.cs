@@ -40,6 +40,14 @@ namespace Cryptotracker.Controls
             DependencyProperty.Register("DarkMode", typeof(bool), typeof(RateChart),
                 new PropertyMetadata(false, new PropertyChangedCallback(OnColorSchemeChanged)));
 
+        public static readonly DependencyProperty ShowSMA1Property =
+            DependencyProperty.Register("ShowSMA1", typeof(bool), typeof(RateChart),
+                new PropertyMetadata(false, new PropertyChangedCallback(OnIndicatorChanged)));
+
+        public static readonly DependencyProperty SMA1_NProperty =
+            DependencyProperty.Register("SMA1_N", typeof(int), typeof(RateChart),
+                new PropertyMetadata(20, new PropertyChangedCallback(OnIndicatorChanged)));
+
         public string Title
         {
             get {return (string)GetValue(TitleProperty); }
@@ -64,7 +72,17 @@ namespace Cryptotracker.Controls
             set { SetValue(DarkModeProperty, value); }
         }
 
+        public bool ShowSMA1
+        {
+            get { return (bool)GetValue(ShowSMA1Property); }
+            set { SetValue(ShowSMA1Property, value); }
+        }
 
+        public int SMA1_N
+        {
+            get { return (int)GetValue(SMA1_NProperty); }
+            set { SetValue(SMA1_NProperty, value); }
+        }
 
         private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -98,6 +116,17 @@ namespace Cryptotracker.Controls
         private void OnColorSchemeChanged(DependencyPropertyChangedEventArgs e)
         {
             UpdateColorScheme();
+        }
+
+        private static void OnIndicatorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RateChart rateChart = d as RateChart;
+            rateChart.OnIndicatorChanged(e);
+        }
+
+        private void OnIndicatorChanged(DependencyPropertyChangedEventArgs e)
+        {
+            UpdateChart();
         }
 
         public RateChart()
@@ -198,7 +227,7 @@ namespace Cryptotracker.Controls
             Chart.Plot.Clear();
             Chart.Plot.Title(GenerateChartTitle());
             Chart.Plot.YLabel(GenerateChartYLabel());
-            Chart.Plot.AddCandlesticks(ohlcs);
+            var candle = Chart.Plot.AddCandlesticks(ohlcs);
             Chart.Plot.XAxis.DateTimeFormat(true);
             Chart.Render();
 
