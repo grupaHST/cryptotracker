@@ -21,21 +21,21 @@ namespace CryptotrackerTests.Backend
             ExchangeRatesHandler.BinanceAPIKey = "ZD4viGXGIAdLEOUN5vOIF4LQfcBQhrcdbX8r9oUd1ACo29kpd35G0g6uXl7nLRnh";
             ExchangeRatesHandler.BinanceAPISecret = "YdR3dMvkcEtGboOm4SnfOwnYRR6qhmTFCPfPcXO0yerYi1LCO2QhCmP5tUj9c8He";
 
-            CurrencyDataModel result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.CHF, Convert.ToDateTime("2021-04-09"));
+            CurrencyDataModel result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.CHF, Convert.ToDateTime("2021-04-09"));
 
             Assert.IsNotNull(result);
             Assert.AreEqual(4.1265, result.Rates[0].Value);
             Assert.AreEqual(Convert.ToDateTime("2021-04-09"), result.Rates[0].Date);
             Assert.AreNotEqual(Convert.ToDateTime("2021-04-08"), result.Rates[0].Date);
 
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-06"), Convert.ToDateTime("2021-04-09"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-06"), Convert.ToDateTime("2021-04-09"));
             Assert.AreEqual(4, result.Rates.Count);
             Assert.AreEqual(3.8611, result.Rates[1].Value);
             Assert.AreEqual(3.8208, result.Rates[3].Value);
             Assert.AreEqual(Convert.ToDateTime("2021-04-09"), result.Rates[3].Date);
 
             //DATE RANGE TESTS NBP
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.8065, result.Rates[0].Value);
             Assert.AreEqual(3.8014, result.Rates[1].Value);
@@ -43,26 +43,26 @@ namespace CryptotrackerTests.Backend
             Assert.AreEqual(3, result.Rates.Count);
 
             //NBP - START DATE ONLY
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.8065, result.Rates[0].Value);
 
             //NBP - UNAVAILABLE DATA
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-17"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.USD, Convert.ToDateTime("2021-04-17"));
             Assert.IsNull(result);
 
             //NBP - TABLE B
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.LSL, Convert.ToDateTime("2021-04-25"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.LSL, Convert.ToDateTime("2021-04-25"));
             Assert.IsNull(result);
 
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.NBP, CurrencyCode.LSL, Convert.ToDateTime("2021-04-21"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.NBP, CurrencyCode.LSL, Convert.ToDateTime("2021-04-21"));
             Assert.IsNotNull(result);
             Assert.AreEqual("LSL", result.Code);
             Assert.AreEqual(Convert.ToDateTime("2021-04-21"), result.Rates.First().Date);
             Assert.AreEqual(0.2651, result.Rates.First().Value);
 
             //DATE RANGE TESTS YAHOO
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"), Convert.ToDateTime("2021-04-16"));
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.806945, result.Rates[0].Value);
             Assert.AreEqual(3.80178, result.Rates[1].Value);
@@ -70,18 +70,18 @@ namespace CryptotrackerTests.Backend
             Assert.AreEqual(3, result.Rates.Count);
 
             //YAHOO - START DATE ONLY
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.YAHOO, CurrencyCode.USD, Convert.ToDateTime("2021-04-14"));
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.806945, result.Rates[0].Value);
 
 
             //EXCHANGERATES.HOST - START DATE ONLY
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.EXCHANGERATE_HOST, CurrencyCode.USD, Convert.ToDateTime("2021-04-23"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.EXCHANGERATE_HOST, CurrencyCode.USD, Convert.ToDateTime("2021-04-23"));
             Assert.AreEqual("USD", result.Code);
             Assert.AreEqual(3.76605, result.Rates.First().Value);
 
             //EXCHANGERATES.HOST - DATE RANGE TESTS
-            result = await ExchangeRatesHandler.GetCurrencyData(ExchangePlatform.EXCHANGERATE_HOST, CurrencyCode.CHF, Convert.ToDateTime("2021-04-10"), Convert.ToDateTime("2021-04-23"));
+            result = await ExchangeRatesHandler.GetFIATCurrencyData(ExchangePlatform.EXCHANGERATE_HOST, CurrencyCode.CHF, Convert.ToDateTime("2021-04-10"), Convert.ToDateTime("2021-04-23"));
             Assert.AreEqual("CHF", result.Code);
             Assert.AreEqual(Convert.ToDateTime("2021-04-10"), result.Rates[0].Date);
             Assert.AreEqual(4.128723, result.Rates[0].Value);

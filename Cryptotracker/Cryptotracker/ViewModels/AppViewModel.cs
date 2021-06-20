@@ -93,7 +93,7 @@ namespace Cryptotracker.ViewModels
                 }
                 else
                 {
-                    data = await ExchangeRatesHandler.GetCurrencyData
+                    data = await ExchangeRatesHandler.GetFIATCurrencyData
                     (
                         Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
                         Enum.Parse<CurrencyCode>(SelectedCurrencyCode),
