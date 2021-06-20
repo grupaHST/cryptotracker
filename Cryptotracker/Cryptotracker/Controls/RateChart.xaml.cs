@@ -166,7 +166,7 @@ namespace Cryptotracker.Controls
 
         private void OnIndicatorChanged(DependencyPropertyChangedEventArgs e)
         {
-            UpdateChart();
+            UpdateIndicators();
         }
 
         public RateChart()
@@ -241,9 +241,28 @@ namespace Cryptotracker.Controls
 
         }
 
-        (double[] xs, double[] ys) sma1;
-        (double[] xs, double[] ys) sma2;
-        (double[] xs, double[] sma, double[] lower, double[] upper) bollinger;
+        private (double[] xs, double[] ys) sma1;
+        private (double[] xs, double[] ys) sma2;
+        private (double[] xs, double[] sma, double[] lower, double[] upper) bollinger;
+
+        private void UpdateIndicators()
+        {
+            if (ShowSMA1)
+            {
+                Chart.Plot.AddScatterLines(sma1.xs, sma1.ys, System.Drawing.Color.Blue, 2);
+            }
+            if (ShowSMA2)
+            {
+                Chart.Plot.AddScatterLines(sma2.xs, sma2.ys, System.Drawing.Color.Navy, 2);
+            }
+            if (ShowBollingerBands)
+            {
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.sma, System.Drawing.Color.Blue);
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.lower, System.Drawing.Color.Blue, lineStyle: LineStyle.Dash);
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.upper, System.Drawing.Color.Blue, lineStyle: LineStyle.Dash);
+            }
+        }
+
 
         private void UpdateChart()
         {
@@ -287,6 +306,8 @@ namespace Cryptotracker.Controls
             sma1 = candlePlot.GetSMA(SMA1_N);
             sma2 = candlePlot.GetSMA(SMA2_N);
             bollinger = candlePlot.GetBollingerBands(BoolingerBandsN);
+
+            UpdateIndicators();
 
             Chart.Render();
 
