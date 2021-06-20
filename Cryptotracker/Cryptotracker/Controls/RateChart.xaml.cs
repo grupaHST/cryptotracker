@@ -118,7 +118,7 @@ namespace Cryptotracker.Controls
             set { SetValue(ShowBollingerBandsProperty, value); }
         }
 
-        public int BoolingerBandsN
+        public int BollingerBandsN
         {
             get { return (int)GetValue(BollingerBandsNProperty); }
             set { SetValue(BollingerBandsNProperty, value); }
@@ -305,7 +305,7 @@ namespace Cryptotracker.Controls
 
             sma1 = candlePlot.GetSMA(SMA1_N);
             sma2 = candlePlot.GetSMA(SMA2_N);
-            bollinger = candlePlot.GetBollingerBands(BoolingerBandsN);
+            bollinger = candlePlot.GetBollingerBands(BollingerBandsN);
 
             UpdateIndicators();
 
