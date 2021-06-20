@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.Backend.Crypto.Binance
 {
-    public class BinanceDataRetriever
+    public class BinanceDataRetriever : CryptocurrencyDataRetriever
     {
         readonly BinanceClient _client;
         public BinanceDataRetriever(BinanceClientOptions clientOptions)
         {
             _client = new BinanceClient(clientOptions);
         }
-        public async Task<CurrencyDataModel> GetCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
+        public override async Task<CurrencyDataModel> GetCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
         {
             KlineInterval klineInterval = KlineInterval.OneDay;
             CryptoIntervalsDict.UniToBinance.TryGetValue(interval, out klineInterval);
@@ -72,7 +72,7 @@ namespace Cryptotracker.Backend.Crypto.Binance
             return data;
         }
 
-        public async Task<double> GetCurrentPrice(CryptocurrencyCode cryptocurrencyCode)
+        public override async Task<double> GetCurrentPrice(CryptocurrencyCode cryptocurrencyCode)
         {
             string symbol = $"{cryptocurrencyCode}BUSD";
 

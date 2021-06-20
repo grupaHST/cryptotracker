@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.Backend.Crypto.Bitfinex
 {
-    public class BitfinexDataRetriever
+    public class BitfinexDataRetriever : CryptocurrencyDataRetriever
     {
         readonly BitfinexClient _client;
         public BitfinexDataRetriever(BitfinexClientOptions clientOptions)
@@ -17,7 +17,7 @@ namespace Cryptotracker.Backend.Crypto.Bitfinex
             _client = new BitfinexClient(clientOptions);
         }
 
-        public async Task<CurrencyDataModel> GetCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
+        public override async Task<CurrencyDataModel> GetCurrencyData(CryptocurrencyCode cryptocurrencyCode, CryptoInterval interval = CryptoInterval.ONE_DAY, DateTime? startTime = null, DateTime? endTime = null)
         {
             TimeFrame klineInterval = TimeFrame.OneDay;
             CryptoIntervalsDict.UniToBitfinex.TryGetValue(interval, out klineInterval);
@@ -72,7 +72,7 @@ namespace Cryptotracker.Backend.Crypto.Bitfinex
 
             return data;
         }
-        public async Task<double> GetCurrentPrice(CryptocurrencyCode cryptocurrencyCode)
+        public override async Task<double> GetCurrentPrice(CryptocurrencyCode cryptocurrencyCode)
         {
             string symbol = $"t{cryptocurrencyCode}USD";
             var result = await _client.GetTickerAsync(default, symbol);
