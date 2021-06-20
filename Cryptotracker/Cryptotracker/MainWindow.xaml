@@ -159,12 +159,12 @@
                                 <TextBlock Text="{Binding Language, StringFormat={} {0}, Converter={StaticResource LangConv}, ConverterParameter=Download}"/>
                             </WrapPanel>
                         </Button>
-                        <mah:ToggleSwitch Header="SMA1" Height="50" Width="100"/>
-                        <TextBox Name="sma1n" />
-                        <mah:ToggleSwitch Header="SMA2" Height="50" Width="100"/>
-                        <TextBox Name="sma2n" />
-                        <mah:ToggleSwitch Header="Bollinger Bands" Height="50" Width="100"/>
-                        <TextBox Name="boln" />
+                        <mah:ToggleSwitch Name="showSma1" Header="SMA1" Height="50" Width="100"/>
+                        <TextBox Name="sma1n" Text="20" />
+                        <mah:ToggleSwitch Name="showSma2" Header="SMA2" Height="50" Width="100"/>
+                        <TextBox Name="sma2n" Text="8" />
+                        <mah:ToggleSwitch Name="showBol" Header="Bollinger Bands" Height="50" Width="100"/>
+                        <TextBox Name="boln" Text="20" />
 
                     </StackPanel>
                     <Grid Grid.Column="1" Margin="10">
@@ -172,7 +172,13 @@
                             Title="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=ChartTitle}"
                             YLabel="{Binding Language, StringFormat={}{0}, Converter={StaticResource LangConv}, ConverterParameter=YLabel}"
                             CurrencyCode="{Binding SelectedCurrencyCode}"
-                            DarkMode="{Binding ElementName=themeSwitch, Path=IsOn}"/>
+                            DarkMode="{Binding ElementName=themeSwitch, Path=IsOn}"
+                            ShowSMA1="{Binding ElementName=showSma1, Path=IsOn}"
+                            SMA1_N="{Binding ElementName=sma1n, Path=Text}"
+                            ShowSMA2="{Binding ElementName=showSma2, Path=IsOn}"
+                            SMA2_N="{Binding ElementName=sma2n, Path=Text}"
+                            ShowBollingerBands="{Binding ElementName=showBol, Path=IsOn}"
+                            BollingerBandsN="{Binding ElementName=boln, Path=Text}"/>
                         <mah:ProgressRing Visibility="{Binding IsLoadingData, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     </Grid>
                 </Grid>
