@@ -249,17 +249,17 @@ namespace Cryptotracker.Controls
         {
             if (ShowSMA1)
             {
-                Chart.Plot.AddScatterLines(sma1.xs, sma1.ys, System.Drawing.Color.Blue, 2);
+                Chart.Plot.AddScatterLines(sma1.xs, sma1.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
             }
             if (ShowSMA2)
             {
-                Chart.Plot.AddScatterLines(sma2.xs, sma2.ys, System.Drawing.Color.Navy, 2);
+                Chart.Plot.AddScatterLines(sma2.xs, sma2.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
             }
             if (ShowBollingerBands)
             {
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.sma, System.Drawing.Color.Blue);
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.lower, System.Drawing.Color.Blue, lineStyle: LineStyle.Dash);
-                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.upper, System.Drawing.Color.Blue, lineStyle: LineStyle.Dash);
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.sma, System.Drawing.Color.DarkCyan, 2);
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                Chart.Plot.AddScatterLines(bollinger.xs, bollinger.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
             }
         }
 
