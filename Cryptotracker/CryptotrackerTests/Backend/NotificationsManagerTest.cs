@@ -56,10 +56,6 @@ namespace CryptotrackerTests.Backend
             NotificationManager.AddNotification(new NotificationModel(CryptocurrencyCode.ETH, CryptoExchangePlatform.BITFINEX, 1000, Comparison.GREATER_THAN));
             NotificationManager.AddNotification(new NotificationModel(CryptocurrencyCode.BTC, CryptoExchangePlatform.BITFINEX, 10000, Comparison.GREATER_THAN));
 
-            //NBP
-            NotificationManager.AddNotification(new NotificationModel(CurrencyCode.USD, ExchangePlatform.NBP, 2, Comparison.GREATER_THAN));
-            NotificationManager.AddNotification(new NotificationModel(CurrencyCode.USD, ExchangePlatform.NBP, 2, Comparison.LESS_THAN)); //FALSE
-
             await NotificationManager.Update();
 
             //BINANCE
@@ -77,10 +73,6 @@ namespace CryptotrackerTests.Backend
             Assert.AreEqual(true, notifications[4].Threshold == 1000);
             Assert.AreEqual(true, notifications[5].CurrentValue > 10000);
             Assert.AreEqual(true, notifications[5].Threshold == 10000);
-
-            //NBP
-            Assert.AreEqual(true, notifications[6].CurrentValue > 2);
-            Assert.AreEqual(true, notifications[6].Threshold == 2);
 
             NotificationManager.Clear();
             notifications.Clear();
