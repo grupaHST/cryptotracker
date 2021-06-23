@@ -125,6 +125,14 @@ namespace Cryptotracker.Controls
             set { SetValue(BollingerBandsNProperty, value); }
         }
 
+        private FinancePlot candlePlot;
+        private ScatterPlot sma1;
+        private ScatterPlot sma2;
+        private ScatterPlot bollingerSma;
+        private ScatterPlot bollingerLower;
+        private ScatterPlot bollingerUpper;
+
+
         private static void OnDescriptionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             RateChart rateChart = d as RateChart;
@@ -241,12 +249,6 @@ namespace Cryptotracker.Controls
             UpdateIndicators();
         }
 
-        private ScatterPlot sma1;
-        private ScatterPlot sma2;
-        private ScatterPlot bollingerSma;
-        private ScatterPlot bollingerLower;
-        private ScatterPlot bollingerUpper;
-
         private void UpdateIndicators()
         {
             if (ShowSMA1 && SMA1_N>1)
@@ -297,8 +299,6 @@ namespace Cryptotracker.Controls
             Chart.Plot.Remove(bollingerLower);
             Chart.Plot.Remove(bollingerUpper);
         }
-
-        FinancePlot candlePlot;
 
         private void UpdateChart()
         {
