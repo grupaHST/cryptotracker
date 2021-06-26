@@ -251,7 +251,7 @@ namespace Cryptotracker.Controls
 
         private void UpdateIndicators()
         {
-            if (ShowSMA1 && SMA1_N>1)
+            if (ShowSMA1 && SMA1_N > 1)
             {
                 Chart.Plot.Remove(sma1);
                 var sma1Data = candlePlot.GetSMA(SMA1_N);
@@ -261,7 +261,7 @@ namespace Cryptotracker.Controls
             {
                 Chart.Plot.Remove(sma1);
             }
-            
+
             if (ShowSMA2 && SMA2_N > 1)
             {
                 Chart.Plot.Remove(sma2);
@@ -300,39 +300,45 @@ namespace Cryptotracker.Controls
             Chart.Plot.Remove(bollingerUpper);
         }
 
-        private void UpdateChart()
+        private OHLC [] ConvertRatesToOHLCs(List<RateModel> rates)
         {
-            OHLC [] ohlcs = new OHLC[(DataContext as AppViewModel).Rates.Count - 1];
-            RateModel lastRate = (DataContext as AppViewModel).Rates[0];
-            if  ((DataContext as AppViewModel).Rates[0].Low!=0)
+            OHLC[] ohlcs = new OHLC[rates.Count - 1];
+            RateModel lastRate = rates[0];
+            if (rates[0].Low != 0)
             {
-                for(int i = 1;i<(DataContext as AppViewModel).Rates.Count;i++)
+                for (int i = 1; i < rates.Count; i++)
                 {
-                    var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, 
-                                            tempRate.High, 
-                                            tempRate.Low, 
-                                            tempRate.Value, 
-                                            tempRate.Date, 
+                    var tempRate = rates[i];
+                    ohlcs[i - 1] = new OHLC(lastRate.Value,
+                                            tempRate.High,
+                                            tempRate.Low,
+                                            tempRate.Value,
+                                            tempRate.Date,
                                             tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
             else
             {
-                for (int i = 1; i < (DataContext as AppViewModel).Rates.Count; i++)
+                for (int i = 1; i < rates.Count; i++)
                 {
-                    var tempRate = (DataContext as AppViewModel).Rates[i];
-                    ohlcs[i - 1] = new OHLC(lastRate.Value, 
-                                            lastRate.Value, 
-                                            tempRate.Value, 
-                                            tempRate.Value, 
-                                            tempRate.Date, 
+                    var tempRate = rates[i];
+                    ohlcs[i - 1] = new OHLC(lastRate.Value,
+                                            lastRate.Value,
+                                            tempRate.Value,
+                                            tempRate.Value,
+                                            tempRate.Date,
                                             tempRate.Date.Subtract(lastRate.Date));
                     lastRate = tempRate;
                 }
             }
+            return ohlcs;
+        }
 
+        private void UpdateChart()
+        {
+            var ohlcs = ConvertRatesToOHLCs((DataContext as AppViewModel).Rates.ToList());
+            
             Chart.Plot.Clear();
             Chart.Plot.Title(GenerateChartTitle());
             Chart.Plot.YLabel(GenerateChartYLabel());
