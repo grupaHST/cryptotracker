@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Cryptotracker.ViewModels
 {
-    public class AppViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class AppViewModel : INotifyPropertyChanged
     {
         public Version AppVersion { get; } = Assembly.GetEntryAssembly().GetName().Version;
 
@@ -24,7 +24,24 @@ namespace Cryptotracker.ViewModels
         public ThemeManager ThemeManager { get; } = ThemeManager.Current;
 
         public ObservableCollection<string> ExchangePlatforms => new(Enum.GetNames<ExchangePlatform>());
-        public string SelectedExchangePlatform { get; set; }
+
+        private string selectedExchangePlatform;        
+
+        public string SelectedExchangePlatform
+        {
+            get { return selectedExchangePlatform; }
+            set 
+            { 
+                selectedExchangePlatform = value;
+                Task.Run(() =>
+                {
+                    _firstCurrencyExchangeValue = CurrencyExchangeCalculator.GetCurrentExchangeValue(firstCurrencyCode, SelectedExchangePlatform).Result;
+                    _secondCurrencyExchangeValue = CurrencyExchangeCalculator.GetCurrentExchangeValue(secondCurrencyCode, SelectedExchangePlatform).Result;
+                    UpdateSecondCurrencyValue();
+                });
+            }
+        }
+
         public ObservableCollection<string> CryptoExchangePlatforms => new(Enum.GetNames<CryptoExchangePlatform>());
         public string SelectedCryptoExchangePlatform { get; set; }
 
@@ -49,14 +66,27 @@ namespace Cryptotracker.ViewModels
             set 
             { 
                 firstCurrencyCode = value;
-                Task.Run(() => _firstCurrencyExchangeValue = ExchangeRatesHandler.GetFIATCurrentPrice(
-                                                                        Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
-                                                                        Enum.Parse<CurrencyCode>(value)).Result);
+                Task.Run(() => 
+                {
+                    _firstCurrencyExchangeValue = CurrencyExchangeCalculator.GetCurrentExchangeValue(value, SelectedExchangePlatform).Result;
+                    UpdateSecondCurrencyValue();
+                });
+                
             }
         }
 
-        public string FirstCurrencyValue { get; set; } = 0.ToString();
-        private double _firstCurrencyExchangeValue;
+        private string firstCurrencyValue = 0.ToString();
+
+        public string FirstCurrencyValue
+        {
+            get { return firstCurrencyValue; }
+            set { 
+                firstCurrencyValue = value;
+                UpdateSecondCurrencyValue();
+            }
+        }
+
+        private double? _firstCurrencyExchangeValue;
 
         private string secondCurrencyCode;
 
@@ -66,14 +96,16 @@ namespace Cryptotracker.ViewModels
             set 
             { 
                 secondCurrencyCode = value;
-                Task.Run(() => _secondCurrencyExchangeValue = ExchangeRatesHandler.GetFIATCurrentPrice(
-                                                                        Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
-                                                                        Enum.Parse<CurrencyCode>(value)).Result);
+                Task.Run(() => 
+                {
+                    _secondCurrencyExchangeValue = CurrencyExchangeCalculator.GetCurrentExchangeValue(value, SelectedExchangePlatform).Result;
+                    UpdateSecondCurrencyValue();
+                });
             }
         }
 
         public string SecondCurrencyValue { get; set; } = 0.ToString();
-        private double _secondCurrencyExchangeValue;
+        private double? _secondCurrencyExchangeValue;
 
         public string BinanceKey
         {
@@ -195,55 +227,16 @@ namespace Cryptotracker.ViewModels
             ));
         });
 
-        public string Error { get; set; }
-
-        public string this[string columnName]
+        private void UpdateSecondCurrencyValue()
         {
-            get
+            if (decimal.TryParse(firstCurrencyValue, out decimal resultValue))
             {
-                switch (columnName)
-                {
-                    case nameof(FirstCurrencyValue):
-                        {
-                            if (decimal.TryParse(FirstCurrencyValue, out decimal resultValue))
-                            {
-                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
-                                /*
-                                 * Pierwsza waluta została zmodyfikowana przez usera, trzeba zmienić wartość drugiej waluty
-                                 * SecondCurrencyValue = {resultValue po przeliczeniu}.ToString()
-                                 * 
-                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
-                                 */
-                            }
-                            else
-                            {
-                                Error = AppMessages.NumberConversionError(Language);
-                            }
-                        }
-                        break;
-                    case nameof(SecondCurrencyValue):
-                        {
-                            if (decimal.TryParse(SecondCurrencyValue, out decimal resultValue))
-                            {
-                                Error = null; // Brak błędu ponieważ konwersja tekstu na liczbę się powiodła
-                                /*
-                                 * Druga waluta została zmodyfikowana przez usera, trzeba zmienić wartość pierwszej waluty
-                                 * FirstCurrencyValue = {resultValue po przeliczeniu}.ToString()
-                                 * 
-                                 * zmienne FirstCurrencyCode i SecondCurrencyCode to aktualnie wybrane przez usera kody walut
-                                 */
-                            }
-                            else
-                            {
-                                Error = AppMessages.NumberConversionError(Language);
-                            }
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                return Error;
+                var calculatedValue = CurrencyExchangeCalculator.CalculateValue(resultValue, _firstCurrencyExchangeValue, _secondCurrencyExchangeValue);
+                SecondCurrencyValue = Math.Round(calculatedValue, 2).ToString();
             }
+            else
+                SecondCurrencyValue = "0";
         }
+
     }
 }
