@@ -227,7 +227,9 @@
                                     <icons:PackIconModern Kind="Money" Width="24" Height="24"/>
                                 </mah:SplitButton.Icon>
                             </mah:SplitButton>
-                            <TextBox Text="{Binding SecondCurrencyValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+                            <TextBox 
+                                Text="{Binding SecondCurrencyValue, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True }" 
+                                IsReadOnly="True"/>
                         </DockPanel>
                     </StackPanel>
                 </Grid>
