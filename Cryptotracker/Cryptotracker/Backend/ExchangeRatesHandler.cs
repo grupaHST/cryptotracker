@@ -55,10 +55,13 @@ namespace Cryptotracker.Backend
 
             return await currencyDataRetriever.GetCurrencyData(currencyPlatform, currencyCode, startTime, endTime);
         }
-        public static async Task<double> GetFIATCurrentPrice(ExchangePlatform currencyPlatform, CurrencyCode currencyCode)
+        public static async Task<double?> GetFIATCurrentPrice(ExchangePlatform currencyPlatform, CurrencyCode currencyCode)
         {
             var resultTask = await GetFIATCurrencyData(currencyPlatform, currencyCode);
+            if (resultTask is null)
+                return null;
             return resultTask.Rates.First().Value;
+            
         }
         /// <summary>
         /// Method meant to return cryptocurrency data. If interval is provided then startTime is also required. If no startTime is provided then interval is ignored.
