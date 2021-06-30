@@ -40,10 +40,40 @@ namespace Cryptotracker.ViewModels
 
         public bool IsLoadingData { get; set; }
 
-        public string FirstCurrencyCode { get; set; }
+
+        private string firstCurrencyCode;
+
+        public string FirstCurrencyCode
+        {
+            get { return firstCurrencyCode; }
+            set 
+            { 
+                firstCurrencyCode = value;
+                Task.Run(() => _firstCurrencyExchangeValue = ExchangeRatesHandler.GetFIATCurrentPrice(
+                                                                        Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
+                                                                        Enum.Parse<CurrencyCode>(value)).Result);
+            }
+        }
+
         public string FirstCurrencyValue { get; set; } = 0.ToString();
-        public string SecondCurrencyCode { get; set; }
+        private double _firstCurrencyExchangeValue;
+
+        private string secondCurrencyCode;
+
+        public string SecondCurrencyCode
+        {
+            get { return secondCurrencyCode; }
+            set 
+            { 
+                secondCurrencyCode = value;
+                Task.Run(() => _secondCurrencyExchangeValue = ExchangeRatesHandler.GetFIATCurrentPrice(
+                                                                        Enum.Parse<ExchangePlatform>(SelectedExchangePlatform),
+                                                                        Enum.Parse<CurrencyCode>(value)).Result);
+            }
+        }
+
         public string SecondCurrencyValue { get; set; } = 0.ToString();
+        private double _secondCurrencyExchangeValue;
 
         public string BinanceKey
         {
