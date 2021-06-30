@@ -15,5 +15,16 @@ namespace Cryptotracker.Backend
             else
                 return await ExchangeRatesHandler.GetFIATCurrentPrice(Enum.Parse<ExchangePlatform>(exchangePlatform), Enum.Parse<CurrencyCode>(currencyCode));
         }
+
+        public static decimal CalculateValue(decimal firstCurrencyValue, double? firstCurrencyExchangeValue, double? secondCurrencyExchangeValue)
+        {
+            if (firstCurrencyExchangeValue is not null && secondCurrencyExchangeValue is not null)
+            {
+                var ratio = (double)firstCurrencyExchangeValue / (double)secondCurrencyExchangeValue;
+                return firstCurrencyValue * (decimal)ratio;
+            }
+            return 0;
+
+        }
     }
 }
