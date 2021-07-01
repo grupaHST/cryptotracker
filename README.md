@@ -80,7 +80,7 @@ Bazowymi technologiami będą [.NET 5.0](https://docs.microsoft.com/pl-pl/dotnet
 
 | Zadanie | Osoba odpowiedzialna |
 | :- | :-: |
-| Frontend - tworzenie wykresów (biblioteka LiveCharts) | *Dawid Heinrich* |
+| Frontend - tworzenie wykresów (biblioteka ScottPlot) | *Dawid Heinrich* |
 | Frontend - widoki, design aplikacji | *Szymon Świstek* |
 | Tłumaczenie aplikacji na różne języki | *Szymon Świstek* |
 | Backend - requesty HTTP + deserializacja danych | *Oswald Toma* |

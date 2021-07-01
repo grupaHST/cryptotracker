@@ -251,44 +251,73 @@ namespace Cryptotracker.Controls
 
         private void UpdateIndicators()
         {
-            if (ShowSMA1 && SMA1_N > 1)
+            if (candlePlot is not null)
             {
-                Chart.Plot.Remove(sma1);
-                var sma1Data = candlePlot.GetSMA(SMA1_N);
-                sma1 = Chart.Plot.AddScatterLines(sma1Data.xs, sma1Data.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
-            }
-            else
-            {
-                Chart.Plot.Remove(sma1);
-            }
+                try
+                {
+                    if (ShowSMA1 && SMA1_N > 1)
+                    {
+                        Chart.Plot.Remove(sma1);
+                        var sma1Data = candlePlot.GetSMA(SMA1_N);
+                        sma1 = Chart.Plot.AddScatterLines(sma1Data.xs, sma1Data.ys, System.Drawing.Color.Cyan, 2, label: "SMA1");
+                    }
+                    else
+                    {
+                        Chart.Plot.Remove(sma1);
+                    }
+                }
+                catch (System.ArgumentException e)
+                {
+                    Chart.Plot.Remove(sma1);
+                }
 
-            if (ShowSMA2 && SMA2_N > 1)
-            {
-                Chart.Plot.Remove(sma2);
-                var sma2Data = candlePlot.GetSMA(SMA2_N);
-                sma2 = Chart.Plot.AddScatterLines(sma2Data.xs, sma2Data.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
-            }
-            else
-            {
-                Chart.Plot.Remove(sma2);
-            }
 
-            if (ShowBollingerBands && BollingerBandsN > 1)
-            {
-                Chart.Plot.Remove(bollingerSma);
-                Chart.Plot.Remove(bollingerLower);
-                Chart.Plot.Remove(bollingerUpper);
-                var bollingerData = candlePlot.GetBollingerBands(BollingerBandsN);
-                bollingerSma = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.sma, System.Drawing.Color.DarkCyan, 2);
-                bollingerLower = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
-                bollingerUpper = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                try 
+                {
+                    if (ShowSMA2 && SMA2_N > 1)
+                    {
+                        Chart.Plot.Remove(sma2);
+                        var sma2Data = candlePlot.GetSMA(SMA2_N);
+                        sma2 = Chart.Plot.AddScatterLines(sma2Data.xs, sma2Data.ys, System.Drawing.Color.Orange, 2, label: "SMA2");
+                    }
+                    else
+                    {
+                        Chart.Plot.Remove(sma2);
+                    }
+                }
+                catch (System.ArgumentException e)
+                {
+                    Chart.Plot.Remove(sma2);
+                }
+
+
+                try 
+                {
+                    if (ShowBollingerBands && BollingerBandsN > 1)
+                    {
+                        Chart.Plot.Remove(bollingerSma);
+                        Chart.Plot.Remove(bollingerLower);
+                        Chart.Plot.Remove(bollingerUpper);
+                        var bollingerData = candlePlot.GetBollingerBands(BollingerBandsN);
+                        bollingerSma = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.sma, System.Drawing.Color.DarkCyan, 2);
+                        bollingerLower = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.lower, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                        bollingerUpper = Chart.Plot.AddScatterLines(bollingerData.xs, bollingerData.upper, System.Drawing.Color.Cyan, lineStyle: LineStyle.Dash);
+                    }
+                    else
+                    {
+                        Chart.Plot.Remove(bollingerSma);
+                        Chart.Plot.Remove(bollingerLower);
+                        Chart.Plot.Remove(bollingerUpper);
+                    }
+                }
+                catch (System.ArgumentException e)
+                {
+                    Chart.Plot.Remove(bollingerSma);
+                    Chart.Plot.Remove(bollingerLower);
+                    Chart.Plot.Remove(bollingerUpper);
+                }
             }
-            else
-            {
-                Chart.Plot.Remove(bollingerSma);
-                Chart.Plot.Remove(bollingerLower);
-                Chart.Plot.Remove(bollingerUpper);
-            }
+            
         }
 
         private void ClearIndicators()
