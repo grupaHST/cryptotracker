@@ -24,7 +24,7 @@
             <sys:String x:Key="DefaultStartDate">2020-12-01</sys:String>
             <sys:String x:Key="DefaultEndDate">2021-01-01</sys:String>
             <sys:String x:Key="DefaultSelectedCryptoExchangePlatform">BITFINEX</sys:String>
-            <sys:String x:Key="DefaultSelectedExchangePlatform">RATES</sys:String>
+            <sys:String x:Key="DefaultSelectedExchangePlatform">NBP</sys:String>
             <sys:String x:Key="DefaultSelectedCurrencyCode">USD</sys:String>
             <sys:String x:Key="DefaultSelectedCryptocurrencyCode">BTC</sys:String>
             <sys:String x:Key="DefaultFirstCurrencyCode">EUR</sys:String>
