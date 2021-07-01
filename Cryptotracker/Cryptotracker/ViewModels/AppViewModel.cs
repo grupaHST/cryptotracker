@@ -58,7 +58,7 @@ namespace Cryptotracker.ViewModels
         public bool IsLoadingData { get; set; }
 
 
-        private string firstCurrencyCode;
+        private string firstCurrencyCode = CurrencyCode.PLN.ToString();
 
         public string FirstCurrencyCode
         {
@@ -88,7 +88,7 @@ namespace Cryptotracker.ViewModels
 
         private double? _firstCurrencyExchangeValue;
 
-        private string secondCurrencyCode;
+        private string secondCurrencyCode = CurrencyCode.EUR.ToString();
 
         public string SecondCurrencyCode
         {
