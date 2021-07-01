@@ -10,7 +10,7 @@
                  xmlns:properties="clr-namespace:Cryptotracker.Properties"
                  xmlns:controls="clr-namespace:Cryptotracker.Controls"
                  mc:Ignorable="d" DataContext="{StaticResource AppViewModel}" WindowStartupLocation="CenterScreen"
-                 Height="700" Width="1024" MinHeight="660" MinWidth="800" MouseLeftButtonUp="CloseSettings"
+                 Height="600" Width="1024" MinHeight="600" MinWidth="800" MouseLeftButtonUp="CloseSettings"
                  Title="{Binding AppVersion, StringFormat=Cryptotracker v{0}}">
     <mah:MetroWindow.LeftWindowCommands>
         <mah:WindowCommands>
@@ -111,11 +111,6 @@
     </mah:MetroWindow.Flyouts>
     <!--#endregion-->
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
         <mah:MetroAnimatedTabControl mah:TabControlHelper.Underlined="SelectedTabItem">
             <!--#region Exchange rates -->
             <mah:MetroTabItem Header="{Binding Language, Converter={StaticResource LangConv}, ConverterParameter=ExchangeRates}">
@@ -331,7 +326,7 @@
                             <Setter Property="FontSize" Value="24"/>
                         </Style>
                     </DockPanel.Resources>
-                    <ListView DockPanel.Dock="Bottom" Width="500">
+                    <ListView DockPanel.Dock="Bottom" Width="500" Padding="20">
                         <TextBlock Text="Dawid Heinrich"/>
                         <TextBlock Text="Szymon Świstek"/>
                         <TextBlock Text="Oswald Toma"/>
@@ -400,9 +395,5 @@
             </mah:MetroTabItem>
             <!--#endregion-->
         </mah:MetroAnimatedTabControl>
-        <TextBlock Grid.Row="1" Text="Logi (będą usunięte w ostatecznej wersji programu):" FontSize="16" Padding="5"/>
-        <Border Grid.Row="2" Padding="5" BorderThickness="2">
-            <ListView ItemsSource="{Binding Logs}"/>
-        </Border>
     </Grid>
 </mah:MetroWindow>
