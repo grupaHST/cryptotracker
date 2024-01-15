@@ -67,12 +67,12 @@ namespace CryptotrackerTests.Backend
             //Assert.AreEqual(true, notifications[2].CurrentValue < 1000000);
 
             //BITFINEX
-            Assert.AreEqual(true, notifications[3].CurrentValue > 20000);
-            Assert.AreEqual(true, notifications[3].Threshold == 20000);
-            Assert.AreEqual(true, notifications[4].CurrentValue > 1000);
-            Assert.AreEqual(true, notifications[4].Threshold == 1000);
-            Assert.AreEqual(true, notifications[5].CurrentValue > 10000);
-            Assert.AreEqual(true, notifications[5].Threshold == 10000);
+            Assert.AreEqual(true, notifications[0].CurrentValue > 20000);
+            Assert.AreEqual(true, notifications[0].Threshold == 20000);
+            Assert.AreEqual(true, notifications[1].CurrentValue > 1000);
+            Assert.AreEqual(true, notifications[1].Threshold == 1000);
+            Assert.AreEqual(true, notifications[2].CurrentValue > 10000);
+            Assert.AreEqual(true, notifications[2].Threshold == 10000);
 
             NotificationManager.Clear();
             notifications.Clear();
