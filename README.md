@@ -1,6 +1,6 @@
 # Cryptotracker
 
-Projekt aplikacji biznesowej do śledzenia kursów walut i kryptowalut.
+Projekt aplikacji biznesowej do śledzenia kursów walut i kryptowalut. 
 
 ## Spis treści
 
