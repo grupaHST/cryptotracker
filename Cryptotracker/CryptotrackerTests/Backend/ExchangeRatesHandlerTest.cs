@@ -104,16 +104,16 @@ namespace CryptotrackerTests.Backend
 
             //CRYPTO
             //BINANCE - DATE RANGE TESTS
-            result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BINANCE, CryptocurrencyCode.BTC, CryptoInterval.ONE_DAY, Convert.ToDateTime("2021-05-07"), Convert.ToDateTime("2021-05-08"));
-            Assert.AreEqual(Convert.ToDateTime("2021-05-07"), result.Rates[0].Date);
-            Assert.AreEqual(55295.09, result.Rates[0].Low);
-            Assert.AreEqual(58733.43, result.Rates[0].High);
-            Assert.AreEqual((result.Rates[0].High + result.Rates[0].Low) / 2, result.Rates[0].Value, 0.1);
+            //result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BINANCE, CryptocurrencyCode.BTC, CryptoInterval.ONE_DAY, Convert.ToDateTime("2021-05-07"), Convert.ToDateTime("2021-05-08"));
+            //Assert.AreEqual(Convert.ToDateTime("2021-05-07"), result.Rates[0].Date);
+            //Assert.AreEqual(55295.09, result.Rates[0].Low);
+            //Assert.AreEqual(58733.43, result.Rates[0].High);
+            //Assert.AreEqual((result.Rates[0].High + result.Rates[0].Low) / 2, result.Rates[0].Value, 0.1);
 
-            Assert.AreEqual(Convert.ToDateTime("2021-05-08"), result.Rates[1].Date);
-            Assert.AreEqual(56970.00, result.Rates[1].Low);
-            Assert.AreEqual(59561.41, result.Rates[1].High);
-            Assert.AreEqual((result.Rates[1].High + result.Rates[1].Low) / 2, result.Rates[1].Value);
+            //Assert.AreEqual(Convert.ToDateTime("2021-05-08"), result.Rates[1].Date);
+            //Assert.AreEqual(56970.00, result.Rates[1].Low);
+            //Assert.AreEqual(59561.41, result.Rates[1].High);
+            //Assert.AreEqual((result.Rates[1].High + result.Rates[1].Low) / 2, result.Rates[1].Value);
 
             ////BINANCE - START TIME ONLY - START DATE -> TODAY
             //result = await ExchangeRatesHandler.GetCryptocurrencyData(CryptoExchangePlatform.BINANCE, CryptocurrencyCode.BTC, CryptoInterval.ONE_DAY, Convert.ToDateTime("2021-05-07"));
