@@ -39,4 +39,4 @@ stages:
           inputs:
             platform: '$(buildPlatform)'
             configuration: '$(buildConfiguration)'
-        - script: echo %zmienna%
+        - script: echo $(zmienna)
