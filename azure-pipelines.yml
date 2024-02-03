@@ -45,4 +45,4 @@ stages:
               !**\*TestAdapter.dll
               !**\obj\**
             searchFolder: '$(System.DefaultWorkingDirectory)'
-        - script: echo $(zmienna)
+        - bash: echo $(zmienna)
